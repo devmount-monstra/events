@@ -22,7 +22,7 @@ defined('MONSTRA_ACCESS') or die('No direct script access.');
 Plugin::register(
     __FILE__,                    
     __('Events'),
-    __('Events manager for Monstra.'),  
+    __('Event management for Monstra.'),  
     '0.1.2016-01-02',
     'devmount',                 
     'http://devmount.de'
