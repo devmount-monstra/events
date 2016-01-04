@@ -22,10 +22,10 @@
         <?php
             $categories = new Table('categories');
             $categories = $categories->select(null, 'all');
-            foreach ($categories as $category) { ?>
-                <li><?php echo $category['title'] ?></li>
-            <?php }
+            foreach ($categories as $category) {
         ?>
+                <li><?php echo $category['title'] ?></li>
+        <?php } ?>
         </ul>
     </div>
 </div>
