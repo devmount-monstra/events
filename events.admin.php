@@ -31,10 +31,10 @@ class EventsAdmin extends Backend
      */
     public static function main()
     {
-        if (Request::post('toggle_submitted')) {
+        if (Request::post('events_submitted')) {
             if (Security::check(Request::post('csrf'))) {
-                Option::update('toggle_duration', (int) Request::post('toggle_duration'));
-                Option::update('toggle_easing', Request::post('toggle_easing'));
+                Option::update('events_duration', (int) Request::post('events_duration'));
+                Option::update('events_easing', Request::post('events_easing'));
                 Notification::set('success', __('Configuration has been saved with success!', 'events'));
             }
             else {
@@ -44,7 +44,7 @@ class EventsAdmin extends Backend
         }
 
         // Display view
-        View::factory('toggle/views/backend/index')->display();
+        View::factory('events/views/backend/index')->display();
     }
 
 }
