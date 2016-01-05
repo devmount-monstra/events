@@ -14,6 +14,18 @@
     }
 </style>
 
+<!-- custom plugin script -->
+<script type="text/javascript">
+$(document).ready(function(){
+    $('#color').on('keyup', function() {
+        var color = $(this).val();
+        if (color.length == 3 || color.length == 6) {
+            $(this).css('background-image', 'linear-gradient(to right, #fff, #fff 80%, #' + color + ' 80%)');
+        }
+    });
+});
+</script>
+
 <!-- content -->
 <div class='events-plugin'>
     <h1><?php echo __('Events', 'events'); ?></h1>
@@ -67,7 +79,7 @@
                 <div class="col-sm-4">
                     <?php echo
                         Form::label('events_color', __('Color', 'events')) .
-                        Form::input('events_color', '', array('class' => 'form-control'));
+                        Form::input('events_color', '', array('class' => 'form-control', 'id' => 'color', 'placeholder' => '#'));
                     ?>
                 </div>
             </div>
