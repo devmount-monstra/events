@@ -59,6 +59,15 @@ $(document).ready(function(){
                 <?php if (sizeof($upcomingevents) > 0) {
                     foreach ($upcomingevents as $event) { ?>
                         <a href="#" class="list-group-item">
+                            <?php echo
+                                Form::open() .
+                                Form::hidden('csrf', Security::token()) .
+                                Form::hidden('delete_event', $event['id']);
+                            ?>
+                                <button class="btn btn-sm btn-danger pull-right" value="1" onclick="return confirmDelete('<?php echo __('Delete event &quot;:title&quot;', 'events', array(':title' => $event['title'])); ?>')" title="<?php echo __('Delete', 'events'); ?>">
+                                    <span class="glyphicon glyphicon-remove"></span>
+                                </button>
+                            <?php echo Form::close(); ?>
                             <h4 class="list-group-item-heading"><?php echo $event['title']; ?></h4>
                             <p class="list-group-item-text"><?php echo $event['timestamp']; ?></p>
                         </a>
@@ -73,6 +82,15 @@ $(document).ready(function(){
                 <?php if (sizeof($pastevents) > 0) {
                     foreach ($pastevents as $event) { ?>
                         <a href="#" class="list-group-item">
+                            <?php echo
+                                Form::open() .
+                                Form::hidden('csrf', Security::token()) .
+                                Form::hidden('delete_event', $event['id']);
+                            ?>
+                                <button class="btn btn-sm btn-danger pull-right" value="1" onclick="return confirmDelete('<?php echo __('Delete event &quot;:title&quot;', 'events', array(':title' => $event['title'])); ?>')" title="<?php echo __('Delete', 'events'); ?>">
+                                    <span class="glyphicon glyphicon-remove"></span>
+                                </button>
+                            <?php echo Form::close(); ?>
                             <h4 class="list-group-item-heading"><?php echo $event['title']; ?></h4>
                             <p class="list-group-item-text"><?php echo $event['timestamp']; ?></p>
                         </a>
@@ -169,10 +187,14 @@ $(document).ready(function(){
                     ?>
                 </div>
             </div>
-            <?php echo
-                Form::submit('events_submitted', __('Add', 'events'), array('class' => 'btn btn-phone btn-primary')) .
-                Form::close();
-            ?>
+            <div class="row">
+                <div class="col-sm-12">
+                    <button type="submit" name="add_event" class="btn btn-lg btn-primary pull-right" value="1" title="<?php echo __('Add', 'events'); ?>">
+                        <span class="glyphicon glyphicon-save"></span>
+                    </button>
+                </div>
+            </div>
+            <?php echo Form::close(); ?>
             <!--  -->
             <h2><?php echo __('Categories', 'events'); ?></h2>
             <ul>

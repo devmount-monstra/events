@@ -27,12 +27,12 @@ Navigation::add(__('Events', 'events'), 'content', 'events', 10);
 class EventsAdmin extends Backend
 {
     /**
-     * main toggle admin function
+     * main events admin function
      */
     public static function main()
     {
-        // add event post
-        if (Request::post('events_submitted')) {
+        // Request: add event
+        if (Request::post('add_event')) {
             if (Security::check(Request::post('csrf'))) {
                 $events = new Table('events');
                 $events->insert(
@@ -43,20 +43,33 @@ class EventsAdmin extends Backend
                         'date' => (string) Request::post('events_date'),
                         'time' => (string) Request::post('events_time'),
                         'location' => (string) Request::post('events_location'),
+                        'short' => (string) Request::post('events_short'),
                         'description' => (string) Request::post('events_description'),
                         'image' => (string) Request::post('events_image'),
                         'audio' => (string) Request::post('events_audio'),
                         'color' => (string) Request::post('events_color'),
                     )
                 );
-                Notification::setNow('success', __('Configuration has been saved with success!', 'events'));
+                Notification::setNow('success', __('Event has been added with success!', 'events'));
             }
             else {
                 Notification::setNow('error', __('Request was denied. Invalid security token. Please refresh the page and try again.', 'events'));
                 die();
             }
         }
-
+        // Request: delete event
+        if (Request::post('delete_event')) {
+            if (Security::check(Request::post('csrf'))) {
+                $events = new Table('events');
+                $events->delete(Request::post('delete_event'));
+                Notification::setNow('success', __('Event has been deleted with success!', 'events'));
+            }
+            else {
+                Notification::setNow('error', __('Request was denied. Invalid security token. Please refresh the page and try again.', 'events'));
+                die();
+            }
+        }
+        
         // Display view
         View::factory('events/views/backend/index')->display();
     }
