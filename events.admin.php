@@ -31,14 +31,28 @@ class EventsAdmin extends Backend
      */
     public static function main()
     {
+        // add event post
         if (Request::post('events_submitted')) {
             if (Security::check(Request::post('csrf'))) {
-                Option::update('events_duration', (int) Request::post('events_duration'));
-                Option::update('events_easing', Request::post('events_easing'));
-                Notification::set('success', __('Configuration has been saved with success!', 'events'));
+                $events = new Table('events');
+                $events->insert(
+                    array(
+                        'title' => (string) Request::post('events_title'),
+                        'timestamp' => strtotime(Request::post('events_timestamp')),
+                        'category' => (int) Request::post('events_category'),
+                        'date' => (string) Request::post('events_date'),
+                        'time' => (string) Request::post('events_time'),
+                        'location' => (string) Request::post('events_location'),
+                        'description' => (string) Request::post('events_description'),
+                        'image' => (string) Request::post('events_image'),
+                        'audio' => (string) Request::post('events_audio'),
+                        'color' => (string) Request::post('events_color'),
+                    )
+                );
+                Notification::setNow('success', __('Configuration has been saved with success!', 'events'));
             }
             else {
-                Notification::set('error', __('Request was denied. Invalid security token. Please refresh the page and try again.', 'events'));
+                Notification::setNow('error', __('Request was denied. Invalid security token. Please refresh the page and try again.', 'events'));
                 die();
             }
         }
