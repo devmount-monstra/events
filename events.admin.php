@@ -37,7 +37,7 @@ class EventsAdmin extends Backend
         // Ajax Request: add event
         if (Request::post('edit_event_id')) {
             $events = new Table('events');
-            echo $events->select('[id=' . Request::post('edit_event_id') . ']')[0]['title'];
+            echo json_encode($events->select('[id=' . Request::post('edit_event_id') . ']')[0]);
             Request::shutdown();
         }
     }

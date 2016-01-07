@@ -21,10 +21,11 @@
 </style>
 
 <!-- custom plugin script -->
+<!--<script src="https://raw.githubusercontent.com/phstc/jquery-dateFormat/master/dist/jquery-dateFormat.min.js"></script>-->
 <script type="text/javascript">
 $(document).ready(function(){
     // color field
-    $('#color').on('keyup', function() {
+    $('#color').on("input change paste keyup", function() {
         var color = $(this).val();
         if (color.length == 3 || color.length == 6) {
             $(this).css('background-image', 'linear-gradient(to right, #fff, #fff 70%, #' + color + ' 70%)');
@@ -41,13 +42,27 @@ $(document).ready(function(){
     // });
     $('.btn.edit').click(function(){
         var id = $(this).val();
-        $('#add-edit').html('<?php echo __('Edit event', 'events'); ?>');
         $.ajax({
             type: 'post',
             data: 'edit_event_id=' + id,
             url: '<?php echo Site::url(); ?>/admin/index.php?id=events',
             success: function(data){
-                $('#add-edit').html(data);
+                var event = JSON.parse(data);
+                var date = new Date(event.timestamp * 1000).toISOString().slice(0, -1);
+                console.log(date);
+                $('#add-edit').html('<?php echo __('Edit event', 'events'); ?> ' + event.title);
+                $('input[name="events_title"]').val(event.title);
+                $('input[name="events_timestamp"]').val(date);
+                $('select[name="events_category"]').val(event.category);
+                $('input[name="events_date"]').val(event.date);
+                $('input[name="events_time"]').val(event.time);
+                $('input[name="events_location"]').val(event.location);
+                $('input[name="events_short"]').val(event.short);
+                $('textarea[name="events_description"]').val(event.description);
+                $('input[name="events_image"]').val(event.image);
+                $('input[name="events_audio"]').val(event.audio);
+                $('input[name="events_color"]').val(event.color);
+                
             }
         });
     });
