@@ -32,12 +32,21 @@ $(document).ready(function(){
             $(this).css('background-image', 'none');
         }
     });
-    $('.list-group-item').focusin(function(){
-        $(this).addClass('active');
+    // $('.list-group-item').focusin(function(){
+    //     $(this).addClass('active');
+    // });
+    // $('.list-group-item').focusout(function(){
+    //     $(this).removeClass('active');
+    //     $('#add-edit').html('<?php echo __('Add event', 'events'); ?>');
+    // });
+    $('.btn.edit').click(function(){
+        var id = $(this).val();
+        $('#add-edit').html('<?php echo __('Edit event', 'events'); ?>');
     });
-    $('.list-group-item').focusout(function(){
-        $(this).removeClass('active');
-    });
+    
+    // url: "index.php?id=pages&action=add_page",
+
+    
 });
 </script>
 
@@ -59,17 +68,23 @@ $(document).ready(function(){
                 <?php if (sizeof($upcomingevents) > 0) {
                     foreach ($upcomingevents as $event) { ?>
                         <a href="#" class="list-group-item">
-                            <?php echo
-                                Form::open() .
-                                Form::hidden('csrf', Security::token()) .
-                                Form::hidden('delete_event', $event['id']);
-                            ?>
-                                <button class="btn btn-sm btn-danger pull-right" value="1" onclick="return confirmDelete('<?php echo __('Delete event &quot;:title&quot;', 'events', array(':title' => $event['title'])); ?>')" title="<?php echo __('Delete', 'events'); ?>">
-                                    <span class="glyphicon glyphicon-remove"></span>
+                            <div class="pull-right">
+                                <button class="btn btn-sm btn-default edit" value="<?php echo $event['id'] ?>" title="<?php echo __('Edit', 'events'); ?>">
+                                    <span class="glyphicon glyphicon-pencil"></span>
                                 </button>
-                            <?php echo Form::close(); ?>
+                                <?php echo
+                                    Form::open() .
+                                    Form::hidden('csrf', Security::token()) .
+                                    Form::hidden('delete_event', $event['id']);
+                                ?>
+                                    <button class="btn btn-sm btn-danger" value="1" onclick="return confirmDelete('<?php echo __('Delete event &quot;:title&quot;', 'events', array(':title' => $event['title'])); ?>')" title="<?php echo __('Delete', 'events'); ?>">
+                                        <span class="glyphicon glyphicon-remove"></span>
+                                    </button>
+                                <?php echo Form::close(); ?>
+                            </div>
                             <h4 class="list-group-item-heading"><?php echo $event['title']; ?></h4>
                             <p class="list-group-item-text"><?php echo $event['timestamp']; ?></p>
+                            <br style="clear: both;" />
                         </a>
                     <?php }
                 } else {
@@ -82,17 +97,23 @@ $(document).ready(function(){
                 <?php if (sizeof($pastevents) > 0) {
                     foreach ($pastevents as $event) { ?>
                         <a href="#" class="list-group-item">
-                            <?php echo
-                                Form::open() .
-                                Form::hidden('csrf', Security::token()) .
-                                Form::hidden('delete_event', $event['id']);
-                            ?>
-                                <button class="btn btn-sm btn-danger pull-right" value="1" onclick="return confirmDelete('<?php echo __('Delete event &quot;:title&quot;', 'events', array(':title' => $event['title'])); ?>')" title="<?php echo __('Delete', 'events'); ?>">
-                                    <span class="glyphicon glyphicon-remove"></span>
+                            <div class="pull-right">
+                                <button class="btn btn-sm btn-default edit" value="<?php echo $event['id'] ?>" title="<?php echo __('Edit', 'events'); ?>">
+                                    <span class="glyphicon glyphicon-pencil"></span>
                                 </button>
-                            <?php echo Form::close(); ?>
+                                <?php echo
+                                    Form::open() .
+                                    Form::hidden('csrf', Security::token()) .
+                                    Form::hidden('delete_event', $event['id']);
+                                ?>
+                                    <button class="btn btn-sm btn-danger" value="1" onclick="return confirmDelete('<?php echo __('Delete event &quot;:title&quot;', 'events', array(':title' => $event['title'])); ?>')" title="<?php echo __('Delete', 'events'); ?>">
+                                        <span class="glyphicon glyphicon-remove"></span>
+                                    </button>
+                                <?php echo Form::close(); ?>
+                            </div>
                             <h4 class="list-group-item-heading"><?php echo $event['title']; ?></h4>
                             <p class="list-group-item-text"><?php echo $event['timestamp']; ?></p>
+                            <br style="clear: both;" />
                         </a>
                     <?php }
                 } else {
@@ -102,7 +123,7 @@ $(document).ready(function(){
             </div>
         </div>
         <div class="col-md-6">
-            <h2><?php echo __('Add event', 'events'); ?></h2>
+            <h2 id="add-edit"><?php echo __('Add event', 'events'); ?></h2>
             <?php echo
                 Form::open() .
                 Form::hidden('csrf', Security::token());

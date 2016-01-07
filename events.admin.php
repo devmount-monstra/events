@@ -31,10 +31,11 @@ class EventsAdmin extends Backend
      */
     public static function main()
     {
+        $events = new Table('events');
+        
         // Request: add event
         if (Request::post('add_event')) {
             if (Security::check(Request::post('csrf'))) {
-                $events = new Table('events');
                 $events->insert(
                     array(
                         'title' => (string) Request::post('events_title'),
@@ -60,7 +61,6 @@ class EventsAdmin extends Backend
         // Request: delete event
         if (Request::post('delete_event')) {
             if (Security::check(Request::post('csrf'))) {
-                $events = new Table('events');
                 $events->delete(Request::post('delete_event'));
                 Notification::setNow('success', __('Event has been deleted with success!', 'events'));
             }
@@ -68,6 +68,10 @@ class EventsAdmin extends Backend
                 Notification::setNow('error', __('Request was denied. Invalid security token. Please refresh the page and try again.', 'events'));
                 die();
             }
+        }
+        
+        if (Request::get('event')) {
+            return $events->select('[id=' . Request::get('event') . ']')[0];
         }
         
         // Display view
