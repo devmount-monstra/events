@@ -20,12 +20,28 @@ defined('MONSTRA_ACCESS') or die('No direct script access.');
 // Admin Navigation: add new item
 Navigation::add(__('Events', 'events'), 'content', 'events', 10);
 
+// Add action on admin_pre_render hook
+Action::add('admin_pre_render','EventsAdmin::_getEvent');
+
 /**
  * Events class
  * 
  */
 class EventsAdmin extends Backend
 {
+    /**
+     * Ajax: get Event by ID
+     */
+    public static function _getEvent()
+    {
+        // Ajax Request: add event
+        if (Request::post('edit_event_id')) {
+            $events = new Table('events');
+            echo $events->select('[id=' . Request::post('edit_event_id') . ']')[0]['title'];
+            Request::shutdown();
+        }
+    }
+    
     /**
      * main events admin function
      */
@@ -68,10 +84,6 @@ class EventsAdmin extends Backend
                 Notification::setNow('error', __('Request was denied. Invalid security token. Please refresh the page and try again.', 'events'));
                 die();
             }
-        }
-        
-        if (Request::get('event')) {
-            return $events->select('[id=' . Request::get('event') . ']')[0];
         }
         
         // Display view

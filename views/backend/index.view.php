@@ -42,9 +42,17 @@ $(document).ready(function(){
     $('.btn.edit').click(function(){
         var id = $(this).val();
         $('#add-edit').html('<?php echo __('Edit event', 'events'); ?>');
+        $.ajax({
+            type: 'post',
+            data: 'edit_event_id=' + id,
+            url: '<?php echo Site::url(); ?>/admin/index.php?id=events',
+            success: function(data){
+                $('#add-edit').html(data);
+            }
+        });
     });
     
-    // url: "index.php?id=pages&action=add_page",
+    // url: "<?php echo Option::get('siteurl'); ?>index.php?id=pages&action=add_page",
 
     
 });
