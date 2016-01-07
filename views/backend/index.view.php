@@ -25,13 +25,8 @@
 <script type="text/javascript">
 $(document).ready(function(){
     // color field
-    $('#color').on("input change paste keyup", function() {
-        var color = $(this).val();
-        if (color.length == 3 || color.length == 6) {
-            $(this).css('background-image', 'linear-gradient(to right, #fff, #fff 70%, #' + color + ' 70%)');
-        } else {
-            $(this).css('background-image', 'none');
-        }
+    $('#color').on("input change paste keyup", function(){
+        setColor();
     });
     // $('.list-group-item').focusin(function(){
     //     $(this).addClass('active');
@@ -49,7 +44,6 @@ $(document).ready(function(){
             success: function(data){
                 var event = JSON.parse(data);
                 var date = new Date(event.timestamp * 1000).toISOString().slice(0, -1);
-                console.log(date);
                 $('#add-edit').html('<?php echo __('Edit event', 'events'); ?> ' + event.title);
                 $('input[name="events_title"]').val(event.title);
                 $('input[name="events_timestamp"]').val(date);
@@ -62,7 +56,7 @@ $(document).ready(function(){
                 $('input[name="events_image"]').val(event.image);
                 $('input[name="events_audio"]').val(event.audio);
                 $('input[name="events_color"]').val(event.color);
-                
+                setColor();
             }
         });
     });
@@ -71,6 +65,15 @@ $(document).ready(function(){
 
     
 });
+
+function setColor() {
+    var color = $('#color').val();
+    if (color.length == 3 || color.length == 6) {
+        $('#color').css('background-image', 'linear-gradient(to right, #fff, #fff 70%, #' + color + ' 70%)');
+    } else {
+        $('#color').css('background-image', 'none');
+    }
+}
 </script>
 
 <!-- notifications -->
