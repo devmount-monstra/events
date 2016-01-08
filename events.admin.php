@@ -67,7 +67,33 @@ class EventsAdmin extends Backend
                         'color' => (string) Request::post('events_color'),
                     )
                 );
-                Notification::setNow('success', __('Event has been added with success!', 'events'));
+                Notification::setNow('success', __('Event was added with success!', 'events'));
+            }
+            else {
+                Notification::setNow('error', __('Request was denied. Invalid security token. Please refresh the page and try again.', 'events'));
+                die();
+            }
+        }
+        // Request: edit event
+        if (Request::post('edit_event')) {
+            if (Security::check(Request::post('csrf'))) {
+                $events->update(
+                    (int) Request::post('edit_event'),
+                    array(
+                        'title' => (string) Request::post('events_title'),
+                        'timestamp' => strtotime(Request::post('events_timestamp')),
+                        'category' => (int) Request::post('events_category'),
+                        'date' => (string) Request::post('events_date'),
+                        'time' => (string) Request::post('events_time'),
+                        'location' => (string) Request::post('events_location'),
+                        'short' => (string) Request::post('events_short'),
+                        'description' => (string) Request::post('events_description'),
+                        'image' => (string) Request::post('events_image'),
+                        'audio' => (string) Request::post('events_audio'),
+                        'color' => (string) Request::post('events_color'),
+                    )
+                );
+                Notification::setNow('success', __('Event was updated with success!', 'events'));
             }
             else {
                 Notification::setNow('error', __('Request was denied. Invalid security token. Please refresh the page and try again.', 'events'));

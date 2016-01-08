@@ -33,7 +33,7 @@ $(document).ready(function(){
     // });
     // $('.list-group-item').focusout(function(){
     //     $(this).removeClass('active');
-    //     $('#add-edit').html('<?php echo __('Add event', 'events'); ?>');
+    //     $('#add-edit-title').html('<?php echo __('Add event', 'events'); ?>');
     // });
     $('.btn.edit').click(function(){
         var id = $(this).val();
@@ -41,10 +41,13 @@ $(document).ready(function(){
             type: 'post',
             data: 'edit_event_id=' + id,
             url: '<?php echo Site::url(); ?>/admin/index.php?id=events',
+            // on success: modify formula to edit
             success: function(data){
                 var event = JSON.parse(data);
                 var date = new Date(event.timestamp * 1000).toISOString().slice(0, -1);
-                $('#add-edit').html('<?php echo __('Edit event', 'events'); ?> ' + event.title);
+                // change title
+                $('#add-edit-title').html('<?php echo __('Edit event', 'events'); ?> ' + event.title);
+                // insert existing values
                 $('input[name="events_title"]').val(event.title);
                 $('input[name="events_timestamp"]').val(date);
                 $('select[name="events_category"]').val(event.category);
@@ -56,7 +59,11 @@ $(document).ready(function(){
                 $('input[name="events_image"]').val(event.image);
                 $('input[name="events_audio"]').val(event.audio);
                 $('input[name="events_color"]').val(event.color);
+                // set color
                 setColor();
+                // change input name to id edit
+                $('#add-edit-submit').attr('name', 'edit_event');
+                $('#add-edit-submit').val(id);
             }
         });
     });
@@ -149,7 +156,7 @@ function setColor() {
             </div>
         </div>
         <div class="col-md-6">
-            <h2 id="add-edit"><?php echo __('Add event', 'events'); ?></h2>
+            <h2 id="add-edit-title"><?php echo __('Add event', 'events'); ?></h2>
             <?php echo
                 Form::open() .
                 Form::hidden('csrf', Security::token());
@@ -236,7 +243,7 @@ function setColor() {
             </div>
             <div class="row">
                 <div class="col-sm-12">
-                    <button type="submit" name="add_event" class="btn btn-lg btn-primary pull-right" value="1" title="<?php echo __('Add', 'events'); ?>">
+                    <button type="submit" name="add_event" id="add-edit-submit" class="btn btn-lg btn-primary pull-right" value="1" title="<?php echo __('Add', 'events'); ?>">
                         <span class="glyphicon glyphicon-save"></span>
                     </button>
                 </div>
