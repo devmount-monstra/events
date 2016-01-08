@@ -18,6 +18,13 @@
     .events-plugin .row {
         margin-bottom: 10px;
     }
+    .events-plugin .tab-content {
+        background: #fff;
+        padding: 0 10px;
+        border-left: 1px solid #ddd;
+        border-right: 1px solid #ddd;
+        border-bottom: 1px solid #ddd; 
+    }
 </style>
 
 <!-- custom plugin script -->
@@ -65,8 +72,8 @@ $(document).ready(function(){
                 $('#add-edit-submit')
                     .attr('name', 'edit_event')
                     .val(id)
-                    .attr('title', '<?php echo __('Update', 'events'); ?>');
-                $('#add-edit-submit>span').toggleClass('glyphicon-plus').toggleClass('glyphicon-pencil');
+                    .attr('title', '<?php echo __('Update', 'events'); ?>')
+                    .text('<?php echo __('Update', 'events'); ?>');
                 $(window).scrollTo($('#add-edit-title'), 200);
             }
         });
@@ -103,9 +110,9 @@ function setColor() {
             <h2><?php echo __('Events', 'events'); ?></h2>
         </div>
         <div class="text-right row-phone">
-            <a href="index.php?id=pages&amp;action=add_page" title="New Event" class="btn btn-phone btn-primary">New Event</a>&nbsp;&nbsp;&nbsp;
-            <a href="index.php?id=pages&amp;action=add_page" title="New Category" class="btn btn-phone btn-primary">New Category</a>&nbsp;&nbsp;&nbsp;
-            <a href="index.php?id=pages&amp;action=edit_page&amp;name=error404" title="Documentation" class="btn btn-phone btn-default">Documentation</a>
+            <a href="#" title="New Event" class="btn btn-phone btn-primary">New Event</a>
+            <a href="#" title="New Category" class="btn btn-phone btn-primary">New Category</a>
+            <?php echo Html::anchor(__('Documentation', 'events'), '#', array('class' => 'btn btn-phone btn-default hidden-sm hidden-md readme_plugin', 'data-toggle' => 'modal', 'data-target' => '#readme', 'readme_plugin' => 'events')); ?>
         </div>
     </div>
     
@@ -113,8 +120,8 @@ function setColor() {
         
         <!-- Tab navigation -->
         <ul class="nav nav-tabs">
-            <li><a href="#events">Events</a></li>
-            <li><a href="#categories">Categories</a></li>
+            <li class="active"><a href="#events" data-toggle="tab">Events</a></li>
+            <li><a href="#categories" data-toggle="tab">Categories</a></li>
         </ul>
         
         <!-- Tab content -->
@@ -270,7 +277,7 @@ function setColor() {
                         <div class="row">
                             <div class="col-sm-12">
                                 <button type="submit" name="add_event" id="add-edit-submit" class="btn btn-lg btn-primary pull-right" value="1" title="<?php echo __('Add', 'events'); ?>">
-                                    <span class="glyphicon glyphicon-plus"></span>
+                                    <?php echo __('Add', 'events'); ?>
                                 </button>
                             </div>
                         </div>
@@ -279,18 +286,57 @@ function setColor() {
                 </div>
             </div>
             <div class="tab-pane" id="categories">
-                <!--  -->
-                <h2><?php echo __('Categories', 'events'); ?></h2>
-                <ul>
-                <?php
-                    foreach ($categories as $category) {
-                ?>
-                        <li><?php echo $category['title'] ?></li>
-                <?php } ?>
-                </ul>
+                <div class="row">
+                    <div class="col-md-6">
+                        <h2><?php echo __('Categories', 'events'); ?></h2>
+                        <ul>
+                        <?php
+                            foreach ($categories as $category) {
+                        ?>
+                                <li><?php echo $category['title'] ?></li>
+                        <?php } ?>
+                        </ul>
+                    </div>
+                    <div class="col-md-6">
+                    </div>
+                </div>
             </div>
         </div>
         
     </div>
 
+</div>
+
+<script>
+    $(document).ready(function () {
+        $('.readme_plugin').click(function() {
+            $.ajax({
+                type:"post",
+                data:"readme_plugin="+$(this).attr('readme_plugin'),
+                url: "<?php echo Site::url(); ?>/admin/index.php?id=plugins",
+                success: function(data){
+                    $('#readme .modal-body').html(data);
+                }
+            });
+        });
+		$.monstra.fileuploader.init($.extend({}, {uploaderId:'DgDfileUploader'}, <?php echo json_encode($fileuploader); ?>));
+		$(document).on('uploaded.fuploader', function(){
+			location.href = $.monstra.fileuploader.conf.uploadUrl +'#installnew';
+			window.location.reload(true);
+		});
+    });
+</script>
+
+
+<!-- Modal -->
+<div class="modal fade" id="readme" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <div class="close" data-dismiss="modal">&times;</div>
+        <h4 class="modal-title" id="myModalLabel">README.md</h4>
+      </div>
+      <div class="modal-body"></div>
+    </div>
+  </div>
 </div>
