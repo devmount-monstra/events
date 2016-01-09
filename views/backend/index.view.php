@@ -35,56 +35,72 @@ $(document).ready(function(){
     $('#color').on("input change paste keyup", function(){
         setColor();
     });
-    // $('.list-group-item').focusin(function(){
-    //     $(this).addClass('active');
-    // });
-    // $('.list-group-item').focusout(function(){
-    //     $(this).removeClass('active');
-    //     $('#add-edit-title').html('<?php echo __('Add event', 'events'); ?>');
-    // });
-    $('.btn.edit').click(function(e){
-        var id = $(this).val();
-        $.ajax({
-            type: 'post',
-            data: 'edit_event_id=' + id,
-            url: '<?php echo Site::url(); ?>/admin/index.php?id=events',
-            // on success: modify formula to edit
-            success: function(data){
-                var event = JSON.parse(data);
-                var date = new Date(event.timestamp * 1000).toISOString().slice(0, -1);
-                // change title
-                $('#add-edit-title').html('<?php echo __('Edit event', 'events'); ?> ' + event.title);
-                // insert existing values
-                $('input[name="events_title"]').val(event.title);
-                $('input[name="events_timestamp"]').val(date);
-                $('select[name="events_category"]').val(event.category);
-                $('input[name="events_date"]').val(event.date);
-                $('input[name="events_time"]').val(event.time);
-                $('input[name="events_location"]').val(event.location);
-                $('input[name="events_short"]').val(event.short);
-                $('textarea[name="events_description"]').val(event.description);
-                $('input[name="events_image"]').val(event.image);
-                $('input[name="events_audio"]').val(event.audio);
-                $('input[name="events_color"]').val(event.color);
-                // set color
-                setColor();
-                // change input name to id edit
-                $('#add-edit-submit')
-                    .attr('name', 'edit_event')
-                    .val(id)
-                    .attr('title', '<?php echo __('Update', 'events'); ?>')
-                    .text('<?php echo __('Update', 'events'); ?>');
-                $(window).scrollTo($('#add-edit-title'), 200);
-            }
-        });
+    // handle event form
+    $('.btn.edit-event').click(function(e){
+        handleForm('event');
         e.preventDefault();
     });
-    
-    // url: "<?php echo Option::get('siteurl'); ?>index.php?id=pages&action=add_page",
+    // handle category form
+    $('.btn.edit-category').click(function(e){
+        handleForm('category');
+        e.preventDefault();
+    });
 
-    
 });
 
+// handle form / ajax
+// @param type: 'event', 'category'
+function handleForm(type) {
+    var id = $('.btn.edit-' + type).val();
+    $.ajax({
+        type: 'post',
+        data: 'edit_' + type + '_id=' + id,
+        url: '<?php echo Site::url(); ?>/admin/index.php?id=events',
+        // on success: modify formula to edit
+        success: function(data){
+            switch (type) {
+                case 'event':
+                    var event = JSON.parse(data);
+                    var date = new Date(event.timestamp * 1000).toISOString().slice(0, -1);
+                    // change title
+                    $('#add-edit-title-event').html('<?php echo __('Edit event', 'events'); ?> ' + event.title);
+                    // insert existing values
+                    $('input[name="event_title"]').val(event.title);
+                    $('input[name="event_timestamp"]').val(date);
+                    $('select[name="event_category"]').val(event.category);
+                    $('input[name="event_date"]').val(event.date);
+                    $('input[name="event_time"]').val(event.time);
+                    $('input[name="event_location"]').val(event.location);
+                    $('input[name="event_short"]').val(event.short);
+                    $('textarea[name="event_description"]').val(event.description);
+                    $('input[name="event_image"]').val(event.image);
+                    $('input[name="event_audio"]').val(event.audio);
+                    $('input[name="event_color"]').val(event.color);
+                    break;
+                case 'category':
+                    var category = JSON.parse(data);
+                    var date = new Date(category.timestamp * 1000).toISOString().slice(0, -1);
+                    // change title
+                    $('#add-edit-title-category').html('<?php echo __('Edit category', 'events'); ?> ' + category.title);
+                    // insert existing values
+                    $('input[name="category_title"]').val(event.title);
+                    $('input[name="category_color"]').val(event.color);
+                    break;
+            }
+            // set color
+            setColor();
+            // change input name to id edit
+            $('#add-edit-submit-' + type)
+                .attr('name', 'edit_' + type)
+                .val(id)
+                .attr('title', '<?php echo __('Update', 'events'); ?>')
+                .text('<?php echo __('Update', 'events'); ?>');
+            $(window).scrollTo($('#add-edit-title-' + type), 200);
+        }
+    });
+}
+
+// set color of input field
 function setColor() {
     var color = $('#color').val();
     if (color.length == 3 || color.length == 6) {
@@ -137,7 +153,7 @@ function setColor() {
                                 foreach ($upcomingevents as $event) { ?>
                                     <a href="#" class="list-group-item">
                                         <div class="pull-right">
-                                            <button class="btn btn-sm btn-default edit" value="<?php echo $event['id'] ?>" title="<?php echo __('Edit', 'events'); ?>">
+                                            <button class="btn btn-sm btn-default edit-event" value="<?php echo $event['id'] ?>" title="<?php echo __('Edit', 'events'); ?>">
                                                 <span class="glyphicon glyphicon-pencil"></span>
                                             </button>
                                             <?php echo
@@ -166,7 +182,7 @@ function setColor() {
                                 foreach ($pastevents as $event) { ?>
                                     <a href="#" class="list-group-item">
                                         <div class="pull-right">
-                                            <button class="btn btn-sm btn-default edit" value="<?php echo $event['id'] ?>" title="<?php echo __('Edit', 'events'); ?>">
+                                            <button class="btn btn-sm btn-default edit-event" value="<?php echo $event['id'] ?>" title="<?php echo __('Edit', 'events'); ?>">
                                                 <span class="glyphicon glyphicon-pencil"></span>
                                             </button>
                                             <?php echo
@@ -199,80 +215,80 @@ function setColor() {
                         <div class="row">
                             <div class="col-sm-12">
                                 <?php echo
-                                    Form::label('events_title', __('Title', 'events')) .
-                                    Form::input('events_title', Null, array('class' => 'form-control'));
+                                    Form::label('event_title', __('Title', 'events')) .
+                                    Form::input('event_title', Null, array('class' => 'form-control'));
                                 ?>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-sm-6">
                                 <?php echo
-                                    Form::label('events_timestamp', __('Timestamp', 'events')) .
-                                    Form::input('events_timestamp', '', array('class' => 'form-control', 'type' => 'datetime-local'));
+                                    Form::label('event_timestamp', __('Timestamp', 'events')) .
+                                    Form::input('event_timestamp', '', array('class' => 'form-control', 'type' => 'datetime-local'));
                                 ?>
                             </div>
                             <div class="col-sm-3">
                                 <?php echo
-                                    Form::label('events_date', __('Date', 'events')) .
-                                    Form::input('events_date', Null, array('class' => 'form-control'));
+                                    Form::label('event_date', __('Date', 'events')) .
+                                    Form::input('event_date', Null, array('class' => 'form-control'));
                                 ?>
                             </div>
                             <div class="col-sm-3">
                                 <?php echo
-                                    Form::label('events_time', __('Time', 'events')) .
-                                    Form::input('events_time', Null, array('class' => 'form-control'));
+                                    Form::label('event_time', __('Time', 'events')) .
+                                    Form::input('event_time', Null, array('class' => 'form-control'));
                                 ?>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-sm-9">
                                 <?php echo
-                                    Form::label('events_category', __('Category', 'events')) .
-                                    Form::select('events_category', $categories_title, Null, array('class' => 'form-control'));
+                                    Form::label('event_category', __('Category', 'events')) .
+                                    Form::select('event_category', $categories_title, Null, array('class' => 'form-control'));
                                 ?>
                             </div>
                             <div class="col-sm-3">
                                 <?php echo
-                                    Form::label('events_color', __('Color', 'events')) .
-                                    Form::input('events_color', '', array('class' => 'form-control', 'id' => 'color', 'placeholder' => '#'));
+                                    Form::label('event_color', __('Color', 'events')) .
+                                    Form::input('event_color', '', array('class' => 'form-control', 'id' => 'color', 'placeholder' => '#'));
                                 ?>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-sm-12">
                                 <?php echo
-                                    Form::label('events_location', __('Location', 'events')) .
-                                    Form::input('events_location', Null, array('class' => 'form-control'));
+                                    Form::label('event_location', __('Location', 'events')) .
+                                    Form::input('event_location', Null, array('class' => 'form-control'));
                                 ?>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-sm-12">
                                 <?php echo
-                                    Form::label('events_short', __('Short description', 'events')) .
-                                    Form::input('events_short', Null, array('class' => 'form-control'));
+                                    Form::label('event_short', __('Short description', 'events')) .
+                                    Form::input('event_short', Null, array('class' => 'form-control'));
                                 ?>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-sm-12">
                                 <?php echo
-                                    Form::label('events_description', __('Description', 'events')) .
-                                    Form::textarea('events_description', Null, array('class' => 'form-control'));
+                                    Form::label('event_description', __('Description', 'events')) .
+                                    Form::textarea('event_description', Null, array('class' => 'form-control'));
                                 ?>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-sm-6">
                                 <?php echo
-                                    Form::label('events_image', __('Image path', 'events')) .
-                                    Form::input('events_image', Null, array('class' => 'form-control'));
+                                    Form::label('event_image', __('Image path', 'events')) .
+                                    Form::input('event_image', Null, array('class' => 'form-control'));
                                 ?>
                             </div>
                             <div class="col-sm-6">
                                 <?php echo
-                                    Form::label('events_audio', __('Audio path', 'events')) .
-                                    Form::input('events_audio', Null, array('class' => 'form-control'));
+                                    Form::label('event_audio', __('Audio path', 'events')) .
+                                    Form::input('event_audio', Null, array('class' => 'form-control'));
                                 ?>
                             </div>
                         </div>
@@ -298,7 +314,7 @@ function setColor() {
                                 foreach ($categories as $category) { ?>
                                     <a href="#" class="list-group-item" style="border-left: 3px solid #<?php echo $category['color']; ?>">
                                         <div class="pull-right">
-                                            <button class="btn btn-sm btn-default edit" value="<?php echo $category['id'] ?>" title="<?php echo __('Edit', 'events'); ?>">
+                                            <button class="btn btn-sm btn-default edit-category" value="<?php echo $category['id'] ?>" title="<?php echo __('Edit', 'events'); ?>">
                                                 <span class="glyphicon glyphicon-pencil"></span>
                                             </button>
                                             <?php echo
@@ -343,6 +359,14 @@ function setColor() {
                                 ?>
                             </div>
                         </div>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <button type="submit" name="add_category" id="add-edit-submit-category" class="btn btn-lg btn-primary pull-right" value="1" title="<?php echo __('Add', 'events'); ?>">
+                                    <?php echo __('Add', 'events'); ?>
+                                </button>
+                            </div>
+                        </div>
+                        <?php echo Form::close(); ?>
                     </div>
                 </div>
             </div>

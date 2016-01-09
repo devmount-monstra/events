@@ -47,24 +47,26 @@ class EventsAdmin extends Backend
      */
     public static function main()
     {
+        // get db table objects
         $events = new Table('events');
+        $categories = new Table('categories');
         
         // Request: add event
         if (Request::post('add_event')) {
             if (Security::check(Request::post('csrf'))) {
                 $events->insert(
                     array(
-                        'title' => (string) Request::post('events_title'),
-                        'timestamp' => strtotime(Request::post('events_timestamp')),
-                        'category' => (int) Request::post('events_category'),
-                        'date' => (string) Request::post('events_date'),
-                        'time' => (string) Request::post('events_time'),
-                        'location' => (string) Request::post('events_location'),
-                        'short' => (string) Request::post('events_short'),
-                        'description' => (string) Request::post('events_description'),
-                        'image' => (string) Request::post('events_image'),
-                        'audio' => (string) Request::post('events_audio'),
-                        'color' => (string) Request::post('events_color'),
+                        'title' => (string) Request::post('event_title'),
+                        'timestamp' => strtotime(Request::post('event_timestamp')),
+                        'category' => (int) Request::post('event_category'),
+                        'date' => (string) Request::post('event_date'),
+                        'time' => (string) Request::post('event_time'),
+                        'location' => (string) Request::post('event_location'),
+                        'short' => (string) Request::post('event_short'),
+                        'description' => (string) Request::post('event_description'),
+                        'image' => (string) Request::post('event_image'),
+                        'audio' => (string) Request::post('event_audio'),
+                        'color' => (string) Request::post('event_color'),
                     )
                 );
                 Notification::setNow('success', __('Event was added with success!', 'events'));
@@ -80,17 +82,17 @@ class EventsAdmin extends Backend
                 $events->update(
                     (int) Request::post('edit_event'),
                     array(
-                        'title' => (string) Request::post('events_title'),
-                        'timestamp' => strtotime(Request::post('events_timestamp')),
-                        'category' => (int) Request::post('events_category'),
-                        'date' => (string) Request::post('events_date'),
-                        'time' => (string) Request::post('events_time'),
-                        'location' => (string) Request::post('events_location'),
-                        'short' => (string) Request::post('events_short'),
-                        'description' => (string) Request::post('events_description'),
-                        'image' => (string) Request::post('events_image'),
-                        'audio' => (string) Request::post('events_audio'),
-                        'color' => (string) Request::post('events_color'),
+                        'title' => (string) Request::post('event_title'),
+                        'timestamp' => strtotime(Request::post('event_timestamp')),
+                        'category' => (int) Request::post('event_category'),
+                        'date' => (string) Request::post('event_date'),
+                        'time' => (string) Request::post('event_time'),
+                        'location' => (string) Request::post('event_location'),
+                        'short' => (string) Request::post('event_short'),
+                        'description' => (string) Request::post('event_description'),
+                        'image' => (string) Request::post('event_image'),
+                        'audio' => (string) Request::post('event_audio'),
+                        'color' => (string) Request::post('event_color'),
                     )
                 );
                 Notification::setNow('success', __('Event was updated with success!', 'events'));
@@ -111,6 +113,52 @@ class EventsAdmin extends Backend
                 die();
             }
         }
+        
+        // Request: add category
+        if (Request::post('add_category')) {
+            if (Security::check(Request::post('csrf'))) {
+                $categories->insert(
+                    array(
+                        'title' => (string) Request::post('category_title'),
+                        'color' => (string) Request::post('category_color'),
+                    )
+                );
+                Notification::setNow('success', __('Category was added with success!', 'events'));
+            }
+            else {
+                Notification::setNow('error', __('Request was denied. Invalid security token. Please refresh the page and try again.', 'events'));
+                die();
+            }
+        }
+        // Request: edit category
+        if (Request::post('edit_category')) {
+            if (Security::check(Request::post('csrf'))) {
+                $categories->update(
+                    (int) Request::post('edit_category'),
+                    array(
+                        'title' => (string) Request::post('category_title'),
+                        'color' => (string) Request::post('category_color'),
+                    )
+                );
+                Notification::setNow('success', __('Category was updated with success!', 'events'));
+            }
+            else {
+                Notification::setNow('error', __('Request was denied. Invalid security token. Please refresh the page and try again.', 'events'));
+                die();
+            }
+        }
+        // Request: delete category
+        if (Request::post('delete_category')) {
+            if (Security::check(Request::post('csrf'))) {
+                $categories->delete(Request::post('delete_category'));
+                Notification::setNow('success', __('Category has been deleted with success!', 'events'));
+            }
+            else {
+                Notification::setNow('error', __('Request was denied. Invalid security token. Please refresh the page and try again.', 'events'));
+                die();
+            }
+        }
+        
         
         // Display view
         View::factory('events/views/backend/index')->display();
