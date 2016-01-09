@@ -126,6 +126,8 @@ function setColor() {
         
         <!-- Tab content -->
         <div class="tab-content">
+            
+            <!-- Tab: events -->
             <div class="tab-pane active" id="events">
                 <div class="row">
                     <div class="col-md-6">
@@ -285,19 +287,62 @@ function setColor() {
                     </div>
                 </div>
             </div>
+            
+            <!-- Tab: categories -->
             <div class="tab-pane" id="categories">
                 <div class="row">
                     <div class="col-md-6">
                         <h2><?php echo __('Categories', 'events'); ?></h2>
-                        <ul>
-                        <?php
-                            foreach ($categories as $category) {
-                        ?>
-                                <li><?php echo $category['title'] ?></li>
-                        <?php } ?>
-                        </ul>
+                        <div class="list-group">
+                            <?php if (sizeof($categories) > 0) {
+                                foreach ($categories as $category) { ?>
+                                    <a href="#" class="list-group-item" style="border-left: 3px solid #<?php echo $category['color']; ?>">
+                                        <div class="pull-right">
+                                            <button class="btn btn-sm btn-default edit" value="<?php echo $category['id'] ?>" title="<?php echo __('Edit', 'events'); ?>">
+                                                <span class="glyphicon glyphicon-pencil"></span>
+                                            </button>
+                                            <?php echo
+                                                Form::open() .
+                                                Form::hidden('csrf', Security::token()) .
+                                                Form::hidden('delete_category', $category['id']);
+                                            ?>
+                                                <button class="btn btn-sm btn-danger" value="1" onclick="return confirmDelete('<?php echo __('Delete category &quot;:title&quot;', 'events', array(':title' => $category['title'])); ?>')" title="<?php echo __('Delete', 'events'); ?>">
+                                                    <span class="glyphicon glyphicon-remove"></span>
+                                                </button>
+                                            <?php echo Form::close(); ?>
+                                        </div>
+                                        <h4 class="list-group-item-heading"><?php echo $category['title']; ?></h4>
+                                        <p class="list-group-item-text"><?php echo $category['color']; ?></p>
+                                        <!-- TODO: number of events for each category -->
+                                        <br style="clear: both;" />
+                                    </a>
+                                <?php }
+                            } else {
+                                echo __('No category available.', 'events');
+                            }
+                            ?>
+                        </div>
                     </div>
                     <div class="col-md-6">
+                        <h2 id="add-edit-title-category"><?php echo __('Add category', 'events'); ?></h2>
+                        <?php echo
+                            Form::open() .
+                            Form::hidden('csrf', Security::token());
+                        ?>
+                        <div class="row">
+                            <div class="col-sm-9">
+                                <?php echo
+                                    Form::label('category_title', __('Title', 'events')) .
+                                    Form::input('category_title', Null, array('class' => 'form-control'));
+                                ?>
+                            </div>
+                            <div class="col-sm-3">
+                                <?php echo
+                                    Form::label('category_color', __('Color', 'events')) .
+                                    Form::input('category_color', '', array('class' => 'form-control', 'id' => 'color', 'placeholder' => '#'));
+                                ?>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -307,6 +352,7 @@ function setColor() {
 
 </div>
 
+<!-- modal: readme greybox script -->
 <script>
     $(document).ready(function () {
         $('.readme_plugin').click(function() {
@@ -319,16 +365,15 @@ function setColor() {
                 }
             });
         });
-		$.monstra.fileuploader.init($.extend({}, {uploaderId:'DgDfileUploader'}, <?php echo json_encode($fileuploader); ?>));
-		$(document).on('uploaded.fuploader', function(){
-			location.href = $.monstra.fileuploader.conf.uploadUrl +'#installnew';
-			window.location.reload(true);
-		});
+		// $.monstra.fileuploader.init($.extend({}, {uploaderId:'DgDfileUploader'}, <?php echo json_encode($fileuploader); ?>));
+		// $(document).on('uploaded.fuploader', function(){
+		// 	location.href = $.monstra.fileuploader.conf.uploadUrl +'#installnew';
+		// 	window.location.reload(true);
+		// });
     });
 </script>
 
-
-<!-- Modal -->
+<!-- modal: markup -->
 <div class="modal fade" id="readme" tabindex="-1" role="dialog" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
