@@ -22,5 +22,5 @@ $c = new Table('categories');
 $c->addField('color');
 
 // Add Options
-// Option::add('toggle_duration', '400');
-// Option::add('toggle_easing', 'swing');
+Option::add('events_image_directory', '/');
+Option::add('events_audio_directory', '/');

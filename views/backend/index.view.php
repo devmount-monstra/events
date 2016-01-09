@@ -32,7 +32,7 @@
 <script type="text/javascript">
 $(document).ready(function(){
     // color field
-    $('#color').on("input change paste keyup", function(){
+    $('#color').on('input change paste keyup', function(){
         setColor();
     });
     // handle event form
@@ -49,7 +49,7 @@ $(document).ready(function(){
 });
 
 // handle form / ajax
-// @param type: 'event', 'category'
+// @param type: ['event', 'category']
 function handleForm(type) {
     var id = $('.btn.edit-' + type).val();
     $.ajax({
@@ -85,6 +85,8 @@ function handleForm(type) {
                     // insert existing values
                     $('input[name="category_title"]').val(event.title);
                     $('input[name="category_color"]').val(event.color);
+                    break;
+                default:
                     break;
             }
             // set color
@@ -138,6 +140,7 @@ function setColor() {
         <ul class="nav nav-tabs">
             <li class="active"><a href="#events" data-toggle="tab">Events</a></li>
             <li><a href="#categories" data-toggle="tab">Categories</a></li>
+            <li><a href="#configuration" data-toggle="tab">Configuration</a></li>
         </ul>
         
         <!-- Tab content -->
@@ -146,7 +149,7 @@ function setColor() {
             <!-- Tab: events -->
             <div class="tab-pane active" id="events">
                 <div class="row">
-                    <div class="col-md-6">
+                    <div class="col-md-6">   
                         <h2><?php echo __('Upcoming events', 'events'); ?></h2>
                         <div class="list-group">
                             <?php if (sizeof($upcomingevents) > 0) {
@@ -370,6 +373,18 @@ function setColor() {
                     </div>
                 </div>
             </div>
+            
+            <!-- Tab: configuration -->
+            <div class="tab-pane" id="configuration">
+                <div class="row">
+                    <div class="col-md-6">
+                        <!-- TODO: config image directory -->
+                    </div>
+                    <div class="col-md-6">
+                        <!-- TODO: config audio directory -->
+                    </div>
+                </div>
+            </div>
         </div>
         
     </div>
@@ -381,9 +396,9 @@ function setColor() {
     $(document).ready(function () {
         $('.readme_plugin').click(function() {
             $.ajax({
-                type:"post",
-                data:"readme_plugin="+$(this).attr('readme_plugin'),
-                url: "<?php echo Site::url(); ?>/admin/index.php?id=plugins",
+                type:'post',
+                data:'readme_plugin='+$(this).attr('readme_plugin'),
+                url: '<?php echo Site::url(); ?>/admin/index.php?id=plugins',
                 success: function(data){
                     $('#readme .modal-body').html(data);
                 }
