@@ -32,17 +32,20 @@
 <script type="text/javascript">
 $(document).ready(function(){
     // color field
-    $('#color').on('input change paste keyup', function(){
-        setColor();
+    $('#event-color').on('input change paste keyup', function(){
+        setColor(this);
+    });
+    $('#category-color').on('input change paste keyup', function(){
+        setColor(this);
     });
     // handle event form
     $('.btn.edit-event').click(function(e){
-        handleForm('event');
+        handleForm('event', $(this).val());
         e.preventDefault();
     });
     // handle category form
     $('.btn.edit-category').click(function(e){
-        handleForm('category');
+        handleForm('category', $(this).val());
         e.preventDefault();
     });
 
@@ -50,8 +53,8 @@ $(document).ready(function(){
 
 // handle form / ajax
 // @param type: ['event', 'category']
-function handleForm(type) {
-    var id = $('.btn.edit-' + type).val();
+// @param id:   of record to edit
+function handleForm(type, id) {
     $.ajax({
         type: 'post',
         data: 'edit_' + type + '_id=' + id,
@@ -79,18 +82,17 @@ function handleForm(type) {
                     break;
                 case 'category':
                     var category = JSON.parse(data);
-                    var date = new Date(category.timestamp * 1000).toISOString().slice(0, -1);
                     // change title
                     $('#add-edit-title-category').html('<?php echo __('Edit category', 'events'); ?> ' + category.title);
                     // insert existing values
-                    $('input[name="category_title"]').val(event.title);
-                    $('input[name="category_color"]').val(event.color);
+                    $('input[name="category_title"]').val(category.title);
+                    $('input[name="category_color"]').val(category.color);
                     break;
                 default:
                     break;
             }
             // set color
-            setColor();
+            setColor('#' + type + '-color');
             // change input name to id edit
             $('#add-edit-submit-' + type)
                 .attr('name', 'edit_' + type)
@@ -103,12 +105,12 @@ function handleForm(type) {
 }
 
 // set color of input field
-function setColor() {
-    var color = $('#color').val();
+function setColor(type) {
+    var color = $(type).val();
     if (color.length == 3 || color.length == 6) {
-        $('#color').css('background-image', 'linear-gradient(to right, #fff, #fff 70%, #' + color + ' 70%)');
+        $(type).css('background-image', 'linear-gradient(to right, #fff, #fff 70%, #' + color + ' 70%)');
     } else {
-        $('#color').css('background-image', 'none');
+        $(type).css('background-image', 'none');
     }
 }
 </script>
@@ -210,7 +212,7 @@ function setColor() {
                         </div>
                     </div>
                     <div class="col-md-6">
-                        <h2 id="add-edit-title"><?php echo __('Add event', 'events'); ?></h2>
+                        <h2 id="add-edit-title-event"><?php echo __('Add event', 'events'); ?></h2>
                         <?php echo
                             Form::open() .
                             Form::hidden('csrf', Security::token());
@@ -253,7 +255,7 @@ function setColor() {
                             <div class="col-sm-3">
                                 <?php echo
                                     Form::label('event_color', __('Color', 'events')) .
-                                    Form::input('event_color', '', array('class' => 'form-control', 'id' => 'color', 'placeholder' => '#'));
+                                    Form::input('event_color', '', array('class' => 'form-control', 'id' => 'event-color', 'placeholder' => '#'));
                                 ?>
                             </div>
                         </div>
@@ -297,7 +299,7 @@ function setColor() {
                         </div>
                         <div class="row">
                             <div class="col-sm-12">
-                                <button type="submit" name="add_event" id="add-edit-submit" class="btn btn-lg btn-primary pull-right" value="1" title="<?php echo __('Add', 'events'); ?>">
+                                <button type="submit" name="add_event" id="add-edit-submit-event" class="btn btn-lg btn-primary pull-right" value="1" title="<?php echo __('Add', 'events'); ?>">
                                     <?php echo __('Add', 'events'); ?>
                                 </button>
                             </div>
@@ -358,7 +360,7 @@ function setColor() {
                             <div class="col-sm-3">
                                 <?php echo
                                     Form::label('category_color', __('Color', 'events')) .
-                                    Form::input('category_color', '', array('class' => 'form-control', 'id' => 'color', 'placeholder' => '#'));
+                                    Form::input('category_color', '', array('class' => 'form-control', 'id' => 'category-color', 'placeholder' => '#'));
                                 ?>
                             </div>
                         </div>

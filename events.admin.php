@@ -21,7 +21,7 @@ defined('MONSTRA_ACCESS') or die('No direct script access.');
 Navigation::add(__('Events', 'events'), 'content', 'events', 10);
 
 // Add action on admin_pre_render hook
-Action::add('admin_pre_render','EventsAdmin::_getEvent');
+Action::add('admin_pre_render','EventsAdmin::_getAjaxData');
 
 /**
  * Events class
@@ -32,12 +32,18 @@ class EventsAdmin extends Backend
     /**
      * Ajax: get Event by ID
      */
-    public static function _getEvent()
+    public static function _getAjaxData()
     {
         // Ajax Request: add event
         if (Request::post('edit_event_id')) {
             $events = new Table('events');
             echo json_encode($events->select('[id=' . Request::post('edit_event_id') . ']')[0]);
+            Request::shutdown();
+        }
+        // Ajax Request: add category
+        if (Request::post('edit_category_id')) {
+            $categories = new Table('categories');
+            echo json_encode($categories->select('[id=' . Request::post('edit_category_id') . ']')[0]);
             Request::shutdown();
         }
     }
