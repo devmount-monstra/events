@@ -9,7 +9,7 @@
         padding: 0 10px;
         border-left: 1px solid #ddd;
         border-right: 1px solid #ddd;
-        border-bottom: 1px solid #ddd; 
+        border-bottom: 1px solid #ddd;
     }
     .events-plugin .list-group form {
         display: inline;
@@ -44,7 +44,7 @@ $(document).ready(function(){
         $('.nav-tabs li.active').toggleClass('active');
         $('.nav-tabs li a[href="#' + type + '"]').parent().toggleClass('active');
         $('#focus-' + type).focus();
-        $('#add-edit-' + type + ' :input').each(function(){
+        $('#add-edit-' + type + ' .clear').each(function(){
             $(this).val('');
         });
         switch(type) {
@@ -56,8 +56,8 @@ $(document).ready(function(){
         $('#add-edit-submit-' + shorttype)
             .attr('name', 'add_' + shorttype)
             .val(1)
-            .attr('title', '<?php echo __('New', 'events'); ?>')
-            .text('<?php echo __('New', 'events'); ?>');
+            .attr('title', '<?php echo __('Add', 'events'); ?>')
+            .text('<?php echo __('Add', 'events'); ?>');
     })
 });
 
@@ -74,7 +74,7 @@ function handleForm(type, id) {
             switch (type) {
                 case 'event':
                     var event = JSON.parse(data);
-                    var date = new Date(event.timestamp * 1000).toISOString().slice(0, -1);
+                    var date = event.timestamp ? new Date(event.timestamp * 1000).toISOString().slice(0, -1) : '';
                     // change title
                     $('#add-edit-title-event').html('<?php echo __('Edit event', 'events'); ?> ' + event.title);
                     // insert existing values
@@ -260,7 +260,7 @@ function setColor(type) {
                             <div class="col-sm-12">
                                 <?php echo
                                     Form::label('event_title', __('Title', 'events')) .
-                                    Form::input('event_title', Null, array('class' => 'form-control', 'id' => 'focus-events', 'required' => 'required'));
+                                    Form::input('event_title', Null, array('class' => 'form-control clear', 'id' => 'focus-events', 'required' => 'required'));
                                 ?>
                             </div>
                         </div>
@@ -268,19 +268,19 @@ function setColor(type) {
                             <div class="col-sm-6">
                                 <?php echo
                                     Form::label('event_timestamp', __('Timestamp', 'events')) .
-                                    Form::input('event_timestamp', '', array('class' => 'form-control', 'type' => 'datetime-local'));
+                                    Form::input('event_timestamp', '', array('class' => 'form-control clear', 'type' => 'datetime-local'));
                                 ?>
                             </div>
                             <div class="col-sm-3">
                                 <?php echo
                                     Form::label('event_date', __('Date', 'events')) .
-                                    Form::input('event_date', Null, array('class' => 'form-control'));
+                                    Form::input('event_date', Null, array('class' => 'form-control clear'));
                                 ?>
                             </div>
                             <div class="col-sm-3">
                                 <?php echo
                                     Form::label('event_time', __('Time', 'events')) .
-                                    Form::input('event_time', Null, array('class' => 'form-control'));
+                                    Form::input('event_time', Null, array('class' => 'form-control clear'));
                                 ?>
                             </div>
                         </div>
@@ -288,13 +288,13 @@ function setColor(type) {
                             <div class="col-sm-9">
                                 <?php echo
                                     Form::label('event_category', __('Category', 'events')) .
-                                    Form::select('event_category', $categories_title, Null, array('class' => 'form-control', 'required' => 'required'));
+                                    Form::select('event_category', $categories_title, Null, array('class' => 'form-control clear', 'required' => 'required'));
                                 ?>
                             </div>
                             <div class="col-sm-3">
                                 <?php echo
                                     Form::label('event_color', __('Color', 'events')) .
-                                    Form::input('event_color', '', array('class' => 'form-control', 'id' => 'event-color', 'placeholder' => '#'));
+                                    Form::input('event_color', '', array('class' => 'form-control clear', 'id' => 'event-color', 'placeholder' => '#'));
                                 ?>
                             </div>
                         </div>
@@ -302,7 +302,7 @@ function setColor(type) {
                             <div class="col-sm-12">
                                 <?php echo
                                     Form::label('event_location', __('Location', 'events')) .
-                                    Form::input('event_location', Null, array('class' => 'form-control'));
+                                    Form::input('event_location', Null, array('class' => 'form-control clear'));
                                 ?>
                             </div>
                         </div>
@@ -310,7 +310,7 @@ function setColor(type) {
                             <div class="col-sm-12">
                                 <?php echo
                                     Form::label('event_short', __('Short description', 'events')) .
-                                    Form::input('event_short', Null, array('class' => 'form-control'));
+                                    Form::input('event_short', Null, array('class' => 'form-control clear'));
                                 ?>
                             </div>
                         </div>
@@ -318,7 +318,7 @@ function setColor(type) {
                             <div class="col-sm-12">
                                 <?php echo
                                     Form::label('event_description', __('Description', 'events')) .
-                                    Form::textarea('event_description', Null, array('class' => 'form-control'));
+                                    Form::textarea('event_description', Null, array('class' => 'form-control clear'));
                                 ?>
                             </div>
                         </div>
@@ -326,13 +326,13 @@ function setColor(type) {
                             <div class="col-sm-6">
                                 <?php echo
                                     Form::label('event_image', __('Image file', 'events')) .
-                                    Form::input('event_image', Null, array('class' => 'form-control'));
+                                    Form::input('event_image', Null, array('class' => 'form-control clear'));
                                 ?>
                             </div>
                             <div class="col-sm-6">
                                 <?php echo
                                     Form::label('event_audio', __('Audio file', 'events')) .
-                                    Form::input('event_audio', Null, array('class' => 'form-control'));
+                                    Form::input('event_audio', Null, array('class' => 'form-control clear'));
                                 ?>
                             </div>
                         </div>
@@ -392,13 +392,13 @@ function setColor(type) {
                             <div class="col-sm-9">
                                 <?php echo
                                     Form::label('category_title', __('Title', 'events')) .
-                                    Form::input('category_title', Null, array('class' => 'form-control', 'id' => 'focus-categories', 'required' => 'required'));
+                                    Form::input('category_title', Null, array('class' => 'form-control clear', 'id' => 'focus-categories', 'required' => 'required'));
                                 ?>
                             </div>
                             <div class="col-sm-3">
                                 <?php echo
                                     Form::label('category_color', __('Color', 'events')) .
-                                    Form::input('category_color', '', array('class' => 'form-control', 'id' => 'category-color', 'placeholder' => '#'));
+                                    Form::input('category_color', '', array('class' => 'form-control clear', 'id' => 'category-color', 'placeholder' => '#'));
                                 ?>
                             </div>
                         </div>
