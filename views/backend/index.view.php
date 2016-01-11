@@ -38,15 +38,26 @@ $(document).ready(function(){
         e.preventDefault();
     });
 
-    // handle remote activate tab
+    // handle remote activate tab, clear 'edit' form to 'new' form
     $('.btn[data-toggle=tab]').click(function(){
-        var href = $(this).attr("href").substring(1);
+        var type = $(this).attr("href").substring(1);
         $('.nav-tabs li.active').toggleClass('active');
-        $('.nav-tabs li a[href="#' + href + '"]').parent().toggleClass('active');
-        $('#focus-' + href).focus();
-        $('#add-edit-' + href + ' :input').each(function(){
+        $('.nav-tabs li a[href="#' + type + '"]').parent().toggleClass('active');
+        $('#focus-' + type).focus();
+        $('#add-edit-' + type + ' :input').each(function(){
             $(this).val('');
         });
+        switch(type) {
+            case 'events': shorttype = 'event'; break;
+            case 'categories': shorttype = 'category'; break;
+            default: break;
+        }
+        $('#add-edit-title-' + shorttype).html('<?php echo __('Add', 'events'); ?> ' + shorttype);
+        $('#add-edit-submit-' + shorttype)
+            .attr('name', 'add_' + shorttype)
+            .val(1)
+            .attr('title', '<?php echo __('Add', 'events'); ?>')
+            .text('<?php echo __('Add', 'events'); ?>');
     })
 });
 
