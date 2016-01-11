@@ -1,18 +1,3 @@
-<?php 
-    // get current time
-    $now = time();
-    // get all existing categories from db
-    $categories = new Table('categories');
-    $categories = $categories->select(null, 'all');
-    $categories_title = array();
-    foreach ($categories as $c) {
-        $categories_title[$c['id']] = $c['title'];
-    }
-    // get all existing events from db
-    $events = new Table('events');
-    $upcomingevents = $events->select('[timestamp>=' . $now . ']');
-    $pastevents = $events->select('[timestamp<' . $now . ']');
-?>
 <!-- custom plugin styles -->
 <style>
     .events-plugin .row {
@@ -49,6 +34,16 @@ $(document).ready(function(){
         e.preventDefault();
     });
 
+    // handle remote activate tab
+    $('.btn[data-toggle=tab]').click(function(){
+        var href = $(this).attr("href").substring(1);
+        $('.nav-tabs li.active').toggleClass('active');
+        $('.nav-tabs li a[href="#' + href + '"]').parent().toggleClass('active');
+        $('#focus-' + href).focus();
+        $('#add-edit-' + href + ' :input').each(function(){
+            $(this).val('');
+        });
+    })
 });
 
 // handle form / ajax
@@ -130,9 +125,9 @@ function setColor(type) {
             <h2><?php echo __('Events', 'events'); ?></h2>
         </div>
         <div class="text-right row-phone">
-            <a href="#" title="New Event" class="btn btn-phone btn-primary">New Event</a>
-            <a href="#" title="New Category" class="btn btn-phone btn-primary">New Category</a>
-            <?php echo Html::anchor(__('Documentation', 'events'), '#', array('class' => 'btn btn-phone btn-default hidden-sm hidden-md readme_plugin', 'data-toggle' => 'modal', 'data-target' => '#readme', 'readme_plugin' => 'events')); ?>
+            <a href="#events" data-toggle="tab" title="New Event" class="btn btn-phone btn-primary">New Event</a>
+            <a href="#categories" data-toggle="tab" title="New Category" class="btn btn-phone btn-primary">New Category</a>
+            <?php echo Html::anchor(__('Documentation', 'events'), '#', array('class' => 'btn btn-phone btn-default readme_plugin', 'data-toggle' => 'modal', 'data-target' => '#readme', 'readme_plugin' => 'events')); ?>
         </div>
     </div>
     
@@ -214,14 +209,14 @@ function setColor(type) {
                     <div class="col-md-6">
                         <h2 id="add-edit-title-event"><?php echo __('Add event', 'events'); ?></h2>
                         <?php echo
-                            Form::open() .
+                            Form::open(Null, array('id' => 'add-edit-events')) .
                             Form::hidden('csrf', Security::token());
                         ?>
                         <div class="row">
                             <div class="col-sm-12">
                                 <?php echo
                                     Form::label('event_title', __('Title', 'events')) .
-                                    Form::input('event_title', Null, array('class' => 'form-control'));
+                                    Form::input('event_title', Null, array('class' => 'form-control', 'id' => 'focus-events', 'required' => 'required'));
                                 ?>
                             </div>
                         </div>
@@ -249,7 +244,7 @@ function setColor(type) {
                             <div class="col-sm-9">
                                 <?php echo
                                     Form::label('event_category', __('Category', 'events')) .
-                                    Form::select('event_category', $categories_title, Null, array('class' => 'form-control'));
+                                    Form::select('event_category', $categories_title, Null, array('class' => 'form-control', 'required' => 'required'));
                                 ?>
                             </div>
                             <div class="col-sm-3">
@@ -286,13 +281,13 @@ function setColor(type) {
                         <div class="row">
                             <div class="col-sm-6">
                                 <?php echo
-                                    Form::label('event_image', __('Image path', 'events')) .
+                                    Form::label('event_image', __('Image file', 'events')) .
                                     Form::input('event_image', Null, array('class' => 'form-control'));
                                 ?>
                             </div>
                             <div class="col-sm-6">
                                 <?php echo
-                                    Form::label('event_audio', __('Audio path', 'events')) .
+                                    Form::label('event_audio', __('Audio file', 'events')) .
                                     Form::input('event_audio', Null, array('class' => 'form-control'));
                                 ?>
                             </div>
@@ -347,14 +342,14 @@ function setColor(type) {
                     <div class="col-md-6">
                         <h2 id="add-edit-title-category"><?php echo __('Add category', 'events'); ?></h2>
                         <?php echo
-                            Form::open() .
+                            Form::open(Null, array('id' => 'add-edit-categories')) .
                             Form::hidden('csrf', Security::token());
                         ?>
                         <div class="row">
                             <div class="col-sm-9">
                                 <?php echo
                                     Form::label('category_title', __('Title', 'events')) .
-                                    Form::input('category_title', Null, array('class' => 'form-control'));
+                                    Form::input('category_title', Null, array('class' => 'form-control', 'id' => 'focus-categories', 'required' => 'required'));
                                 ?>
                             </div>
                             <div class="col-sm-3">

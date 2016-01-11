@@ -165,9 +165,25 @@ class EventsAdmin extends Backend
             }
         }
         
-        
+        // get current time
+        $now = time();
+        // get all existing categories from db
+        $categories = $categories->select(null, 'all');
+        $categories_title = array();
+        foreach ($categories as $c) {
+            $categories_title[$c['id']] = $c['title'];
+        }
+        // get all existing events from db
+        $upcomingevents = $events->select('[timestamp>=' . $now . ']');
+        $pastevents = $events->select('[timestamp<' . $now . ']');
+            
         // Display view
-        View::factory('events/views/backend/index')->display();
+        View::factory('events/views/backend/index')
+            ->assign('categories', $categories)
+            ->assign('categories_title', $categories_title)
+            ->assign('upcomingevents', $upcomingevents)
+            ->assign('pastevents', $pastevents)
+            ->display();
     }
 
 }
