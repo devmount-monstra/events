@@ -180,6 +180,7 @@ class EventsAdmin extends Backend
         // get all existing events from db
         $upcomingevents = $events->select('[timestamp>=' . $now . ']');
         $pastevents = $events->select('[timestamp<' . $now . ']');
+        $draftevents = $events->select('[timestamp=""]');
 
         // Display view
         View::factory('events/views/backend/index')
@@ -189,6 +190,7 @@ class EventsAdmin extends Backend
             ->assign('categories_count', $categories_count)
             ->assign('upcomingevents', $upcomingevents)
             ->assign('pastevents', $pastevents)
+            ->assign('draftevents', $draftevents)
             ->display();
     }
 

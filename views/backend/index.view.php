@@ -56,8 +56,8 @@ $(document).ready(function(){
         $('#add-edit-submit-' + shorttype)
             .attr('name', 'add_' + shorttype)
             .val(1)
-            .attr('title', '<?php echo __('Add', 'events'); ?>')
-            .text('<?php echo __('Add', 'events'); ?>');
+            .attr('title', '<?php echo __('New', 'events'); ?>')
+            .text('<?php echo __('New', 'events'); ?>');
     })
 });
 
@@ -217,6 +217,35 @@ function setColor(type) {
                                 <?php }
                             } else {
                                 echo __('No past events', 'events');
+                            }
+                            ?>
+                        </div>
+                        <h2><?php echo __('Draft events', 'events'); ?></h2>
+                        <div class="list-group">
+                            <?php if (sizeof($draftevents) > 0) {
+                                foreach ($draftevents as $event) { ?>
+                                    <a href="#" class="list-group-item" style="border-left: 5px solid #<?php echo $event['color'] ? $event['color'] : $categories_color[$event['category']] ; ?>">
+                                        <div class="pull-right">
+                                            <button class="btn btn-sm btn-default edit-event" value="<?php echo $event['id'] ?>" title="<?php echo __('Edit', 'events'); ?>">
+                                                <span class="glyphicon glyphicon-pencil"></span>
+                                            </button>
+                                            <?php echo
+                                                Form::open() .
+                                                Form::hidden('csrf', Security::token()) .
+                                                Form::hidden('delete_event', $event['id']);
+                                            ?>
+                                                <button class="btn btn-sm btn-danger" value="1" onclick="return confirmDelete('<?php echo __('Delete event &quot;:title&quot;', 'events', array(':title' => $event['title'])); ?>')" title="<?php echo __('Delete', 'events'); ?>">
+                                                    <span class="glyphicon glyphicon-remove"></span>
+                                                </button>
+                                            <?php echo Form::close(); ?>
+                                        </div>
+                                        <h4 class="list-group-item-heading"><?php echo $event['title']; ?></h4>
+                                        <p class="list-group-item-text"><?php echo $categories_title[$event['category']]; ?></p>
+                                        <p class="list-group-item-text"><?php echo $event['short']; ?></p>
+                                    </a>
+                                <?php }
+                            } else {
+                                echo __('No draft events', 'events');
                             }
                             ?>
                         </div>
