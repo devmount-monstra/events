@@ -180,7 +180,7 @@ function setColor(type) {
                         <div class="list-group">
                             <?php if (sizeof($pastevents) > 0) {
                                 foreach ($pastevents as $event) { ?>
-                                    <a href="#" class="list-group-item" style="border-left: 5px solid #<?php echo $event['color']; ?>">
+                                    <a href="#" class="list-group-item" style="border-left: 5px solid #<?php echo $event['color'] ? $event['color'] : $categories_color[$event['category']] ; ?>">
                                         <div class="pull-right">
                                             <button class="btn btn-sm btn-default edit-event" value="<?php echo $event['id'] ?>" title="<?php echo __('Edit', 'events'); ?>">
                                                 <span class="glyphicon glyphicon-pencil"></span>
