@@ -151,7 +151,7 @@ function setColor(type) {
                         <div class="list-group">
                             <?php if (sizeof($upcomingevents) > 0) {
                                 foreach ($upcomingevents as $event) { ?>
-                                    <a href="#" class="list-group-item">
+                                    <a href="#" class="list-group-item" style="border-left: 5px solid #<?php echo $event['color'] ? $event['color'] : $categories_color[$event['category']] ; ?>">
                                         <div class="pull-right">
                                             <button class="btn btn-sm btn-default edit-event" value="<?php echo $event['id'] ?>" title="<?php echo __('Edit', 'events'); ?>">
                                                 <span class="glyphicon glyphicon-pencil"></span>
@@ -167,7 +167,7 @@ function setColor(type) {
                                             <?php echo Form::close(); ?>
                                         </div>
                                         <h4 class="list-group-item-heading"><?php echo $event['title']; ?></h4>
-                                        <p class="list-group-item-text"><?php echo $event['timestamp']; ?></p>
+                                        <p class="list-group-item-text"><?php echo $event['category']; ?></p>
                                         <br style="clear: both;" />
                                     </a>
                                 <?php }
@@ -180,7 +180,7 @@ function setColor(type) {
                         <div class="list-group">
                             <?php if (sizeof($pastevents) > 0) {
                                 foreach ($pastevents as $event) { ?>
-                                    <a href="#" class="list-group-item">
+                                    <a href="#" class="list-group-item" style="border-left: 5px solid #<?php echo $event['color']; ?>">
                                         <div class="pull-right">
                                             <button class="btn btn-sm btn-default edit-event" value="<?php echo $event['id'] ?>" title="<?php echo __('Edit', 'events'); ?>">
                                                 <span class="glyphicon glyphicon-pencil"></span>
@@ -312,7 +312,7 @@ function setColor(type) {
                         <div class="list-group">
                             <?php if (sizeof($categories) > 0) {
                                 foreach ($categories as $category) { ?>
-                                    <a href="#" class="list-group-item" style="border-left: 3px solid #<?php echo $category['color']; ?>">
+                                    <a href="#" class="list-group-item" style="border-left: 5px solid #<?php echo $category['color']; ?>">
                                         <div class="pull-right">
                                             <button class="btn btn-sm btn-default edit-category" value="<?php echo $category['id'] ?>" title="<?php echo __('Edit', 'events'); ?>">
                                                 <span class="glyphicon glyphicon-pencil"></span>

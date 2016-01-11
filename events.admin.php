@@ -170,17 +170,20 @@ class EventsAdmin extends Backend
         // get all existing categories from db
         $categories = $categories->select(null, 'all');
         $categories_title = array();
+        $categories_color = array();
         foreach ($categories as $c) {
             $categories_title[$c['id']] = $c['title'];
+            $categories_color[$c['id']] = $c['color'];
         }
         // get all existing events from db
         $upcomingevents = $events->select('[timestamp>=' . $now . ']');
         $pastevents = $events->select('[timestamp<' . $now . ']');
-            
+
         // Display view
         View::factory('events/views/backend/index')
             ->assign('categories', $categories)
             ->assign('categories_title', $categories_title)
+            ->assign('categories_color', $categories_color)
             ->assign('upcomingevents', $upcomingevents)
             ->assign('pastevents', $pastevents)
             ->display();
