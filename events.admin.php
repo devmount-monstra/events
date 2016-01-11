@@ -171,9 +171,11 @@ class EventsAdmin extends Backend
         $categories = $categories->select(null, 'all');
         $categories_title = array();
         $categories_color = array();
+        $categories_count = array();
         foreach ($categories as $c) {
             $categories_title[$c['id']] = $c['title'];
             $categories_color[$c['id']] = $c['color'];
+            $categories_count[$c['id']] = sizeof($events->select('[category=' . $c['id'] . ']'));
         }
         // get all existing events from db
         $upcomingevents = $events->select('[timestamp>=' . $now . ']');
@@ -184,6 +186,7 @@ class EventsAdmin extends Backend
             ->assign('categories', $categories)
             ->assign('categories_title', $categories_title)
             ->assign('categories_color', $categories_color)
+            ->assign('categories_count', $categories_count)
             ->assign('upcomingevents', $upcomingevents)
             ->assign('pastevents', $pastevents)
             ->display();

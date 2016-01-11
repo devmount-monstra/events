@@ -1,3 +1,4 @@
+<?php //var_dump($categories_count); ?>
 <!-- custom plugin styles -->
 <style>
     .events-plugin .row {
@@ -9,6 +10,9 @@
         border-left: 1px solid #ddd;
         border-right: 1px solid #ddd;
         border-bottom: 1px solid #ddd; 
+    }
+    .events-plugin .list-group form {
+        display: inline;
     }
 </style>
 
@@ -167,8 +171,8 @@ function setColor(type) {
                                             <?php echo Form::close(); ?>
                                         </div>
                                         <h4 class="list-group-item-heading"><?php echo $event['title']; ?></h4>
-                                        <p class="list-group-item-text"><?php echo $event['category']; ?></p>
-                                        <br style="clear: both;" />
+                                        <p class="list-group-item-text"><?php echo $categories_title[$event['category']]; ?></p>
+                                        <p class="list-group-item-text"><?php echo $event['short']; ?></p>
                                     </a>
                                 <?php }
                             } else {
@@ -196,8 +200,8 @@ function setColor(type) {
                                             <?php echo Form::close(); ?>
                                         </div>
                                         <h4 class="list-group-item-heading"><?php echo $event['title']; ?></h4>
-                                        <p class="list-group-item-text"><?php echo $event['timestamp']; ?></p>
-                                        <br style="clear: both;" />
+                                        <p class="list-group-item-text"><?php echo $categories_title[$event['category']]; ?></p>
+                                        <p class="list-group-item-text"><?php echo $event['short']; ?></p>
                                     </a>
                                 <?php }
                             } else {
@@ -328,9 +332,8 @@ function setColor(type) {
                                             <?php echo Form::close(); ?>
                                         </div>
                                         <h4 class="list-group-item-heading"><?php echo $category['title']; ?></h4>
-                                        <p class="list-group-item-text"><?php echo $category['color']; ?></p>
+                                        <p class="list-group-item-text"><?php echo $categories_count[$category['id']] . ' ' . __('events assigned', 'events'); ?></p>
                                         <!-- TODO: number of events for each category -->
-                                        <br style="clear: both;" />
                                     </a>
                                 <?php }
                             } else {
