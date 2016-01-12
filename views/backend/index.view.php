@@ -1,4 +1,4 @@
-<?php //var_dump($categories_count); ?>
+<?php //var_dump($directories); ?>
 <!-- custom plugin styles -->
 <style>
     .events-plugin .row {
@@ -416,14 +416,31 @@ function setColor(type) {
             
             <!-- Tab: configuration -->
             <div class="tab-pane" id="configuration">
+                <?php echo
+                    Form::open() .
+                    Form::hidden('csrf', Security::token());
+                ?>
+                <br />
                 <div class="row">
                     <div class="col-md-6">
-                        <!-- TODO: config image directory -->
+                        <!-- config image directory -->
+                        <?php echo
+                            Form::label('events_image_directory', __('Image directory for events', 'events')) .
+                            Form::select('events_image_directory', $directories, Option::get('events_image_directory'), array('class' => 'form-control'));
+                        ?>
                     </div>
                     <div class="col-md-6">
                         <!-- TODO: config audio directory -->
                     </div>
                 </div>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <button type="submit" name="events_options" class="btn btn-lg btn-primary pull-right" value="1" title="<?php echo __('Save', 'events'); ?>">
+                            <?php echo __('Save', 'events'); ?>
+                        </button>
+                    </div>
+                </div>
+                <?php echo Form::close(); ?>
             </div>
         </div>
         
@@ -444,11 +461,6 @@ function setColor(type) {
                 }
             });
         });
-		// $.monstra.fileuploader.init($.extend({}, {uploaderId:'DgDfileUploader'}, <?php echo json_encode($fileuploader); ?>));
-		// $(document).on('uploaded.fuploader', function(){
-		// 	location.href = $.monstra.fileuploader.conf.uploadUrl +'#installnew';
-		// 	window.location.reload(true);
-		// });
     });
 </script>
 
