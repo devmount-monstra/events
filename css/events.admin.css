@@ -13,8 +13,10 @@
     display: inline;
 }
 .events-admin .list-group-item {
-    padding: 10px 12px;
+    padding: 10px 12px 10px 0;
 }
 .events-admin .list-group-item img {
-    height: 60px;
+    height: 80px;
+    margin-top: -10px;
+    margin-right: 10px;
 }

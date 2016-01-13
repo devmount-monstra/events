@@ -121,12 +121,14 @@ function setColor(type) {
     
     <div class="vertical-align margin-bottom-1">
         <div class="text-left row-phone">
-            <h2><?php echo __('Events', 'events'); ?></h2>
+            <?php echo Html::heading(__('Events', 'events'), 2); ?>
         </div>
         <div class="text-right row-phone">
-            <a href="#events" data-toggle="tab" title="New Event" class="btn btn-phone btn-primary">New Event</a>
-            <a href="#categories" data-toggle="tab" title="New Category" class="btn btn-phone btn-primary">New Category</a>
-            <?php echo Html::anchor(__('Documentation', 'events'), '#', array('class' => 'btn btn-phone btn-default readme_plugin', 'data-toggle' => 'modal', 'data-target' => '#readme', 'readme_plugin' => 'events')); ?>
+            <?php echo
+                Html::anchor(__('New Event', 'events'), '#events', array('class' => 'btn btn-phone btn-primary', 'data-toggle' => 'tab', 'title' => __('New Event', 'events'))) . Html::nbsp() .
+                Html::anchor(__('New Category', 'events'), '#categories', array('class' => 'btn btn-phone btn-primary', 'data-toggle' => 'tab', 'title' => __('New Category', 'events'))) . Html::nbsp() .
+                Html::anchor(__('Documentation', 'events'), '#', array('class' => 'btn btn-phone btn-default readme_plugin', 'data-toggle' => 'modal', 'data-target' => '#readme', 'readme_plugin' => 'events'));
+            ?>
         </div>
     </div>
     
@@ -134,9 +136,9 @@ function setColor(type) {
         
         <!-- Tab navigation -->
         <ul class="nav nav-tabs">
-            <li class="active"><a href="#events" data-toggle="tab">Events</a></li>
-            <li><a href="#categories" data-toggle="tab">Categories</a></li>
-            <li><a href="#configuration" data-toggle="tab">Configuration</a></li>
+            <li class="active"><?php echo Html::anchor(__('Events', 'events'), '#events', array('data-toggle' => 'tab')); ?></li>
+            <li><?php echo Html::anchor(__('Categories', 'events'), '#categories', array('data-toggle' => 'tab')); ?></li>
+            <li><?php echo Html::anchor(__('Configuration', 'events'), '#configuration', array('data-toggle' => 'tab')); ?></li>
         </ul>
         
         <!-- Tab content -->
@@ -146,7 +148,7 @@ function setColor(type) {
             <div class="tab-pane active" id="events">
                 <div class="row">
                     <div class="col-md-6">   
-                        <h2><?php echo __('Upcoming events', 'events'); ?></h2>
+                        <?php echo Html::heading(__('Upcoming events', 'events'), 2); ?>
                         <div class="list-group">
                             <?php if (sizeof($upcomingevents) > 0) {
                                 foreach ($upcomingevents as $event) { ?>
@@ -166,9 +168,9 @@ function setColor(type) {
                                             <?php echo Form::close(); ?>
                                         </div>
                                         <div class="pull-left">
-                                            <img src="<?php echo $event['image']; ?>" />
+                                            <?php echo Html::image($event['image']); ?>
                                         </div>
-                                        <h4 class="list-group-item-heading"><?php echo $event['title']; ?></h4>
+                                        <?php echo Html::heading($event['title'], 4, array('class' => 'list-group-item-heading')); ?>
                                         <p class="list-group-item-text"><?php echo $categories_title[$event['category']]; ?></p>
                                         <p class="list-group-item-text"><?php echo $event['short']; ?></p>
                                     </a>
@@ -178,7 +180,7 @@ function setColor(type) {
                             }
                             ?>
                         </div>
-                        <h2><?php echo __('Past events', 'events'); ?></h2>
+                        <?php echo Html::heading(__('Past events', 'events'), 2); ?>
                         <div class="list-group">
                             <?php if (sizeof($pastevents) > 0) {
                                 foreach ($pastevents as $event) { ?>
@@ -197,7 +199,7 @@ function setColor(type) {
                                                 </button>
                                             <?php echo Form::close(); ?>
                                         </div>
-                                        <h4 class="list-group-item-heading"><?php echo $event['title']; ?></h4>
+                                        <?php echo Html::heading($event['title'], 4, array('class' => 'list-group-item-heading')); ?>
                                         <p class="list-group-item-text"><?php echo $categories_title[$event['category']]; ?></p>
                                         <p class="list-group-item-text"><?php echo $event['short']; ?></p>
                                     </a>
@@ -207,7 +209,7 @@ function setColor(type) {
                             }
                             ?>
                         </div>
-                        <h2><?php echo __('Draft events', 'events'); ?></h2>
+                        <?php echo Html::heading(__('Draft events', 'events'), 2); ?>
                         <div class="list-group">
                             <?php if (sizeof($draftevents) > 0) {
                                 foreach ($draftevents as $event) { ?>
@@ -226,7 +228,7 @@ function setColor(type) {
                                                 </button>
                                             <?php echo Form::close(); ?>
                                         </div>
-                                        <h4 class="list-group-item-heading"><?php echo $event['title']; ?></h4>
+                                        <?php echo Html::heading($event['title'], 4, array('class' => 'list-group-item-heading')); ?>
                                         <p class="list-group-item-text"><?php echo $categories_title[$event['category']]; ?></p>
                                         <p class="list-group-item-text"><?php echo $event['short']; ?></p>
                                     </a>
@@ -238,8 +240,8 @@ function setColor(type) {
                         </div>
                     </div>
                     <div class="col-md-6">
-                        <h2 id="add-edit-title-event"><?php echo __('Add event', 'events'); ?></h2>
                         <?php echo
+                            Html::heading(__('Add event', 'events'), 2, array('class' => 'add-edit-title-event')) .
                             Form::open(Null, array('id' => 'add-edit-events')) .
                             Form::hidden('csrf', Security::token());
                         ?>
@@ -344,7 +346,7 @@ function setColor(type) {
             <div class="tab-pane" id="categories">
                 <div class="row">
                     <div class="col-md-6">
-                        <h2><?php echo __('Categories', 'events'); ?></h2>
+                        <?php echo Html::heading(__('Categories', 'events'), 2); ?>
                         <div class="list-group">
                             <?php if (sizeof($categories) > 0) {
                                 foreach ($categories as $category) { ?>
@@ -363,7 +365,7 @@ function setColor(type) {
                                                 </button>
                                             <?php echo Form::close(); ?>
                                         </div>
-                                        <h4 class="list-group-item-heading"><?php echo $category['title']; ?></h4>
+                                        <?php echo Html::heading($category['title'], 4, array('class' => 'list-group-item-heading')); ?>
                                         <p class="list-group-item-text"><?php echo $categories_count[$category['id']] . ' ' . __('events assigned', 'events'); ?></p>
                                         <!-- TODO: number of events for each category -->
                                     </a>
@@ -375,8 +377,8 @@ function setColor(type) {
                         </div>
                     </div>
                     <div class="col-md-6">
-                        <h2 id="add-edit-title-category"><?php echo __('Add category', 'events'); ?></h2>
                         <?php echo
+                            Html::heading(__('Add category', 'events'), 2, array('class' => 'add-edit-title-category')) .
                             Form::open(Null, array('id' => 'add-edit-categories')) .
                             Form::hidden('csrf', Security::token());
                         ?>
@@ -410,9 +412,9 @@ function setColor(type) {
             <div class="tab-pane" id="configuration">
                 <?php echo
                     Form::open() .
-                    Form::hidden('csrf', Security::token());
+                    Form::hidden('csrf', Security::token()) .
+                    HTML::br();
                 ?>
-                <br />
                 <div class="row">
                     <div class="col-md-6">
                         <!-- config image directory -->
