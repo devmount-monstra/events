@@ -2,112 +2,6 @@
 
 <!-- custom plugin script -->
 <script src="//cdn.jsdelivr.net/jquery.scrollto/2.1.2/jquery.scrollTo.min.js"></script>
-<script type="text/javascript">
-$(document).ready(function(){
-    // color field
-    $('#event-color').on('input change paste keyup', function(){
-        setColor(this);
-    });
-    $('#category-color').on('input change paste keyup', function(){
-        setColor(this);
-    });
-    // handle event form
-    $('.btn.edit-event').click(function(e){
-        handleForm('event', $(this).val());
-        e.preventDefault();
-    });
-    // handle category form
-    $('.btn.edit-category').click(function(e){
-        handleForm('category', $(this).val());
-        e.preventDefault();
-    });
-
-    // handle remote activate tab, clear 'edit' form to 'new' form
-    $('.btn[data-toggle=tab]').click(function(){
-        var type = $(this).attr("href").substring(1);
-        $('.nav-tabs li.active').toggleClass('active');
-        $('.nav-tabs li a[href="#' + type + '"]').parent().toggleClass('active');
-        $('#focus-' + type).focus();
-        $('#add-edit-' + type + ' .clear').each(function(){
-            $(this).val('');
-        });
-        switch(type) {
-            case 'events': shorttype = 'event'; break;
-            case 'categories': shorttype = 'category'; break;
-            default: break;
-        }
-        $('#add-edit-title-' + shorttype).html('<?php echo __('Add', 'events'); ?> ' + shorttype);
-        $('#add-edit-submit-' + shorttype)
-            .attr('name', 'add_' + shorttype)
-            .val(1)
-            .attr('title', '<?php echo __('Add', 'events'); ?>')
-            .text('<?php echo __('Add', 'events'); ?>');
-    })
-});
-
-// handle form / ajax
-// @param type: ['event', 'category']
-// @param id:   of record to edit
-function handleForm(type, id) {
-    $.ajax({
-        type: 'post',
-        data: 'edit_' + type + '_id=' + id,
-        url: '<?php echo Site::url(); ?>/admin/index.php?id=events',
-        // on success: modify formula to edit
-        success: function(data){
-            switch (type) {
-                case 'event':
-                    var event = JSON.parse(data);
-                    var date = event.timestamp ? new Date(event.timestamp * 1000).toISOString().slice(0, -1) : '';
-                    // change title
-                    $('#add-edit-title-event').html('<?php echo __('Edit event', 'events'); ?> ' + event.title);
-                    // insert existing values
-                    $('input[name="event_title"]').val(event.title);
-                    $('input[name="event_timestamp"]').val(date);
-                    $('select[name="event_category"]').val(event.category);
-                    $('input[name="event_date"]').val(event.date);
-                    $('input[name="event_time"]').val(event.time);
-                    $('input[name="event_location"]').val(event.location);
-                    $('input[name="event_short"]').val(event.short);
-                    $('textarea[name="event_description"]').val(event.description);
-                    $('select[name="event_image"]').val(event.image);
-                    $('input[name="event_audio"]').val(event.audio);
-                    $('input[name="event_color"]').val(event.color);
-                    break;
-                case 'category':
-                    var category = JSON.parse(data);
-                    // change title
-                    $('#add-edit-title-category').html('<?php echo __('Edit category', 'events'); ?> ' + category.title);
-                    // insert existing values
-                    $('input[name="category_title"]').val(category.title);
-                    $('input[name="category_color"]').val(category.color);
-                    break;
-                default:
-                    break;
-            }
-            // set color
-            setColor('#' + type + '-color');
-            // change input name to id edit
-            $('#add-edit-submit-' + type)
-                .attr('name', 'edit_' + type)
-                .val(id)
-                .attr('title', '<?php echo __('Update', 'events'); ?>')
-                .text('<?php echo __('Update', 'events'); ?>');
-            $(window).scrollTo($('#add-edit-title-' + type), 200);
-        }
-    });
-}
-
-// set color of input field
-function setColor(type) {
-    var color = $(type).val();
-    if (color.length == 3 || color.length == 6) {
-        $(type).css('background-image', 'linear-gradient(to right, #fff, #fff 70%, #' + color + ' 70%)');
-    } else {
-        $(type).css('background-image', 'none');
-    }
-}
-</script>
 
 <!-- notifications -->
 <?php
@@ -115,6 +9,15 @@ function setColor(type) {
     Notification::get('warning') AND Alert::warning(Notification::get('warning'));
     Notification::get('error')   AND Alert::error(Notification::get('error'));
 ?>
+
+<!-- PHP output for JS -->
+<?php echo
+    Form::hidden('output_add', __('Add', 'events')) .
+    Form::hidden('output_editevent', __('Edit event', 'events')) .
+    Form::hidden('output_editcategory', __('Edit category', 'events')) .
+    Form::hidden('output_update', __('Update', 'events'));
+?>
+
 
 <!-- content -->
 <div class='events-admin'>
@@ -167,7 +70,7 @@ function setColor(type) {
                                                 </button>
                                             <?php echo Form::close(); ?>
                                         </div>
-                                        <div class="pull-left">
+                                        <div class="pull-left event-image">
                                             <?php echo Html::image($event['image']); ?>
                                         </div>
                                         <?php echo Html::heading($event['title'], 4, array('class' => 'list-group-item-heading')); ?>
@@ -241,7 +144,7 @@ function setColor(type) {
                     </div>
                     <div class="col-md-6">
                         <?php echo
-                            Html::heading(__('Add event', 'events'), 2, array('class' => 'add-edit-title-event')) .
+                            Html::heading(__('Add event', 'events'), 2, array('id' => 'add-edit-title-event')) .
                             Form::open(Null, array('id' => 'add-edit-events')) .
                             Form::hidden('csrf', Security::token());
                         ?>
@@ -378,7 +281,7 @@ function setColor(type) {
                     </div>
                     <div class="col-md-6">
                         <?php echo
-                            Html::heading(__('Add category', 'events'), 2, array('class' => 'add-edit-title-category')) .
+                            Html::heading(__('Add category', 'events'), 2, array('id' => 'add-edit-title-category')) .
                             Form::open(Null, array('id' => 'add-edit-categories')) .
                             Form::hidden('csrf', Security::token());
                         ?>
@@ -441,22 +344,6 @@ function setColor(type) {
     </div>
 
 </div>
-
-<!-- modal: readme greybox script -->
-<script>
-    $(document).ready(function () {
-        $('.readme_plugin').click(function() {
-            $.ajax({
-                type:'post',
-                data:'readme_plugin='+$(this).attr('readme_plugin'),
-                url: '<?php echo Site::url(); ?>/admin/index.php?id=plugins',
-                success: function(data){
-                    $('#readme .modal-body').html(data);
-                }
-            });
-        });
-    });
-</script>
 
 <!-- modal: markup -->
 <div class="modal fade" id="readme" tabindex="-1" role="dialog" aria-hidden="true">

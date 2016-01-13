@@ -15,8 +15,14 @@
 .events-admin .list-group-item {
     padding: 10px 12px 10px 0;
 }
-.events-admin .list-group-item img {
+.events-admin .list-group-item .event-image {
     height: 80px;
+    width: 80px;
+    overflow: hidden;
     margin-top: -10px;
     margin-right: 10px;
+}
+
+.events-admin .list-group-item .event-image img {
+    width: 80px;
 }
