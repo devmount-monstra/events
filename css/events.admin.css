@@ -1,0 +1,20 @@
+/* Events plugin: backend styles */
+.events-admin .row {
+    margin-bottom: 10px;
+}
+.events-admin .tab-content {
+    background: #fff;
+    padding: 0 10px;
+    border-left: 1px solid #ddd;
+    border-right: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
+}
+.events-admin .list-group form {
+    display: inline;
+}
+.events-admin .list-group-item {
+    padding: 10px 12px;
+}
+.events-admin .list-group-item img {
+    height: 60px;
+}

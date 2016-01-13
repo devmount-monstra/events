@@ -16,6 +16,8 @@ defined('MONSTRA_ACCESS') or die('No direct script access.');
  *
  */
 
+// Add plugin styles
+Stylesheet::add('plugins/events/css/events.admin.css', 'backend', 11);
 
 // Admin Navigation: add new item
 Navigation::add(__('Events', 'events'), 'content', 'events', 10);

@@ -1,26 +1,4 @@
 <?php //var_dump($directories); ?>
-<!-- custom plugin styles -->
-<style>
-    .events-plugin .row {
-        margin-bottom: 10px;
-    }
-    .events-plugin .tab-content {
-        background: #fff;
-        padding: 0 10px;
-        border-left: 1px solid #ddd;
-        border-right: 1px solid #ddd;
-        border-bottom: 1px solid #ddd;
-    }
-    .events-plugin .list-group form {
-        display: inline;
-    }
-    .events-plugin .list-group-item {
-        padding: 10px 12px;
-    }
-    .events-plugin .list-group-item img {
-        height: 60px;
-    }
-</style>
 
 <!-- custom plugin script -->
 <script src="//cdn.jsdelivr.net/jquery.scrollto/2.1.2/jquery.scrollTo.min.js"></script>
@@ -139,7 +117,7 @@ function setColor(type) {
 ?>
 
 <!-- content -->
-<div class='events-plugin'>
+<div class='events-admin'>
     
     <div class="vertical-align margin-bottom-1">
         <div class="text-left row-phone">
