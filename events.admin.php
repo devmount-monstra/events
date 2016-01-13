@@ -212,7 +212,7 @@ class EventsAdmin extends Backend
         // Get files
         if (isset($_list['files'])) {
             foreach ($_list['files'] as $fls) {
-                $files[$fls] = $fls;
+                $files[Site::url() . DS . 'public' . DS . 'uploads' . DS . Option::get('events_image_directory') . DS . $fls] = $fls;
             }
         }
         
@@ -227,6 +227,8 @@ class EventsAdmin extends Backend
             ->assign('pastevents', $pastevents)
             ->assign('draftevents', $draftevents)
             ->assign('directories', $directories)
+            ->assign('files', $files)
+            ->assign('path', $path)
             ->display();
     }
 

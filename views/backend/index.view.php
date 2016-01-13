@@ -14,6 +14,12 @@
     .events-plugin .list-group form {
         display: inline;
     }
+    .events-plugin .list-group-item {
+        padding: 10px 12px;
+    }
+    .events-plugin .list-group-item img {
+        height: 60px;
+    }
 </style>
 
 <!-- custom plugin script -->
@@ -86,7 +92,7 @@ function handleForm(type, id) {
                     $('input[name="event_location"]').val(event.location);
                     $('input[name="event_short"]').val(event.short);
                     $('textarea[name="event_description"]').val(event.description);
-                    $('input[name="event_image"]').val(event.image);
+                    $('select[name="event_image"]').val(event.image);
                     $('input[name="event_audio"]').val(event.audio);
                     $('input[name="event_color"]').val(event.color);
                     break;
@@ -180,6 +186,9 @@ function setColor(type) {
                                                     <span class="glyphicon glyphicon-remove"></span>
                                                 </button>
                                             <?php echo Form::close(); ?>
+                                        </div>
+                                        <div class="pull-left">
+                                            <img src="<?php echo $event['image']; ?>" />
                                         </div>
                                         <h4 class="list-group-item-heading"><?php echo $event['title']; ?></h4>
                                         <p class="list-group-item-text"><?php echo $categories_title[$event['category']]; ?></p>
@@ -324,9 +333,14 @@ function setColor(type) {
                         </div>
                         <div class="row">
                             <div class="col-sm-6">
-                                <?php echo
-                                    Form::label('event_image', __('Image file', 'events')) .
-                                    Form::input('event_image', Null, array('class' => 'form-control clear'));
+                                <?php
+                                    echo Form::label('event_image', __('Image file', 'events'));
+                                    // Form::input('event_image', Null, array('class' => 'form-control clear'));
+                                    if (sizeof($files)>1) {
+                                        echo Form::select('event_image', $files, Null, array('class' => 'form-control'));
+                                    } else {
+                                        echo Form::select('event_image', array(), Null, array('class' => 'form-control', 'disabled' => 'disabled', 'title' => __('No file available in configured image directory', 'events')));
+                                    }
                                 ?>
                             </div>
                             <div class="col-sm-6">
