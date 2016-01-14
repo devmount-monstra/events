@@ -13,6 +13,7 @@
     display: inline;
 }
 .events-admin .list-group-item {
+    position: relative;
     padding: 10px 12px;
 }
 .events-admin .list-group-item .event-image {

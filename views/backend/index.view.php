@@ -70,9 +70,9 @@
                                                 </button>
                                             <?php echo Form::close(); ?>
                                         </div>
-                                        <?php echo Html::anchor('', $event['image'], array('rel' => $event['image'], 'class' => 'chocolat pull-left event-image section-' . $event['imagesection'], 'data-toggle' => 'lightbox', 'style' => 'background-image: url(' . $event['image'] . ')'));?>
+                                        <?php if ($event['image']) echo Html::anchor('', $event['image'], array('rel' => $event['image'], 'class' => 'chocolat pull-left event-image section-' . $event['imagesection'], 'data-toggle' => 'lightbox', 'style' => 'background-image: url(' . $event['image'] . ')'));?>
                                         <?php echo Html::heading($event['title'], 4, array('class' => 'list-group-item-heading')); ?>
-                                        <p class="list-group-item-text"><?php echo $categories_title[$event['category']]; ?></p>
+                                        <p class="list-group-item-text"><?php echo $categories_title[$event['category']] . ($event['date'] ? ' — ' . $event['date'] . ' ' . $event['time'] : ''); ?></p>
                                         <p class="list-group-item-text"><?php echo $event['short']; ?></p>
                                     </div>
                                 <?php }
@@ -85,7 +85,7 @@
                         <div class="list-group">
                             <?php if (sizeof($pastevents) > 0) {
                                 foreach ($pastevents as $event) { ?>
-                                    <a href="#" class="list-group-item" style="border-left: 5px solid #<?php echo $event['color'] ? $event['color'] : $categories_color[$event['category']] ; ?>">
+                                    <div class="list-group-item" style="border-left: 5px solid #<?php echo $event['color'] ? $event['color'] : $categories_color[$event['category']] ; ?>">
                                         <div class="pull-right">
                                             <button class="btn btn-sm btn-default edit-event" value="<?php echo $event['id'] ?>" title="<?php echo __('Edit', 'events'); ?>">
                                                 <span class="glyphicon glyphicon-pencil"></span>
@@ -100,10 +100,11 @@
                                                 </button>
                                             <?php echo Form::close(); ?>
                                         </div>
+                                        <?php if ($event['image']) echo Html::anchor('', $event['image'], array('rel' => $event['image'], 'class' => 'chocolat pull-left event-image section-' . $event['imagesection'], 'data-toggle' => 'lightbox', 'style' => 'background-image: url(' . $event['image'] . ')'));?>
                                         <?php echo Html::heading($event['title'], 4, array('class' => 'list-group-item-heading')); ?>
-                                        <p class="list-group-item-text"><?php echo $categories_title[$event['category']]; ?></p>
+                                        <p class="list-group-item-text"><?php echo $categories_title[$event['category']] . ($event['date'] ? ' — ' . $event['date'] . ' ' . $event['time'] : ''); ?></p>
                                         <p class="list-group-item-text"><?php echo $event['short']; ?></p>
-                                    </a>
+                                    </div>
                                 <?php }
                             } else {
                                 echo __('No past events', 'events');
@@ -114,7 +115,7 @@
                         <div class="list-group">
                             <?php if (sizeof($draftevents) > 0) {
                                 foreach ($draftevents as $event) { ?>
-                                    <a href="#" class="list-group-item" style="border-left: 5px solid #<?php echo $event['color'] ? $event['color'] : $categories_color[$event['category']] ; ?>">
+                                    <div class="list-group-item" style="border-left: 5px solid #<?php echo $event['color'] ? $event['color'] : $categories_color[$event['category']] ; ?>">
                                         <div class="pull-right">
                                             <button class="btn btn-sm btn-default edit-event" value="<?php echo $event['id'] ?>" title="<?php echo __('Edit', 'events'); ?>">
                                                 <span class="glyphicon glyphicon-pencil"></span>
@@ -129,10 +130,11 @@
                                                 </button>
                                             <?php echo Form::close(); ?>
                                         </div>
+                                        <?php if ($event['image']) echo Html::anchor('', $event['image'], array('rel' => $event['image'], 'class' => 'chocolat pull-left event-image section-' . $event['imagesection'], 'data-toggle' => 'lightbox', 'style' => 'background-image: url(' . $event['image'] . ')'));?>
                                         <?php echo Html::heading($event['title'], 4, array('class' => 'list-group-item-heading')); ?>
-                                        <p class="list-group-item-text"><?php echo $categories_title[$event['category']]; ?></p>
+                                        <p class="list-group-item-text"><?php echo $categories_title[$event['category']] . ($event['date'] ? ' — ' . $event['date'] . ' ' . $event['time'] : ''); ?></p>
                                         <p class="list-group-item-text"><?php echo $event['short']; ?></p>
-                                    </a>
+                                    </div>
                                 <?php }
                             } else {
                                 echo __('No draft events', 'events');
