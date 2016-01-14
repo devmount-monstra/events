@@ -13,31 +13,54 @@
     display: inline;
 }
 .events-admin .list-group-item {
-    padding: 10px 12px 10px 0;
+    padding: 10px 12px;
 }
 .events-admin .list-group-item .event-image {
     height: 80px;
     width: 80px;
-    overflow: hidden;
-    margin-top: -10px;
-    margin-right: 10px;
+    margin: -10px 12px 0 -12px;
 }
 
-.events-admin .list-group-item .event-image img {
-    width: 80px;
+.events-admin .list-group-item .event-image.section-b,
+.events-admin .list-group-item .event-image.section-m,
+.events-admin .list-group-item .event-image.section-t {
+    background-size: 80px auto;
+}
+.events-admin .list-group-item .event-image.section-l,
+.events-admin .list-group-item .event-image.section-c,
+.events-admin .list-group-item .event-image.section-r {
+    background-size: auto 80px;
+}
+.events-admin .list-group-item .event-image.section-t {
+    background-position: top;
+}
+.events-admin .list-group-item .event-image.section-b {
+    background-position: bottom;
+}
+.events-admin .list-group-item .event-image.section-l {
+    background-position: left;
+}
+.events-admin .list-group-item .event-image.section-r {
+    background-position: right;
+}
+.events-admin .list-group-item .event-image.section-c,
+.events-admin .list-group-item .event-image.section-m {
+    background-position: center;
 }
 
 .events-admin .image-section {
     display: block;
-    margin: 5px 2px 0 0;
+    margin-top: 5px;
     border: 1px solid #999;
+}
+.events-admin .image-section-label {
+    text-align: center;
 }
 .events-admin .image-section.section-landscape {
     width: 30px;
     height: 22px;
 }
 .events-admin .image-section.section-portrait {
-    margin-right: 10px;
     width: 22px;
     height: 30px;
 }
@@ -47,8 +70,11 @@
 .events-admin .image-section.section-bottom {
     background: linear-gradient(to top, #ccc, #ccc 20px, #fff 20px);
 }
-.events-admin .image-section.section-center {
+.events-admin .image-section.section-middle {
     background: linear-gradient(to top, #fff, #fff 4px, #ccc 4px, #ccc 24px, #fff 24px);
+}
+.events-admin .image-section.section-center {
+    background: linear-gradient(to left, #fff, #fff 4px, #ccc 4px, #ccc 24px, #fff 24px);
 }
 .events-admin .image-section.section-left {
     background: linear-gradient(to right, #ccc, #ccc 20px, #fff 20px);

@@ -41,6 +41,12 @@ $(document).ready(function () {
             .val(1)
             .attr('title', $('#output_add').val())
             .text($('#output_add').val());
+        $('input[name="event_imagesection"]').attr("checked", false);
+        $('.image-section-label>div.checked').removeClass('checked');
+        $('input[name="event_imagesection"][value="m"]').attr('checked', 'checked');
+        $('input[name="event_imagesection"][value="m"]').parent().attr('aria-checked', true);
+        $('input[name="event_imagesection"][value="m"]').parent().addClass('checked');
+
     })
     
     // modal: readme greybox script
@@ -82,12 +88,12 @@ function handleForm(type, id) {
                     $('input[name="event_short"]').val(event.short);
                     $('textarea[name="event_description"]').val(event.description);
                     $('select[name="event_image"]').val(event.image);
-                    if (event.imagesection === '') event.imagesection = 'c';
+                    if (event.imagesection === '') event.imagesection = 'm';
                     $('input[name="event_imagesection"]').attr("checked", false);
-                        $('.event_imagesection>div.checked').toggleClass('checked');
+                        $('.image-section-label>div.checked').removeClass('checked');
                         $('input[name="event_imagesection"][value="' + event.imagesection + '"]').attr('checked', 'checked');
                         $('input[name="event_imagesection"][value="' + event.imagesection + '"]').parent().attr('aria-checked', true);
-                        $('input[name="event_imagesection"][value="' + event.imagesection + '"]').parent().toggleClass('checked');
+                        $('input[name="event_imagesection"][value="' + event.imagesection + '"]').parent().addClass('checked');
                     $('input[name="event_audio"]').val(event.audio);
                     $('input[name="event_color"]').val(event.color);
                     break;

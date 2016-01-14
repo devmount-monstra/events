@@ -70,9 +70,7 @@
                                                 </button>
                                             <?php echo Form::close(); ?>
                                         </div>
-                                        <div class="pull-left event-image">
-                                            <?php echo Html::image($event['image']); ?>
-                                        </div>
+                                        <div class="pull-left event-image section-<?php echo $event['imagesection'] ?>" style="background-image: url(<?php echo $event['image']?>)"></div>
                                         <?php echo Html::heading($event['title'], 4, array('class' => 'list-group-item-heading')); ?>
                                         <p class="list-group-item-text"><?php echo $categories_title[$event['category']]; ?></p>
                                         <p class="list-group-item-text"><?php echo $event['short']; ?></p>
@@ -237,11 +235,12 @@
                                 <?php echo
                                     Form::label('event_imagesection', __('Clip image', 'events')) . Html::br();
                                 ?>
-                                <label class="event_imagesection" title="Clip to top"><?php echo Form::radio('event_imagesection', 't'); ?><span class="image-section section-portrait section-top"></span></label>
-                                <label class="event_imagesection" title="Clip to bottom"><?php echo Form::radio('event_imagesection', 'b'); ?><span class="image-section section-portrait section-bottom"></span></label>
-                                <label class="event_imagesection" title="Clip to center"><?php echo Form::radio('event_imagesection', 'c', True); ?><span class="image-section section-portrait section-center"></span></label>
-                                <label class="event_imagesection" title="Clip to left"><?php echo Form::radio('event_imagesection', 'l'); ?><span class="image-section section-landscape section-left"></span></label>
-                                <label class="event_imagesection" title="Clip to right"><?php echo Form::radio('event_imagesection', 'r'); ?><span class="image-section section-landscape section-right"></span></label>
+                                <label class="image-section-label" title="Clip to top"><?php echo Form::radio('event_imagesection', 't'); ?><span class="image-section section-portrait section-top"></span></label>
+                                <label class="image-section-label" title="Clip to middle"><?php echo Form::radio('event_imagesection', 'm', True); ?><span class="image-section section-portrait section-middle"></span></label>
+                                <label class="image-section-label" title="Clip to bottom"><?php echo Form::radio('event_imagesection', 'b'); ?><span class="image-section section-portrait section-bottom"></span></label>
+                                <label class="image-section-label" title="Clip to left"><?php echo Form::radio('event_imagesection', 'l'); ?><span class="image-section section-landscape section-left"></span></label>
+                                <label class="image-section-label" title="Clip to center"><?php echo Form::radio('event_imagesection', 'c'); ?><span class="image-section section-landscape section-center"></span></label>
+                                <label class="image-section-label" title="Clip to right"><?php echo Form::radio('event_imagesection', 'r'); ?><span class="image-section section-landscape section-right"></span></label>
                             </div>
                             <div class="col-sm-6">
                             </div>
