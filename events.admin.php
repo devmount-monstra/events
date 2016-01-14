@@ -74,6 +74,7 @@ class EventsAdmin extends Backend
                         'short' => (string) Request::post('event_short'),
                         'description' => (string) Request::post('event_description'),
                         'image' => (string) Request::post('event_image'),
+                        'imagesection' => (string) Request::post('event_imagesection'),
                         'audio' => (string) Request::post('event_audio'),
                         'color' => (string) Request::post('event_color'),
                     )
@@ -100,6 +101,7 @@ class EventsAdmin extends Backend
                         'short' => (string) Request::post('event_short'),
                         'description' => (string) Request::post('event_description'),
                         'image' => (string) Request::post('event_image'),
+                        'imagesection' => (string) Request::post('event_imagesection'),
                         'audio' => (string) Request::post('event_audio'),
                         'color' => (string) Request::post('event_color'),
                     )

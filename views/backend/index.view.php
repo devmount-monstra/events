@@ -218,7 +218,6 @@
                             <div class="col-sm-6">
                                 <?php
                                     echo Form::label('event_image', __('Image file', 'events'));
-                                    // Form::input('event_image', Null, array('class' => 'form-control clear'));
                                     if (sizeof($files)>1) {
                                         echo Form::select('event_image', $files, Null, array('class' => 'form-control'));
                                     } else {
@@ -231,6 +230,20 @@
                                     Form::label('event_audio', __('Audio file', 'events')) .
                                     Form::input('event_audio', Null, array('class' => 'form-control clear'));
                                 ?>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <?php echo
+                                    Form::label('event_imagesection', __('Clip image', 'events')) . Html::br();
+                                ?>
+                                <label class="event_imagesection" title="Clip to top"><?php echo Form::radio('event_imagesection', 't'); ?><span class="image-section section-portrait section-top"></span></label>
+                                <label class="event_imagesection" title="Clip to bottom"><?php echo Form::radio('event_imagesection', 'b'); ?><span class="image-section section-portrait section-bottom"></span></label>
+                                <label class="event_imagesection" title="Clip to center"><?php echo Form::radio('event_imagesection', 'c', True); ?><span class="image-section section-portrait section-center"></span></label>
+                                <label class="event_imagesection" title="Clip to left"><?php echo Form::radio('event_imagesection', 'l'); ?><span class="image-section section-landscape section-left"></span></label>
+                                <label class="event_imagesection" title="Clip to right"><?php echo Form::radio('event_imagesection', 'r'); ?><span class="image-section section-landscape section-right"></span></label>
+                            </div>
+                            <div class="col-sm-6">
                             </div>
                         </div>
                         <div class="row">

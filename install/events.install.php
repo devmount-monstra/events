@@ -14,6 +14,7 @@ $e->addField('location');
 $e->addField('short');
 $e->addField('description');
 $e->addField('image');
+$e->addField('imagesection');
 $e->addField('audio');
 $e->addField('color');
 
