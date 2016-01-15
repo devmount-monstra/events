@@ -29,6 +29,7 @@ $(document).ready(function () {
         $('#add-edit-' + type + ' .clear').each(function(){
             $(this).val('');
         });
+        $('#event_category').val($('#event_category>option:first-child').val());
         var shorttype;
         switch(type) {
             case 'events': shorttype = 'event'; break;
