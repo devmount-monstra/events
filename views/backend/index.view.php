@@ -177,17 +177,18 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-sm-9">
+                            <div class="col-sm-6">
                                 <?php echo
                                     Form::label('event_category', __('Category', 'events')) .
                                     Form::select('event_category', $categories_title, Null, array('class' => 'form-control clear', 'required' => 'required'));
                                 ?>
                             </div>
-                            <div class="col-sm-3">
-                                <?php echo
-                                    Form::label('event_color', __('Color', 'events')) .
-                                    Form::input('event_color', '', array('class' => 'form-control clear', 'id' => 'event-color', 'placeholder' => '#'));
-                                ?>
+                            <div class="col-sm-6">
+                                <?php echo Form::label('event-color', __('Color', 'events')); ?>
+                                <div class="input-group">
+                                    <span class="input-group-addon" id="event-color-addon">#</span>
+                                    <?php echo Form::input('event_color', '', array('class' => 'form-control clear', 'id' => 'event-color', 'aria-describedby' => 'event-color-addon')); ?>
+                                </div>
                             </div>
                         </div>
                         <div class="row">
@@ -300,17 +301,18 @@
                             Form::hidden('csrf', Security::token());
                         ?>
                         <div class="row">
-                            <div class="col-sm-9">
+                            <div class="col-sm-6">
                                 <?php echo
                                     Form::label('category_title', __('Title', 'events')) .
                                     Form::input('category_title', Null, array('class' => 'form-control clear', 'id' => 'focus-categories', 'required' => 'required'));
                                 ?>
                             </div>
-                            <div class="col-sm-3">
-                                <?php echo
-                                    Form::label('category_color', __('Color', 'events')) .
-                                    Form::input('category_color', '', array('class' => 'form-control clear', 'id' => 'category-color', 'placeholder' => '#'));
-                                ?>
+                            <div class="col-sm-6">
+                                <?php echo Form::label('category-color', __('Color', 'events')); ?>
+                                <div class="input-group">
+                                    <span class="input-group-addon" id="category-color-addon">#</span>
+                                    <?php echo Form::input('category_color', '', array('class' => 'form-control clear', 'id' => 'category-color', 'aria-describedby' => 'category-color-addon')); ?>
+                                </div>
                             </div>
                         </div>
                         <div class="row">

@@ -4,10 +4,10 @@ $(document).ready(function () {
     
     // color field
     $('#event-color').on('input change paste keyup', function(){
-        setColor(this);
+        setColor('event');
     });
     $('#category-color').on('input change paste keyup', function(){
-        setColor(this);
+        setColor('category');
     });
     // handle event form
     $('.btn.edit-event').click(function(e){
@@ -110,7 +110,7 @@ function handleForm(type, id) {
                     break;
             }
             // set color
-            setColor('#' + type + '-color');
+            setColor(type);
             // change input name to id edit
             $('#add-edit-submit-' + type)
                 .attr('name', 'edit_' + type)
@@ -125,10 +125,10 @@ function handleForm(type, id) {
 
 // set color of input field
 function setColor(type) {
-    var color = $(type).val();
+    var color = $('#' + type + '-color').val();
     if (color.length == 3 || color.length == 6) {
-        $(type).css('background-image', 'linear-gradient(to right, #fff, #fff 70%, #' + color + ' 70%)');
+        $('#' + type + '-color').css('background-image', 'linear-gradient(to right, #fff, #fff 80%, #' + color + ' 80%)');
     } else {
-        $(type).css('background-image', 'none');
+        $('#' + type + '-color').css('background', 'none');
     }
 }
