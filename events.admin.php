@@ -67,6 +67,7 @@ class EventsAdmin extends Backend
                     array(
                         'title' => (string) Request::post('event_title'),
                         'timestamp' => strtotime(Request::post('event_timestamp')),
+                        'deleted' => 0,
                         'category' => (int) Request::post('event_category'),
                         'date' => (string) Request::post('event_date'),
                         'time' => (string) Request::post('event_time'),
@@ -94,6 +95,7 @@ class EventsAdmin extends Backend
                     array(
                         'title' => (string) Request::post('event_title'),
                         'timestamp' => strtotime(Request::post('event_timestamp')),
+                        'deleted' => 0,
                         'category' => (int) Request::post('event_category'),
                         'date' => (string) Request::post('event_date'),
                         'time' => (string) Request::post('event_time'),
@@ -113,24 +115,47 @@ class EventsAdmin extends Backend
                 die();
             }
         }
-        // Request: delete event
-        if (Request::post('delete_event')) {
+        // Request: restore event
+        if (Request::post('restore_trash_event')) {
             if (Security::check(Request::post('csrf'))) {
-                $events->delete(Request::post('delete_event'));
-                Notification::setNow('success', __('Event has been deleted with success!', 'events'));
+                $events->update((int) Request::post('restore_trash_event'), array('deleted' => 0));
+                Notification::setNow('success', __('Event has been restored from trash with success!', 'events'));
             }
             else {
                 Notification::setNow('error', __('Request was denied. Invalid security token. Please refresh the page and try again.', 'events'));
                 die();
             }
         }
-        
+        // Request: delete event
+        if (Request::post('delete_event')) {
+            if (Security::check(Request::post('csrf'))) {
+                $events->update((int) Request::post('delete_event'), array('deleted' => 1));
+                Notification::setNow('success', __('Event has been moved to trash with success!', 'events'));
+            }
+            else {
+                Notification::setNow('error', __('Request was denied. Invalid security token. Please refresh the page and try again.', 'events'));
+                die();
+            }
+        }
+        // Request: delete trash event
+        if (Request::post('delete_trash_event')) {
+            if (Security::check(Request::post('csrf'))) {
+                $events->delete(Request::post('delete_trash_event'));
+                Notification::setNow('success', __('Event has been deleted permanently with success!', 'events'));
+            }
+            else {
+                Notification::setNow('error', __('Request was denied. Invalid security token. Please refresh the page and try again.', 'events'));
+                die();
+            }
+        }
+
         // Request: add category
         if (Request::post('add_category')) {
             if (Security::check(Request::post('csrf'))) {
                 $categories->insert(
                     array(
                         'title' => (string) Request::post('category_title'),
+                        'deleted' => 0,
                         'color' => (string) Request::post('category_color'),
                     )
                 );
@@ -148,6 +173,7 @@ class EventsAdmin extends Backend
                     (int) Request::post('edit_category'),
                     array(
                         'title' => (string) Request::post('category_title'),
+                        'deleted' => 0,
                         'color' => (string) Request::post('category_color'),
                     )
                 );
@@ -158,10 +184,32 @@ class EventsAdmin extends Backend
                 die();
             }
         }
+        // Request: restore category
+        if (Request::post('restore_trash_category')) {
+            if (Security::check(Request::post('csrf'))) {
+                $categories->update((int) Request::post('restore_trash_category'), array('deleted' => 0));
+                Notification::setNow('success', __('Category has been restored from trash with success!', 'events'));
+            }
+            else {
+                Notification::setNow('error', __('Request was denied. Invalid security token. Please refresh the page and try again.', 'events'));
+                die();
+            }
+        }
         // Request: delete category
         if (Request::post('delete_category')) {
             if (Security::check(Request::post('csrf'))) {
-                $categories->delete(Request::post('delete_category'));
+                $categories->update((int) Request::post('delete_category'), array('deleted' => 1));
+                Notification::setNow('success', __('Category has been moved to trash with success!', 'events'));
+            }
+            else {
+                Notification::setNow('error', __('Request was denied. Invalid security token. Please refresh the page and try again.', 'events'));
+                die();
+            }
+        }
+        // Request: delete category
+        if (Request::post('delete_trash_category')) {
+            if (Security::check(Request::post('csrf'))) {
+                $categories->delete(Request::post('delete_trash_category'));
                 Notification::setNow('success', __('Category has been deleted with success!', 'events'));
             }
             else {
@@ -185,19 +233,20 @@ class EventsAdmin extends Backend
         // get current time
         $now = time();
         // get all existing categories from db
-        $allcategories = $categories->select(null, 'all');
+        $allcategories = $categories->select(Null, 'all');
+        $activecategories = $categories->select('[deleted=0]');
         $categories_title = array();
         $categories_color = array();
         $categories_count = array();
         foreach ($allcategories as $c) {
             $categories_title[$c['id']] = $c['title'];
             $categories_color[$c['id']] = $c['color'];
-            $categories_count[$c['id']] = sizeof($events->select('[category=' . $c['id'] . ']]'));
+            $categories_count[$c['id']] = sizeof($events->select('[category=' . $c['id'] . ' and deleted=0]'));
         }
         // get all existing events from db
-        $upcomingevents = $events->select('[timestamp>=' . $now . ']');
-        $pastevents = $events->select('[timestamp<' . $now . ']');
-        $draftevents = $events->select('[timestamp=""]');
+        $upcomingevents = $events->select('[timestamp>=' . $now . ' and deleted=0]');
+        $pastevents = $events->select('[timestamp<' . $now . ' and deleted=0]');
+        $draftevents = $events->select('[timestamp="" and deleted=0]');
 
         // get all deleted records from db
         $deletedevents = $events->select('[deleted=1]');
@@ -228,12 +277,14 @@ class EventsAdmin extends Backend
 
         // Display view
         View::factory('events/views/backend/index')
-            ->assign('categories', $categories)
+            ->assign('categories', $activecategories)
+            ->assign('deletedcategories', $deletedcategories)
             ->assign('categories_title', $categories_title)
             ->assign('categories_color', $categories_color)
             ->assign('categories_count', $categories_count)
             ->assign('upcomingevents', $upcomingevents)
             ->assign('pastevents', $pastevents)
+            ->assign('deletedevents', $deletedevents)
             ->assign('draftevents', $draftevents)
             ->assign('directories', $directories)
             ->assign('files', $files)
