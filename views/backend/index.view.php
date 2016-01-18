@@ -42,6 +42,7 @@
             <li class="active"><?php echo Html::anchor(__('Events', 'events'), '#events', array('data-toggle' => 'tab')); ?></li>
             <li><?php echo Html::anchor(__('Categories', 'events'), '#categories', array('data-toggle' => 'tab')); ?></li>
             <li><?php echo Html::anchor(__('Configuration', 'events'), '#configuration', array('data-toggle' => 'tab')); ?></li>
+            <li><?php echo Html::anchor(__('Trash', 'events'), '#trash', array('data-toggle' => 'tab')); ?></li>
         </ul>
         
         <!-- Tab content -->
@@ -354,6 +355,20 @@
                     </div>
                 </div>
                 <?php echo Form::close(); ?>
+            </div>
+            
+            <!-- Tab: trash -->
+            <div class="tab-pane" id="trash">
+                <?php echo HTML::br(); ?>
+                <div class="row">
+                    <div class="col-md-6">
+                        <!-- deleted events -->
+
+                    </div>
+                    <div class="col-md-6">
+                        <!-- deleted categories -->
+                    </div>
+                </div>
             </div>
         </div>
         

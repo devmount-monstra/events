@@ -181,24 +181,28 @@ class EventsAdmin extends Backend
                 die();
             }
         }
-        
+
         // get current time
         $now = time();
         // get all existing categories from db
-        $categories = $categories->select(null, 'all');
+        $allcategories = $categories->select(null, 'all');
         $categories_title = array();
         $categories_color = array();
         $categories_count = array();
-        foreach ($categories as $c) {
+        foreach ($allcategories as $c) {
             $categories_title[$c['id']] = $c['title'];
             $categories_color[$c['id']] = $c['color'];
-            $categories_count[$c['id']] = sizeof($events->select('[category=' . $c['id'] . ']'));
+            $categories_count[$c['id']] = sizeof($events->select('[category=' . $c['id'] . ']]'));
         }
         // get all existing events from db
         $upcomingevents = $events->select('[timestamp>=' . $now . ']');
         $pastevents = $events->select('[timestamp<' . $now . ']');
         $draftevents = $events->select('[timestamp=""]');
-        
+
+        // get all deleted records from db
+        $deletedevents = $events->select('[deleted=1]');
+        $deletedcategories = $categories->select('[deleted=1]');
+
         // get upload directories
         $path = ROOT . DS . 'public' . DS . 'uploads/';
         $_list = EventsAdmin::fdir($path);

@@ -7,6 +7,7 @@ defined('MONSTRA_ACCESS') or die('No direct script access.');
 Table::create('events', array('title'));
 $e = new Table('events');
 $e->addField('timestamp');
+$e->addField('deleted');
 $e->addField('category');
 $e->addField('date');
 $e->addField('time');
@@ -20,6 +21,7 @@ $e->addField('color');
 
 Table::create('categories', array('title'));
 $c = new Table('categories');
+$c->addField('deleted');
 $c->addField('color');
 
 // Add Options
