@@ -3,7 +3,7 @@ Events
 
 An event managment plugin for Monstra.
 
-### Usage
+### Usage: Frontend
 Shortcode for content pages:
 
     {events click="some link text" toggle="some toggle content"}
@@ -12,7 +12,13 @@ Codesnippet for templates:
 
     <?php Events::show('The answer to life, the universe and everything?', '42'); ?>
 
-### Options
+### Usage: Backend
+
+### Events
+
+### Categories
+
+#### Configuration
 * __Image directory__: Select a directory where event images are. Those images will be displayed in the select list of the events add/edit formula.
 
 ### License
