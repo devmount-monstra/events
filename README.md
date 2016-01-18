@@ -13,8 +13,7 @@ Codesnippet for templates:
     <?php Events::show('The answer to life, the universe and everything?', '42'); ?>
 
 ### Options
-* __Slide duration__: How many milliseconds the sliding animation should take [integer]
-* __Slide easing__: Easing type for the sliding animation [swing or linear]
+* __Image directory__: Select a directory where event images are. Those images will be displayed in the select list of the events add/edit formula.
 
 ### License
 This Plugin is distributed under [MIT-License](http://opensource.org/licenses/mit-license.html).
