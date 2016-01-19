@@ -4,10 +4,10 @@ $(document).ready(function () {
     
     // color field
     $('#event-color').on('input change paste keyup', function(){
-        setColor('event');
+        setColor('event', false);
     });
     $('#category-color').on('input change paste keyup', function(){
-        setColor('category');
+        setColor('category', false);
     });
     // handle event form
     $('.btn.edit-event').click(function(e){
@@ -37,6 +37,7 @@ $(document).ready(function () {
             default: break;
         }
         $('#add-edit-title-' + shorttype).html($('#output_add').val() + ' ' + shorttype);
+        setColor(shorttype, true);
         $('#add-edit-submit-' + shorttype)
             .attr('name', 'add_' + shorttype)
             .val(1)
@@ -110,7 +111,7 @@ function handleForm(type, id) {
                     break;
             }
             // set color
-            setColor(type);
+            setColor(type, false);
             // change input name to id edit
             $('#add-edit-submit-' + type)
                 .attr('name', 'edit_' + type)
@@ -124,9 +125,9 @@ function handleForm(type, id) {
 
 
 // set color of input field
-function setColor(type) {
+function setColor(type, clear) {
     var color = $('#' + type + '-color').val();
-    if (color.length == 3 || color.length == 6) {
+    if (color.length == 3 || color.length == 6 || clear) {
         $('#' + type + '-color').css('background-image', 'linear-gradient(to right, #fff, #fff 80%, #' + color + ' 80%)');
     } else {
         $('#' + type + '-color').css('background', 'none');
