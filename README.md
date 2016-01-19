@@ -17,7 +17,7 @@ Codesnippet for templates:
 ### Events
 All events are listed here with the option to add a new, edit or remove an existing event to trash. Event records contain the following data:
 * __Title__ — event name, type: `string`
-* __Timestamp__ — date-time in `T` format, specifies the event date and list order, type: `string`
+* __Timestamp__ — date-time in `yyyy-mm-ddThh:mm:ss` format, specifies the event date and list order, type: `string`
 * __Date__ — date, format-free, type: `string`
 * __Time__ — time, format-free, type: `string`
 * __Category__ — assigns an existing category, type: `int` (cagtegory id)
