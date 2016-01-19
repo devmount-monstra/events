@@ -383,7 +383,7 @@
                                                 Form::hidden('csrf', Security::token()) .
                                                 Form::hidden('delete_trash_event', $event['id']);
                                             ?>
-                                                <button class="btn btn-sm btn-danger" value="1" onclick="return confirmDelete('<?php echo __('Delete event &quot;:title&quot; permanently (cannot be made undone)', 'events', array(':title' => $event['title'])); ?>')" title="<?php echo __('Delete permanently', 'events'); ?>">
+                                                <button class="btn btn-sm btn-danger" value="1" onclick="return confirmDelete('<?php echo __('Delete event &quot;:title&quot; permanently (can not be undone)', 'events', array(':title' => $event['title'])); ?>')" title="<?php echo __('Delete permanently', 'events'); ?>">
                                                     <span class="glyphicon glyphicon-remove"></span>
                                                 </button>
                                             <?php echo Form::close(); ?>
@@ -421,7 +421,7 @@
                                                 Form::hidden('csrf', Security::token()) .
                                                 Form::hidden('delete_trash_category', $category['id']);
                                             ?>
-                                                <button class="btn btn-sm btn-danger" value="1" onclick="return confirmDelete('<?php echo __('Delete category &quot;:title&quot; permanently (cannot be made undone)', 'events', array(':title' => $category['title'])); ?>')" title="<?php echo __('Delete permanently', 'events'); ?>">
+                                                <button class="btn btn-sm btn-danger" value="1" onclick="return confirmDelete('<?php echo __('Delete category &quot;:title&quot; permanently (can not be undone)', 'events', array(':title' => $category['title'])); ?>')" title="<?php echo __('Delete permanently', 'events'); ?>">
                                                     <span class="glyphicon glyphicon-remove"></span>
                                                 </button>
                                             <?php echo Form::close(); ?>
