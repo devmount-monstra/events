@@ -3,19 +3,20 @@ Events
 
 An event managment plugin for Monstra.
 
-## Usage: Frontend
+## Frontend
 Shortcode for content pages:
 
     {events click="some link text" toggle="some toggle content"}
 
 Codesnippet for templates:
 
-    <?php Events::show('The answer to life, the universe and everything?', '42'); ?>
+    <?php Events::show(<type>, <range>, <order>); ?>
 
-## Usage: Backend
+## Backend
 
 ### Events
 All events are listed here with the option to add a new, edit or remove an existing event to trash. Event records contain the following data:
+
 * __Title__ — event name, type: `string`
 * __Timestamp__ — date-time in `yyyy-mm-ddThh:mm:ss` format, specifies the event date and list order, type: `string`
 * __Date__ — date, format-free, type: `string`
@@ -31,8 +32,11 @@ All events are listed here with the option to add a new, edit or remove an exist
 
 ### Categories
 All categories are listed here with the option to add a new, edit or remove an existing category to trash. Note that categories with events assigned can not be deleted. Category records contain the following data:
-* __Title__ — recognizable name, type: `string`
-* __Color__ — hexadecimal number to specify a category specific color, `#` is automatically inserted, type: `string`
+
+| field | description                                                                            | type     |
+|-------|----------------------------------------------------------------------------------------|----------|
+| Title | recognizable name                                                                      | `string` |
+| Color | hexadecimal number to specify a category specific color, `#` is automatically inserted | `string` |
 
 ### Configuration
 * __Image directory__ — directory for event images. Those images will be displayed in the select list of the events add/edit formula.
