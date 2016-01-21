@@ -1,34 +1,43 @@
 Events
 ======
 
-An event managment plugin for Monstra.
+An event managment plugin for Monstra. CRUD for events and categories in backend and show custom event lists in frontend.
+
+## Installation
+1. Download latest version of `Events`
+2. Log into Monstra backend and go to `Extends > Plugins > Install new`
+3. Select downloaded file and first click `Upload`, then click `Install`
+4. Go to `Content > Files`, click `Create New Directory` and give a name like "events"; this directory will be used to store event files [recomended]
+5. Now go to `Content > Events > Configuration`, select the "events" directory and click `Save`
+6. Now everything is ready to use!
 
 ## Frontend
 Shortcode for content pages:
 
-    {events click="some link text" toggle="some toggle content"}
+    {events-list type="extended" range="future" order="ASC"}
 
 Codesnippet for templates:
 
-    <?php Events::show(<type>, <range>, <order>); ?>
+    <?php Events::list(<type>, <range>, <order>); ?>
 
 ## Backend
 
 ### Events
 All events are listed here with the option to add a new, edit or remove an existing event to trash. Event records contain the following data:
 
-* __Title__ — event name, type: `string`
-* __Timestamp__ — date-time in `yyyy-mm-ddThh:mm:ss` format, specifies the event date and list order, type: `string`
-* __Date__ — date, format-free, type: `string`
-* __Time__ — time, format-free, type: `string`
-* __Category__ — assigns an existing category, type: `int` (cagtegory id)
-* __Color__ — hexadecimal number to specify an event specific color; if not set, category color is used, `#` is automatically inserted, type: `string`
-* __Location__ — location, type: `string`
-* __Short description__ — description that is displayed in one line, type: `string`
-* __Description__ — long description, type: `string`
-* __Image file__ — assigns an existing image from the configured image directory, type: `string`
-* __Clip file__ — defines the section that is used to build a square image, type: `string`
-* __Audio file__ — assigns an existing audio file, type: `string`
+| field       | description                                                                                                              | type     |
+|-------------|--------------------------------------------------------------------------------------------------------------------------|----------|
+| Timestamp   | date-time in `yyyy-mm-ddThh:mm:ss` format, specifies the event date and list order                                       | `string` |
+| Date        | date, format-free                                                                                                        | `string` |
+| Time        | time, format-free                                                                                                        | `string` |
+| Category    | assigns an existing category                                                                                             | `int`    |
+| Color       | hexadecimal number to specify an event specific color; if not set, category color is used, `#` is automatically inserted | `string` |
+| Location    | location, format-free                                                                                                    | `string` |
+| Short       | description that is displayed in one line                                                                                | `string` |
+| Description | long description                                                                                                         | `string` |
+| Image file  | assigns an existing image from the configured image directory                                                            | `string` |
+| Clip image  | defines the section that is used to build a square image                                                                 | `string` |
+| Audio file  | assigns an existing audio file                                                                                           | `string` |
 
 ### Categories
 All categories are listed here with the option to add a new, edit or remove an existing category to trash. Note that categories with events assigned can not be deleted. Category records contain the following data:
@@ -39,7 +48,10 @@ All categories are listed here with the option to add a new, edit or remove an e
 | Color | hexadecimal number to specify a category specific color, `#` is automatically inserted | `string` |
 
 ### Configuration
-* __Image directory__ — directory for event images. Those images will be displayed in the select list of the events add/edit formula.
+
+| field           | description                                                                                                   |
+|-----------------|---------------------------------------------------------------------------------------------------------------|
+| Image directory | directory for event images. Those images will be displayed in the select list of the events add/edit formula. |
   
 ### Trash
 The trash contains deleted events and categories. Those can be either restored or removed permanently. This can not be undone.
