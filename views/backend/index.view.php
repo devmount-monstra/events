@@ -30,7 +30,7 @@
             <?php echo
                 Html::anchor(__('New Event', 'events'), '#events', array('class' => 'btn btn-phone btn-primary', 'data-toggle' => 'tab', 'title' => __('New Event', 'events'))) . Html::nbsp() .
                 Html::anchor(__('New Category', 'events'), '#categories', array('class' => 'btn btn-phone btn-primary', 'data-toggle' => 'tab', 'title' => __('New Category', 'events'))) . Html::nbsp() .
-                Html::anchor(__('Documentation', 'events'), '#', array('class' => 'btn btn-phone btn-default readme_plugin', 'data-toggle' => 'modal', 'data-target' => '#readme', 'readme_plugin' => 'events'));
+                Html::anchor(__('Documentation', 'events'), '#', array('class' => 'btn btn-phone btn-default readme-plugin', 'data-toggle' => 'modal', 'data-target' => '#modal-documentation', 'readme-plugin' => 'events'));
             ?>
         </div>
     </div>
@@ -444,8 +444,8 @@
 
 </div>
 
-<!-- modal: markup -->
-<div class="modal fade" id="readme" tabindex="-1" role="dialog" aria-hidden="true">
+<!-- modal: README markup -->
+<div id="modal-documentation" class="modal fade" tabindex="-1">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
@@ -453,6 +453,36 @@
         <h4 class="modal-title" id="myModalLabel">README.md</h4>
       </div>
       <div class="modal-body"></div>
+    </div>
+  </div>
+</div>
+
+<!-- modal: new event -->
+<div id="modal-new-event" class="modal fade" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <div class="close" data-dismiss="modal">&times;</div>
+        <h4 class="modal-title"><?php echo __('Rename', 'filesmanager'); ?></h4>
+      </div>
+      <form role="form" method="POST">
+        <?php echo Form::hidden('csrf', Security::token()); ?>
+        <div class="modal-body">
+            <label for="renameTo">
+                <span id="dirRenameType"><?php echo __('Directory:', 'filesmanager'); ?></span>
+                <span id="fileRenameType"><?php echo __('File:', 'filesmanager'); ?></span>
+                <strong id="renameToHolder"></strong>
+            </label>
+            <input type="hidden" name="path" value="" />
+            <input type="hidden" name="rename_type" value="" />
+            <input type="hidden" name="rename_from" value="" />
+            <input type="text" class="form-control" id="renameTo" name="rename_to" />
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal"><?php echo __('Cancel', 'filesmanager'); ?></button>
+          <button type="submit" class="btn btn-primary"><?php echo __('Rename', 'filesmanager'); ?></button>
+        </div>
+      </form>
     </div>
   </div>
 </div>

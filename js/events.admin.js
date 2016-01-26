@@ -52,12 +52,12 @@ $(document).ready(function () {
     })
     
     // modal: readme greybox script
-    $('.readme_plugin').click(function() {
+    $('.readme-plugin').click(function() {
         $.ajax({
             type:'post',
-            data:'readme_plugin='+$(this).attr('readme_plugin'),
+            data:'readme_plugin='+$(this).attr('readme-plugin'),
             success: function(data){
-                $('#readme .modal-body').html(data);
+                $('#modal-documentation .modal-body').html(data);
             }
         });
     });
