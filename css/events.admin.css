@@ -3,8 +3,8 @@
     margin-bottom: 10px;
 }
 .events-admin .tab-pane.no-table {
-    background: #fff;
     padding: 0 10px;
+    background: #fff;
     border-left: 1px solid #ddd;
     border-right: 1px solid #ddd;
     border-bottom: 1px solid #ddd;

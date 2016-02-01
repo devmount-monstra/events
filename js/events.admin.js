@@ -21,7 +21,7 @@ $.monstra.events = {
             $.monstra.events.handleForm('category', $(this).val());
             e.preventDefault();
         });
-    
+
         // handle remote activate tab, clear 'edit' form to 'new' form
         $('.btn[data-toggle=tab]').click(function(){
             var type = $(this).attr("href").substring(1);
@@ -50,9 +50,9 @@ $.monstra.events = {
             $('input[name="event_imagesection"][value="m"]').attr('checked', 'checked');
             $('input[name="event_imagesection"][value="m"]').parent().attr('aria-checked', true);
             $('input[name="event_imagesection"][value="m"]').parent().addClass('checked');
-    
+
         })
-        
+
         // modal: new category
         $('.new-category').click(function() {
             $.monstra.events.showCategoryDialog();
@@ -61,7 +61,7 @@ $.monstra.events = {
         $('.edit-category').click(function() {
             $.monstra.events.showCategoryDialog($(this).val());
         });
-        
+
         // modal: readme greybox script
         $('.readme-plugin').click(function() {
             $.ajax({
@@ -109,14 +109,6 @@ $.monstra.events = {
                         $('input[name="event_audio"]').val(event.audio);
                         $('input[name="event_color"]').val(event.color);
                         break;
-                    // case 'category':
-                    //     var category = JSON.parse(data);
-                    //     // change title
-                    //     $('#add-edit-title-category').html($('#output_editcategory').val() + ' ' + category.title);
-                    //     // insert existing values
-                    //     $('input[name="category_title"]').val(category.title);
-                    //     $('input[name="category_color"]').val(category.color);
-                    //     break;
                     default:
                         break;
                 }
@@ -133,7 +125,7 @@ $.monstra.events = {
         });
     },
 
-    
+
     // set color of input field
     setColor: function(type, clear) {
         var color = $('#' + type + '-color').val();
@@ -143,7 +135,7 @@ $.monstra.events = {
             $('#' + type + '-color').css('background', 'none');
         }
     },
-    
+
     // modal: handle new / edit category
     showCategoryDialog: function(id) {
         var dialog = $('#modal-category');
