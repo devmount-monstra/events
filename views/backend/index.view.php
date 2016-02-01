@@ -10,11 +10,12 @@
     Notification::get('error')   AND Alert::error(Notification::get('error'));
 ?>
 
-<!-- PHP output for JS -->
+<!-- i18n PHP output for JS -->
 <?php echo
     Form::hidden('output_add', __('Add', 'events')) .
     Form::hidden('output_editevent', __('Edit event', 'events')) .
     Form::hidden('output_editcategory', __('Edit category', 'events')) .
+    Form::hidden('output_addcategory', __('Add category', 'events')) .
     Form::hidden('output_update', __('Update', 'events'));
 ?>
 
@@ -29,7 +30,7 @@
         <div class="text-right row-phone">
             <?php echo
                 Html::anchor(__('New Event', 'events'), '#events', array('class' => 'btn btn-phone btn-primary', 'data-toggle' => 'tab', 'title' => __('New Event', 'events'))) . Html::nbsp() .
-                Html::anchor(__('New Category', 'events'), '#categories', array('class' => 'btn btn-phone btn-primary', 'data-toggle' => 'tab', 'title' => __('New Category', 'events'))) . Html::nbsp() .
+                Html::anchor(__('New Category', 'events'), '#categories', array('class' => 'btn btn-phone btn-primary new-category', 'data-toggle' => 'tab', 'title' => __('New Category', 'events'))) . Html::nbsp() .
                 Html::anchor(__('Documentation', 'events'), '#', array('class' => 'btn btn-phone btn-default readme-plugin', 'data-toggle' => 'modal', 'data-target' => '#modal-documentation', 'readme-plugin' => 'events'));
             ?>
         </div>
@@ -284,9 +285,9 @@
                                                 </button>
                                             <?php echo Form::close(); ?>
                                         </div>
+                                        <!-- number of events for each category -->
                                         <?php echo Html::heading($category['title'], 4, array('class' => 'list-group-item-heading')); ?>
                                         <p class="list-group-item-text"><?php echo $categories_count[$category['id']] . ' ' . __('events assigned', 'events'); ?></p>
-                                        <!-- TODO: number of events for each category -->
                                     </a>
                                 <?php }
                             } else {
@@ -312,7 +313,7 @@
                                 <?php echo Form::label('category-color', __('Color', 'events')); ?>
                                 <div class="input-group">
                                     <span class="input-group-addon" id="category-color-addon">#</span>
-                                    <?php echo Form::input('category_color', '', array('class' => 'form-control clear', 'id' => 'category-color', 'aria-describedby' => 'category-color-addon')); ?>
+                                    <?php echo Form::input('category_color', '', array('class' => 'form-control clear', 'aria-describedby' => 'category-color-addon')); ?>
                                 </div>
                             </div>
                         </div>
@@ -457,32 +458,46 @@
   </div>
 </div>
 
-<!-- modal: new event -->
-<div id="modal-new-event" class="modal fade" tabindex="-1">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <div class="close" data-dismiss="modal">&times;</div>
-        <h4 class="modal-title"><?php echo __('Rename', 'filesmanager'); ?></h4>
-      </div>
-      <form role="form" method="POST">
-        <?php echo Form::hidden('csrf', Security::token()); ?>
-        <div class="modal-body">
-            <label for="renameTo">
-                <span id="dirRenameType"><?php echo __('Directory:', 'filesmanager'); ?></span>
-                <span id="fileRenameType"><?php echo __('File:', 'filesmanager'); ?></span>
-                <strong id="renameToHolder"></strong>
-            </label>
-            <input type="hidden" name="path" value="" />
-            <input type="hidden" name="rename_type" value="" />
-            <input type="hidden" name="rename_from" value="" />
-            <input type="text" class="form-control" id="renameTo" name="rename_to" />
+<!-- modal: category -->
+<div id="modal-category" class="modal fade" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="close" data-dismiss="modal">&times;</div>
+                <h4 class="modal-title"><?php echo __('New category', 'filesmanager'); ?></h4>
+            </div>
+            <?php echo
+                Form::open(Null, array('role' => 'form')) .
+                Form::hidden('csrf', Security::token());
+            ?>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <?php echo
+                            Form::label('category_title', __('Title', 'events')) .
+                            Form::input('category_title', Null, array('class' => 'form-control clear', 'id' => 'focus-categories', 'required' => 'required'));
+                        ?>
+                    </div>
+                    <div class="col-sm-6">
+                        <?php echo Form::label('category-color', __('Color', 'events')); ?>
+                        <div class="input-group">
+                            <span class="input-group-addon" id="category-color-addon">#</span>
+                            <?php echo Form::input('category_color', '', array('class' => 'form-control clear', 'id' => 'category-color', 'aria-describedby' => 'category-color-addon')); ?>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal"><?php echo __('Cancel', 'events'); ?></button>
+                <button type="submit" name="add_category" id="add-edit-submit-category" class="btn btn-primary" value="1" title="<?php echo __('Add', 'events'); ?>">
+                    <?php echo __('Add', 'events'); ?>
+                </button>
+            </div>
+            <?php echo Form::close(); ?>
         </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal"><?php echo __('Cancel', 'filesmanager'); ?></button>
-          <button type="submit" class="btn btn-primary"><?php echo __('Rename', 'filesmanager'); ?></button>
-        </div>
-      </form>
     </div>
-  </div>
 </div>
+
+
+
+ 

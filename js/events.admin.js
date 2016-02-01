@@ -53,6 +53,15 @@ $.monstra.events = {
     
         })
         
+        // modal: new category
+        $('.new-category').click(function() {
+            $.monstra.events.showCategoryDialog();
+        });
+        // modal: edit category
+        $('.edit-category').click(function() {
+            $.monstra.events.showCategoryDialog($(this).val());
+        });
+        
         // modal: readme greybox script
         $('.readme-plugin').click(function() {
             $.ajax({
@@ -100,14 +109,14 @@ $.monstra.events = {
                         $('input[name="event_audio"]').val(event.audio);
                         $('input[name="event_color"]').val(event.color);
                         break;
-                    case 'category':
-                        var category = JSON.parse(data);
-                        // change title
-                        $('#add-edit-title-category').html($('#output_editcategory').val() + ' ' + category.title);
-                        // insert existing values
-                        $('input[name="category_title"]').val(category.title);
-                        $('input[name="category_color"]').val(category.color);
-                        break;
+                    // case 'category':
+                    //     var category = JSON.parse(data);
+                    //     // change title
+                    //     $('#add-edit-title-category').html($('#output_editcategory').val() + ' ' + category.title);
+                    //     // insert existing values
+                    //     $('input[name="category_title"]').val(category.title);
+                    //     $('input[name="category_color"]').val(category.color);
+                    //     break;
                     default:
                         break;
                 }
@@ -133,6 +142,33 @@ $.monstra.events = {
         } else {
             $('#' + type + '-color').css('background', 'none');
         }
+    },
+    
+    // modal: handle new / edit category
+    showCategoryDialog: function(id) {
+        var dialog = $('#modal-category');
+        if (id !== null && id !== undefined && id >= 0) {
+            $.ajax({
+                type: 'post',
+                data: 'edit_category_id=' + id,
+                // on success: modify formula to edit
+                success: function(data){
+                    var category = JSON.parse(data);
+                    dialog.find('.modal-title').text($('#output_editcategory').val() + ' « ' + category.title + ' »');
+                    dialog.find('input[name="category_title"]').val(category.title);
+                    dialog.find('input[name="category_color"]').val(category.color);
+                    dialog.find('#add-edit-submit-category').val(category.id).attr('name', 'edit_category').text($('#output_update').val());
+                    $.monstra.events.setColor('category', false);
+                }
+            });
+        } else {
+            dialog.find('.modal-title').text($('#output_addcategory').val());
+            dialog.find('input[name="category_title"]').val('');
+            dialog.find('input[name="category_color"]').val('');
+            dialog.find('#add-edit-submit-category').val(1).attr('name', 'add_category').text($('#output_add').val());
+            $.monstra.events.setColor('category', true);
+        }
+        dialog.modal('show');
     }
 };
 
