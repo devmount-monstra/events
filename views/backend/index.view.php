@@ -50,7 +50,7 @@
         <div class="tab-content">
             
             <!-- Tab: events -->
-            <div class="tab-pane active" id="events">
+            <div class="tab-pane no-table active" id="events">
                 <div class="row">
                     <div class="col-md-6">   
                         <?php echo Html::heading(__('Upcoming events', 'events'), 2); ?>
@@ -264,73 +264,61 @@
             
             <!-- Tab: categories -->
             <div class="tab-pane" id="categories">
-                <div class="row">
-                    <div class="col-md-6">
-                        <?php echo Html::heading(__('Categories', 'events'), 2); ?>
-                        <div class="list-group">
+                <div class="table-responsive">
+                    <?php //echo Html::heading(__('Categories list', 'events'), 2); ?>
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Color</th>
+                                <th>Name</th>
+                                <th>Assigned</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
                             <?php if (sizeof($categories) > 0) {
                                 foreach ($categories as $category) { ?>
-                                    <a href="#" class="list-group-item" style="border-left: 5px solid #<?php echo $category['color']; ?>">
-                                        <div class="pull-right">
-                                            <button class="btn btn-sm btn-default edit-category" value="<?php echo $category['id'] ?>" title="<?php echo __('Edit', 'events'); ?>">
-                                                <span class="glyphicon glyphicon-pencil"></span>
-                                            </button>
-                                            <?php echo
-                                                Form::open() .
-                                                Form::hidden('csrf', Security::token()) .
-                                                Form::hidden('delete_category', $category['id']);
-                                            ?>
-                                                <button class="btn btn-sm btn-danger" value="1" onclick="return confirmDelete('<?php echo __('Delete category &quot;:title&quot;', 'events', array(':title' => $category['title'])); ?>')" title="<?php echo __('Delete', 'events'); ?>">
-                                                    <span class="glyphicon glyphicon-remove"></span>
-                                                </button>
-                                            <?php echo Form::close(); ?>
-                                        </div>
-                                        <!-- number of events for each category -->
-                                        <?php echo Html::heading($category['title'], 4, array('class' => 'list-group-item-heading')); ?>
-                                        <p class="list-group-item-text"><?php echo $categories_count[$category['id']] . ' ' . __('events assigned', 'events'); ?></p>
-                                    </a>
+                                    <tr>
+                                        <td>
+                                            <div class="color-text-box" style="border-left: 1.4em solid #<?php echo $category['color']; ?>; padding-left: 10px;">
+                                                #<?php echo $category['color']; ?>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <?php echo Html::heading($category['title'], 4); ?>
+                                        </td>
+                                        <td>
+                                            <!-- number of events for each category -->
+                                            <?php echo $categories_count[$category['id']] . ' ' . __('events', 'events'); ?>
+                                        </td>
+                                        <td>
+                                            <div class="pull-right">
+                                                <button class="btn btn-primary edit-category" value="<?php echo $category['id'] ?>" title="<?php echo __('Edit', 'events'); ?>"><?php echo __('Edit', 'events'); ?></button>
+                                                <?php echo
+                                                    Form::open() .
+                                                    Form::hidden('csrf', Security::token()) .
+                                                    Form::hidden('delete_category', $category['id']);
+                                                ?>
+                                                    <button class="btn btn-danger" value="1" onclick="return confirmDelete('<?php echo __('Delete category &quot;:title&quot;', 'events', array(':title' => $category['title'])); ?>')" title="<?php echo __('Delete', 'events'); ?>"><?php echo __('Delete', 'events'); ?></button>
+                                                <?php echo Form::close(); ?>
+                                            </div>
+                                        </td>
+                                    </tr>
                                 <?php }
-                            } else {
-                                echo __('No category available.', 'events');
-                            }
-                            ?>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <?php echo
-                            Html::heading(__('Add category', 'events'), 2, array('id' => 'add-edit-title-category')) .
-                            Form::open(Null, array('id' => 'add-edit-categories')) .
-                            Form::hidden('csrf', Security::token());
-                        ?>
-                        <div class="row">
-                            <div class="col-sm-6">
-                                <?php echo
-                                    Form::label('category_title', __('Title', 'events')) .
-                                    Form::input('category_title', Null, array('class' => 'form-control clear', 'id' => 'focus-categories', 'required' => 'required'));
-                                ?>
-                            </div>
-                            <div class="col-sm-6">
-                                <?php echo Form::label('category-color', __('Color', 'events')); ?>
-                                <div class="input-group">
-                                    <span class="input-group-addon" id="category-color-addon">#</span>
-                                    <?php echo Form::input('category_color', '', array('class' => 'form-control clear', 'aria-describedby' => 'category-color-addon')); ?>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-sm-12">
-                                <button type="submit" name="add_category" id="add-edit-submit-category" class="btn btn-lg btn-primary pull-right" value="1" title="<?php echo __('Add', 'events'); ?>">
-                                    <?php echo __('Add', 'events'); ?>
-                                </button>
-                            </div>
-                        </div>
-                        <?php echo Form::close(); ?>
-                    </div>
+                            } else { ?>
+                                <tr>
+                                    <td colspan="4">
+                                        <?php echo __('No category available.', 'events'); ?>
+                                    </td>
+                                </tr>
+                            <?php } ?>                    
+                        </tbody>
+                    </table>
                 </div>
             </div>
             
             <!-- Tab: configuration -->
-            <div class="tab-pane" id="configuration">
+            <div class="tab-pane no-table" id="configuration">
                 <?php echo
                     Form::open() .
                     Form::hidden('csrf', Security::token()) .
@@ -359,7 +347,7 @@
             </div>
             
             <!-- Tab: trash -->
-            <div class="tab-pane" id="trash">
+            <div class="tab-pane no-table" id="trash">
                 <?php echo HTML::br(); ?>
                 <div class="row">
                     <div class="col-md-6">

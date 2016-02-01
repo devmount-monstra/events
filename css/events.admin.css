@@ -2,12 +2,20 @@
 .events-admin .row {
     margin-bottom: 10px;
 }
-.events-admin .tab-content {
+.events-admin .tab-pane.no-table {
     background: #fff;
     padding: 0 10px;
     border-left: 1px solid #ddd;
     border-right: 1px solid #ddd;
     border-bottom: 1px solid #ddd;
+}
+.events-admin .tab-pane table {
+    border-top: none;
+    border-left: none;
+    border-bottom: none;
+}
+.events-admin .tab-pane table form {
+    display: inline-block;
 }
 .events-admin .list-group form {
     display: inline;
