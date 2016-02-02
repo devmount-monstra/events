@@ -347,7 +347,7 @@
 
             <!-- Tab: trash -->
             <div class="tab-pane" id="trash">
-                <div class="row">
+                <div class="row no-gutter">
                     <div class="col-md-6 col-left">
                         <!-- deleted events -->
                         <div class="table-responsive">
