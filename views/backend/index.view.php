@@ -51,101 +51,179 @@
         <div class="tab-content">
 
             <!-- Tab: events -->
-            <div class="tab-pane no-table active" id="events">
-                <div class="row">
-                    <div class="col-md-6">
-                        <?php echo Html::heading(__('Upcoming events', 'events'), 2); ?>
-                        <div class="list-group">
-                            <?php if (sizeof($upcomingevents) > 0) {
-                                foreach ($upcomingevents as $event) { ?>
-                                    <div class="list-group-item" style="border-left: 5px solid #<?php echo $event['color'] ? $event['color'] : $categories_color[$event['category']] ; ?>">
-                                        <div class="pull-right">
-                                            <button class="btn btn-sm btn-default edit-event" value="<?php echo $event['id'] ?>" title="<?php echo __('Edit', 'events'); ?>">
-                                                <span class="glyphicon glyphicon-pencil"></span>
-                                            </button>
-                                            <?php echo
-                                                Form::open() .
-                                                Form::hidden('csrf', Security::token()) .
-                                                Form::hidden('delete_event', $event['id']);
-                                            ?>
-                                                <button class="btn btn-sm btn-danger" value="1" onclick="return confirmDelete('<?php echo __('Delete event &quot;:title&quot;', 'events', array(':title' => $event['title'])); ?>')" title="<?php echo __('Delete', 'events'); ?>">
-                                                    <span class="glyphicon glyphicon-remove"></span>
-                                                </button>
-                                            <?php echo Form::close(); ?>
-                                        </div>
-                                        <?php if ($event['image']) echo Html::anchor('', $event['image'], array('rel' => $event['image'], 'class' => 'chocolat pull-left event-image section-' . $event['imagesection'], 'data-toggle' => 'lightbox', 'style' => 'background-image: url(' . $event['image'] . ')'));?>
-                                        <?php echo Html::heading($event['title'], 4, array('class' => 'list-group-item-heading')); ?>
-                                        <p class="list-group-item-text"><?php echo $categories_title[$event['category']] . ($event['date'] ? ' — ' . $event['date'] . ' ' . $event['time'] : ''); ?></p>
-                                        <p class="list-group-item-text"><?php echo $event['short']; ?></p>
-                                    </div>
-                                <?php }
-                            } else {
-                                echo __('No upcoming events', 'events');
-                            }
-                            ?>
+            <div class="tab-pane active" id="events">
+                <div class="row no-gutter">
+                    <div class="col-md-6 col-left">
+                        <!-- upcoming events -->
+                        <div class="table-responsive">
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th colspan="4"><?php echo Html::heading(__('Upcoming events', 'events'), 2); ?></th>
+                                    </tr>
+                                    <tr>
+                                        <th>Image</th>
+                                        <th>Description</th>
+                                        <th>Category</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php if (sizeof($upcomingevents) > 0) {
+                                        foreach ($upcomingevents as $event) { ?>
+                                            <tr>
+                                                <td>
+                                                    <?php if ($event['image']) echo Html::anchor('', $event['image'], array('rel' => $event['image'], 'class' => 'chocolat pull-left event-image section-' . $event['imagesection'], 'data-toggle' => 'lightbox', 'style' => 'background-image: url(' . $event['image'] . ')'));?>
+                                                </td>
+                                                <td>
+                                                    <?php echo Html::heading($event['title'], 4); ?>
+                                                </td>
+                                                <td>
+                                                    <p class="list-group-item-text"><?php echo $categories_title[$event['category']] . ($event['date'] ? ' — ' . $event['date'] . ' ' . $event['time'] : ''); ?></p>
+                                                    <p class="list-group-item-text"><?php echo $event['short']; ?></p>
+                                                </td>
+                                                <td>
+                                                    <div class="pull-right">
+                                                        <button class="btn btn-sm btn-default edit-event" value="<?php echo $event['id'] ?>" title="<?php echo __('Edit', 'events'); ?>">
+                                                            <span class="glyphicon glyphicon-pencil"></span>
+                                                        </button>
+                                                        <?php echo
+                                                            Form::open() .
+                                                            Form::hidden('csrf', Security::token()) .
+                                                            Form::hidden('delete_event', $event['id']);
+                                                        ?>
+                                                            <button class="btn btn-sm btn-danger" value="1" onclick="return confirmDelete('<?php echo __('Delete event &quot;:title&quot;', 'events', array(':title' => $event['title'])); ?>')" title="<?php echo __('Delete', 'events'); ?>">
+                                                                <span class="glyphicon glyphicon-remove"></span>
+                                                            </button>
+                                                        <?php echo Form::close(); ?>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        <?php }
+                                    } else { ?>
+                                        <tr>
+                                            <td colspan="4">
+                                                <?php echo __('No upcoming events', 'events'); ?>
+                                            </td>
+                                        </tr>
+                                    <?php } ?>
+                                </tbody>
+                            </table>
                         </div>
-                        <?php echo Html::heading(__('Past events', 'events'), 2); ?>
-                        <div class="list-group">
-                            <?php if (sizeof($pastevents) > 0) {
-                                foreach ($pastevents as $event) { ?>
-                                    <div class="list-group-item" style="border-left: 5px solid #<?php echo $event['color'] ? $event['color'] : $categories_color[$event['category']] ; ?>">
-                                        <div class="pull-right">
-                                            <button class="btn btn-sm btn-default edit-event" value="<?php echo $event['id'] ?>" title="<?php echo __('Edit', 'events'); ?>">
-                                                <span class="glyphicon glyphicon-pencil"></span>
-                                            </button>
-                                            <?php echo
-                                                Form::open() .
-                                                Form::hidden('csrf', Security::token()) .
-                                                Form::hidden('delete_event', $event['id']);
-                                            ?>
-                                                <button class="btn btn-sm btn-danger" value="1" onclick="return confirmDelete('<?php echo __('Delete event &quot;:title&quot;', 'events', array(':title' => $event['title'])); ?>')" title="<?php echo __('Delete', 'events'); ?>">
-                                                    <span class="glyphicon glyphicon-remove"></span>
-                                                </button>
-                                            <?php echo Form::close(); ?>
-                                        </div>
-                                        <?php if ($event['image']) echo Html::anchor('', $event['image'], array('rel' => $event['image'], 'class' => 'chocolat pull-left event-image section-' . $event['imagesection'], 'data-toggle' => 'lightbox', 'style' => 'background-image: url(' . $event['image'] . ')'));?>
-                                        <?php echo Html::heading($event['title'], 4, array('class' => 'list-group-item-heading')); ?>
-                                        <p class="list-group-item-text"><?php echo $categories_title[$event['category']] . ($event['date'] ? ' — ' . $event['date'] . ' ' . $event['time'] : ''); ?></p>
-                                        <p class="list-group-item-text"><?php echo $event['short']; ?></p>
-                                    </div>
-                                <?php }
-                            } else {
-                                echo __('No past events', 'events');
-                            }
-                            ?>
-                        </div>
-                        <?php echo Html::heading(__('Draft events', 'events'), 2); ?>
-                        <div class="list-group">
-                            <?php if (sizeof($draftevents) > 0) {
-                                foreach ($draftevents as $event) { ?>
-                                    <div class="list-group-item" style="border-left: 5px solid #<?php echo $event['color'] ? $event['color'] : $categories_color[$event['category']] ; ?>">
-                                        <div class="pull-right">
-                                            <button class="btn btn-sm btn-default edit-event" value="<?php echo $event['id'] ?>" title="<?php echo __('Edit', 'events'); ?>">
-                                                <span class="glyphicon glyphicon-pencil"></span>
-                                            </button>
-                                            <?php echo
-                                                Form::open() .
-                                                Form::hidden('csrf', Security::token()) .
-                                                Form::hidden('delete_event', $event['id']);
-                                            ?>
-                                                <button class="btn btn-sm btn-danger" value="1" onclick="return confirmDelete('<?php echo __('Delete event &quot;:title&quot;', 'events', array(':title' => $event['title'])); ?>')" title="<?php echo __('Delete', 'events'); ?>">
-                                                    <span class="glyphicon glyphicon-remove"></span>
-                                                </button>
-                                            <?php echo Form::close(); ?>
-                                        </div>
-                                        <?php if ($event['image']) echo Html::anchor('', $event['image'], array('rel' => $event['image'], 'class' => 'chocolat pull-left event-image section-' . $event['imagesection'], 'data-toggle' => 'lightbox', 'style' => 'background-image: url(' . $event['image'] . ')'));?>
-                                        <?php echo Html::heading($event['title'], 4, array('class' => 'list-group-item-heading')); ?>
-                                        <p class="list-group-item-text"><?php echo $categories_title[$event['category']] . ($event['date'] ? ' — ' . $event['date'] . ' ' . $event['time'] : ''); ?></p>
-                                        <p class="list-group-item-text"><?php echo $event['short']; ?></p>
-                                    </div>
-                                <?php }
-                            } else {
-                                echo __('No draft events', 'events');
-                            }
-                            ?>
+                        <!-- past events -->
+                        <div class="table-responsive">
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th colspan="4"><?php echo Html::heading(__('Past events', 'events'), 2); ?></th>
+                                    </tr>
+                                    <tr>
+                                        <th>Image</th>
+                                        <th>Description</th>
+                                        <th>Category</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php if (sizeof($pastevents) > 0) {
+                                        foreach ($pastevents as $event) { ?>
+                                            <tr>
+                                                <td>
+                                                    <?php if ($event['image']) echo Html::anchor('', $event['image'], array('rel' => $event['image'], 'class' => 'chocolat pull-left event-image section-' . $event['imagesection'], 'data-toggle' => 'lightbox', 'style' => 'background-image: url(' . $event['image'] . ')'));?>
+                                                </td>
+                                                <td>
+                                                    <?php echo Html::heading($event['title'], 4); ?>
+                                                </td>
+                                                <td>
+                                                    <p class="list-group-item-text"><?php echo $categories_title[$event['category']] . ($event['date'] ? ' — ' . $event['date'] . ' ' . $event['time'] : ''); ?></p>
+                                                    <p class="list-group-item-text"><?php echo $event['short']; ?></p>
+                                                </td>
+                                                <td>
+                                                    <div class="pull-right">
+                                                        <button class="btn btn-sm btn-default edit-event" value="<?php echo $event['id'] ?>" title="<?php echo __('Edit', 'events'); ?>">
+                                                            <span class="glyphicon glyphicon-pencil"></span>
+                                                        </button>
+                                                        <?php echo
+                                                            Form::open() .
+                                                            Form::hidden('csrf', Security::token()) .
+                                                            Form::hidden('delete_event', $event['id']);
+                                                        ?>
+                                                            <button class="btn btn-sm btn-danger" value="1" onclick="return confirmDelete('<?php echo __('Delete event &quot;:title&quot;', 'events', array(':title' => $event['title'])); ?>')" title="<?php echo __('Delete', 'events'); ?>">
+                                                                <span class="glyphicon glyphicon-remove"></span>
+                                                            </button>
+                                                        <?php echo Form::close(); ?>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        <?php }
+                                    } else { ?>
+                                        <tr>
+                                            <td colspan="4">
+                                                <?php echo __('No past events', 'events'); ?>
+                                            </td>
+                                        </tr>
+                                    <?php } ?>
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                     <div class="col-md-6">
+                        <!-- draft events -->
+                        <div class="table-responsive">
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th colspan="4"><?php echo Html::heading(__('Draft events', 'events'), 2); ?></th>
+                                    </tr>
+                                    <tr>
+                                        <th>Image</th>
+                                        <th>Description</th>
+                                        <th>Category</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php if (sizeof($draftevents) > 0) {
+                                        foreach ($draftevents as $event) { ?>
+                                            <tr>
+                                                <td>
+                                                    <?php if ($event['image']) echo Html::anchor('', $event['image'], array('rel' => $event['image'], 'class' => 'chocolat pull-left event-image section-' . $event['imagesection'], 'data-toggle' => 'lightbox', 'style' => 'background-image: url(' . $event['image'] . ')'));?>
+                                                </td>
+                                                <td>
+                                                    <?php echo Html::heading($event['title'], 4); ?>
+                                                </td>
+                                                <td>
+                                                    <p class="list-group-item-text"><?php echo $categories_title[$event['category']] . ($event['date'] ? ' — ' . $event['date'] . ' ' . $event['time'] : ''); ?></p>
+                                                    <p class="list-group-item-text"><?php echo $event['short']; ?></p>
+                                                </td>
+                                                <td>
+                                                    <div class="pull-right">
+                                                        <button class="btn btn-sm btn-default edit-event" value="<?php echo $event['id'] ?>" title="<?php echo __('Edit', 'events'); ?>">
+                                                            <span class="glyphicon glyphicon-pencil"></span>
+                                                        </button>
+                                                        <?php echo
+                                                            Form::open() .
+                                                            Form::hidden('csrf', Security::token()) .
+                                                            Form::hidden('delete_event', $event['id']);
+                                                        ?>
+                                                            <button class="btn btn-sm btn-danger" value="1" onclick="return confirmDelete('<?php echo __('Delete event &quot;:title&quot;', 'events', array(':title' => $event['title'])); ?>')" title="<?php echo __('Delete', 'events'); ?>">
+                                                                <span class="glyphicon glyphicon-remove"></span>
+                                                            </button>
+                                                        <?php echo Form::close(); ?>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        <?php }
+                                    } else { ?>
+                                        <tr>
+                                            <td colspan="4">
+                                                <?php echo __('No draft events', 'events'); ?>
+                                            </td>
+                                        </tr>
+                                    <?php } ?>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>

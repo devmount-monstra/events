@@ -22,48 +22,42 @@
     border-top: none;
     border-left: none;
     border-bottom: none;
+    margin-bottom: 0;
 }
 .events-admin .tab-pane table form {
     display: inline-block;
 }
-.events-admin .list-group form {
-    display: inline;
-}
-.events-admin .list-group-item {
-    position: relative;
-    padding: 10px 12px;
-}
-.events-admin .list-group-item .event-image {
-    height: 80px;
-    width: 80px;
-    margin: -10px 12px 0 -12px;
+.events-admin .event-image {
+    height: 50px;
+    width: 50px;
+    /*margin: -10px 12px 0 -12px;*/
 }
 
 /* handle event list images */
-.events-admin .list-group-item .event-image.section-b,
-.events-admin .list-group-item .event-image.section-m,
-.events-admin .list-group-item .event-image.section-t {
-    background-size: 80px auto;
+.events-admin .event-image.section-b,
+.events-admin .event-image.section-m,
+.events-admin .event-image.section-t {
+    background-size: 50px auto;
 }
-.events-admin .list-group-item .event-image.section-l,
-.events-admin .list-group-item .event-image.section-c,
-.events-admin .list-group-item .event-image.section-r {
-    background-size: auto 80px;
+.events-admin .event-image.section-l,
+.events-admin .event-image.section-c,
+.events-admin .event-image.section-r {
+    background-size: auto 50px;
 }
-.events-admin .list-group-item .event-image.section-t {
+.events-admin .event-image.section-t {
     background-position: top;
 }
-.events-admin .list-group-item .event-image.section-b {
+.events-admin .event-image.section-b {
     background-position: bottom;
 }
-.events-admin .list-group-item .event-image.section-l {
+.events-admin .event-image.section-l {
     background-position: left;
 }
-.events-admin .list-group-item .event-image.section-r {
+.events-admin .event-image.section-r {
     background-position: right;
 }
-.events-admin .list-group-item .event-image.section-c,
-.events-admin .list-group-item .event-image.section-m {
+.events-admin .event-image.section-c,
+.events-admin .event-image.section-m {
     background-position: center;
 }
 
