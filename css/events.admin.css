@@ -1,5 +1,6 @@
 /* Events plugin: backend styles */
-.modal .row {
+.modal .row, 
+.events-admin .row {
     margin-bottom: 10px;
 }
 .row.no-gutter > [class*=col-] {
@@ -15,7 +16,7 @@
     background: #fff;
     border-left: 1px solid #ddd;
     border-right: 1px solid #ddd;
-    padding: 10px;
+    padding: 10px 10px 0 10px;
 }
 .events-admin .tab-pane.no-table {
     padding: 0 10px;
