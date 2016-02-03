@@ -1,5 +1,5 @@
 /* Events plugin: backend styles */
-.events-admin .row {
+.modal .row {
     margin-bottom: 10px;
 }
 .row.no-gutter > [class*=col-] {
@@ -10,6 +10,12 @@
 .row.no-gutter {
   margin-left: 0;
   margin-right: 0;
+}
+.events-admin .tab-pane .nav-pills {
+    background: #fff;
+    border-left: 1px solid #ddd;
+    border-right: 1px solid #ddd;
+    padding: 10px;
 }
 .events-admin .tab-pane.no-table {
     padding: 0 10px;
