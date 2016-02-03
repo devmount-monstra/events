@@ -504,9 +504,9 @@
                         <?php
                             echo Form::label('event_image', __('Image file', 'events'));
                             if (sizeof($files)>1) {
-                                echo Form::select('event_image', $files, Null, array('class' => 'form-control'));
+                                echo Form::select('event_image', $files, Null, array('class' => 'form-control clear'));
                             } else {
-                                echo Form::select('event_image', array(), Null, array('class' => 'form-control', 'disabled' => 'disabled', 'title' => __('No file available in configured image directory', 'events')));
+                                echo Form::select('event_image', array(), Null, array('class' => 'form-control clear', 'disabled' => 'disabled', 'title' => __('No file available in configured image directory', 'events')));
                             }
                         ?>
                     </div>

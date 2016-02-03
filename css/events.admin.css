@@ -39,6 +39,7 @@
     margin: -10px 12px 0 -12px;
 }
 
+/* handle event list images */
 .events-admin .list-group-item .event-image.section-b,
 .events-admin .list-group-item .event-image.section-m,
 .events-admin .list-group-item .event-image.section-t {
@@ -66,37 +67,38 @@
     background-position: center;
 }
 
-.events-admin .image-section {
+/* handle image positions in event formula */
+.modal .image-section {
     display: block;
     margin-top: 5px;
     border: 1px solid #999;
 }
-.events-admin .image-section-label {
+.modal .image-section-label {
     text-align: center;
 }
-.events-admin .image-section.section-landscape {
+.modal .image-section.section-landscape {
     width: 30px;
     height: 22px;
 }
-.events-admin .image-section.section-portrait {
+.modal .image-section.section-portrait {
     width: 22px;
     height: 30px;
 }
-.events-admin .image-section.section-top {
+.modal .image-section.section-top {
     background: linear-gradient(to bottom, #ccc, #ccc 20px, #fff 20px);
 }
-.events-admin .image-section.section-bottom {
+.modal .image-section.section-bottom {
     background: linear-gradient(to top, #ccc, #ccc 20px, #fff 20px);
 }
-.events-admin .image-section.section-middle {
+.modal .image-section.section-middle {
     background: linear-gradient(to top, #fff, #fff 4px, #ccc 4px, #ccc 24px, #fff 24px);
 }
-.events-admin .image-section.section-center {
+.modal .image-section.section-center {
     background: linear-gradient(to left, #fff, #fff 4px, #ccc 4px, #ccc 24px, #fff 24px);
 }
-.events-admin .image-section.section-left {
+.modal .image-section.section-left {
     background: linear-gradient(to right, #ccc, #ccc 20px, #fff 20px);
 }
-.events-admin .image-section.section-right {
+.modal .image-section.section-right {
     background: linear-gradient(to left, #ccc, #ccc 20px, #fff 20px);
 }
