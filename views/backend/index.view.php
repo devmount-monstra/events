@@ -14,6 +14,7 @@
 <?php echo
     Form::hidden('output_add', __('Add', 'events')) .
     Form::hidden('output_editevent', __('Edit event', 'events')) .
+    Form::hidden('output_addevent', __('Add event', 'events')) .
     Form::hidden('output_editcategory', __('Edit category', 'events')) .
     Form::hidden('output_addcategory', __('Add category', 'events')) .
     Form::hidden('output_update', __('Update', 'events'));
@@ -29,7 +30,7 @@
         </div>
         <div class="text-right row-phone">
             <?php echo
-                Html::anchor(__('New Event', 'events'), '#events', array('class' => 'btn btn-phone btn-primary', 'data-toggle' => 'tab', 'title' => __('New Event', 'events'))) . Html::nbsp() .
+                Html::anchor(__('New Event', 'events'), '#events', array('class' => 'btn btn-phone btn-primary new-event', 'data-toggle' => 'tab', 'title' => __('New Event', 'events'))) . Html::nbsp() .
                 Html::anchor(__('New Category', 'events'), '#categories', array('class' => 'btn btn-phone btn-primary new-category', 'data-toggle' => 'tab', 'title' => __('New Category', 'events'))) . Html::nbsp() .
                 Html::anchor(__('Documentation', 'events'), '#', array('class' => 'btn btn-phone btn-default readme-plugin', 'data-toggle' => 'modal', 'data-target' => '#modal-documentation', 'readme-plugin' => 'events'));
             ?>
@@ -145,119 +146,6 @@
                         </div>
                     </div>
                     <div class="col-md-6">
-                        <?php echo
-                            Html::heading(__('Add event', 'events'), 2, array('id' => 'add-edit-title-event')) .
-                            Form::open(Null, array('id' => 'add-edit-events')) .
-                            Form::hidden('csrf', Security::token());
-                        ?>
-                        <div class="row">
-                            <div class="col-sm-12">
-                                <?php echo
-                                    Form::label('event_title', __('Title', 'events')) .
-                                    Form::input('event_title', Null, array('class' => 'form-control clear', 'id' => 'focus-events', 'required' => 'required'));
-                                ?>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-sm-6">
-                                <?php echo
-                                    Form::label('event_timestamp', __('Timestamp', 'events')) .
-                                    Form::input('event_timestamp', '', array('class' => 'form-control clear', 'type' => 'datetime-local'));
-                                ?>
-                            </div>
-                            <div class="col-sm-3">
-                                <?php echo
-                                    Form::label('event_date', __('Date', 'events')) .
-                                    Form::input('event_date', Null, array('class' => 'form-control clear'));
-                                ?>
-                            </div>
-                            <div class="col-sm-3">
-                                <?php echo
-                                    Form::label('event_time', __('Time', 'events')) .
-                                    Form::input('event_time', Null, array('class' => 'form-control clear'));
-                                ?>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-sm-6">
-                                <?php echo
-                                    Form::label('event_category', __('Category', 'events')) .
-                                    Form::select('event_category', $categories_title, Null, array('class' => 'form-control clear', 'required' => 'required'));
-                                ?>
-                            </div>
-                            <div class="col-sm-6">
-                                <?php echo Form::label('event-color', __('Color', 'events')); ?>
-                                <div class="input-group">
-                                    <span class="input-group-addon" id="event-color-addon">#</span>
-                                    <?php echo Form::input('event_color', '', array('class' => 'form-control clear', 'id' => 'event-color', 'aria-describedby' => 'event-color-addon')); ?>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-sm-12">
-                                <?php echo
-                                    Form::label('event_location', __('Location', 'events')) .
-                                    Form::input('event_location', Null, array('class' => 'form-control clear'));
-                                ?>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-sm-12">
-                                <?php echo
-                                    Form::label('event_short', __('Short description', 'events')) .
-                                    Form::input('event_short', Null, array('class' => 'form-control clear'));
-                                ?>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-sm-12">
-                                <?php echo
-                                    Form::label('event_description', __('Description', 'events')) .
-                                    Form::textarea('event_description', Null, array('class' => 'form-control clear'));
-                                ?>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-sm-6">
-                                <?php
-                                    echo Form::label('event_image', __('Image file', 'events'));
-                                    if (sizeof($files)>1) {
-                                        echo Form::select('event_image', $files, Null, array('class' => 'form-control'));
-                                    } else {
-                                        echo Form::select('event_image', array(), Null, array('class' => 'form-control', 'disabled' => 'disabled', 'title' => __('No file available in configured image directory', 'events')));
-                                    }
-                                ?>
-                            </div>
-                            <div class="col-sm-6">
-                                <?php echo
-                                    Form::label('event_audio', __('Audio file', 'events')) .
-                                    Form::input('event_audio', Null, array('class' => 'form-control clear'));
-                                ?>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-sm-6">
-                                <?php echo
-                                    Form::label('event_imagesection', __('Clip image', 'events')) . Html::br();
-                                ?>
-                                <label class="image-section-label" title="Clip to top"><?php echo Form::radio('event_imagesection', 't'); ?><span class="image-section section-portrait section-top"></span></label>
-                                <label class="image-section-label" title="Clip to middle"><?php echo Form::radio('event_imagesection', 'm', True); ?><span class="image-section section-portrait section-middle"></span></label>
-                                <label class="image-section-label" title="Clip to bottom"><?php echo Form::radio('event_imagesection', 'b'); ?><span class="image-section section-portrait section-bottom"></span></label>
-                                <label class="image-section-label" title="Clip to left"><?php echo Form::radio('event_imagesection', 'l'); ?><span class="image-section section-landscape section-left"></span></label>
-                                <label class="image-section-label" title="Clip to center"><?php echo Form::radio('event_imagesection', 'c'); ?><span class="image-section section-landscape section-center"></span></label>
-                                <label class="image-section-label" title="Clip to right"><?php echo Form::radio('event_imagesection', 'r'); ?><span class="image-section section-landscape section-right"></span></label>
-                            </div>
-                            <div class="col-sm-6">
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-sm-12">
-                                <button type="submit" name="add_event" id="add-edit-submit-event" class="btn btn-lg btn-primary pull-right" value="1" title="<?php echo __('Add', 'events'); ?>">
-                                    <?php echo __('Add', 'events'); ?>
-                                </button>
-                            </div>
-                        </div>
-                        <?php echo Form::close(); ?>
                     </div>
                 </div>
             </div>
@@ -531,5 +419,127 @@
     </div>
 </div>
 
-
-
+<!-- modal: event -->
+<div id="modal-event" class="modal fade" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="close" data-dismiss="modal">&times;</div>
+                <h4 class="modal-title"><?php echo __('New event', 'filesmanager'); ?></h4>
+            </div>
+            <?php echo
+                Form::open(Null, array('role' => 'form')) .
+                Form::hidden('csrf', Security::token());
+            ?>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <?php echo
+                            Form::label('event_title', __('Title', 'events')) .
+                            Form::input('event_title', Null, array('class' => 'form-control clear', 'id' => 'focus-events', 'required' => 'required'));
+                        ?>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <?php echo
+                            Form::label('event_timestamp', __('Timestamp', 'events')) .
+                            Form::input('event_timestamp', '', array('class' => 'form-control clear', 'type' => 'datetime-local'));
+                        ?>
+                    </div>
+                    <div class="col-sm-3">
+                        <?php echo
+                            Form::label('event_date', __('Date', 'events')) .
+                            Form::input('event_date', Null, array('class' => 'form-control clear'));
+                        ?>
+                    </div>
+                    <div class="col-sm-3">
+                        <?php echo
+                            Form::label('event_time', __('Time', 'events')) .
+                            Form::input('event_time', Null, array('class' => 'form-control clear'));
+                        ?>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <?php echo
+                            Form::label('event_category', __('Category', 'events')) .
+                            Form::select('event_category', $categories_title, Null, array('class' => 'form-control clear', 'required' => 'required'));
+                        ?>
+                    </div>
+                    <div class="col-sm-6">
+                        <?php echo Form::label('event-color', __('Color', 'events')); ?>
+                        <div class="input-group">
+                            <span class="input-group-addon" id="event-color-addon">#</span>
+                            <?php echo Form::input('event_color', '', array('class' => 'form-control clear', 'id' => 'event-color', 'aria-describedby' => 'event-color-addon')); ?>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <?php echo
+                            Form::label('event_location', __('Location', 'events')) .
+                            Form::input('event_location', Null, array('class' => 'form-control clear'));
+                        ?>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <?php echo
+                            Form::label('event_short', __('Short description', 'events')) .
+                            Form::input('event_short', Null, array('class' => 'form-control clear'));
+                        ?>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <?php echo
+                            Form::label('event_description', __('Description', 'events')) .
+                            Form::textarea('event_description', Null, array('class' => 'form-control clear'));
+                        ?>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <?php
+                            echo Form::label('event_image', __('Image file', 'events'));
+                            if (sizeof($files)>1) {
+                                echo Form::select('event_image', $files, Null, array('class' => 'form-control'));
+                            } else {
+                                echo Form::select('event_image', array(), Null, array('class' => 'form-control', 'disabled' => 'disabled', 'title' => __('No file available in configured image directory', 'events')));
+                            }
+                        ?>
+                    </div>
+                    <div class="col-sm-6">
+                        <?php echo
+                            Form::label('event_audio', __('Audio file', 'events')) .
+                            Form::input('event_audio', Null, array('class' => 'form-control clear'));
+                        ?>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <?php echo
+                            Form::label('event_imagesection', __('Clip image', 'events')) . Html::br();
+                        ?>
+                        <label class="image-section-label" title="Clip to top"><?php echo Form::radio('event_imagesection', 't'); ?><span class="image-section section-portrait section-top"></span></label>
+                        <label class="image-section-label" title="Clip to middle"><?php echo Form::radio('event_imagesection', 'm', True); ?><span class="image-section section-portrait section-middle"></span></label>
+                        <label class="image-section-label" title="Clip to bottom"><?php echo Form::radio('event_imagesection', 'b'); ?><span class="image-section section-portrait section-bottom"></span></label>
+                        <label class="image-section-label" title="Clip to left"><?php echo Form::radio('event_imagesection', 'l'); ?><span class="image-section section-landscape section-left"></span></label>
+                        <label class="image-section-label" title="Clip to center"><?php echo Form::radio('event_imagesection', 'c'); ?><span class="image-section section-landscape section-center"></span></label>
+                        <label class="image-section-label" title="Clip to right"><?php echo Form::radio('event_imagesection', 'r'); ?><span class="image-section section-landscape section-right"></span></label>
+                    </div>
+                    <div class="col-sm-6">
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal"><?php echo __('Cancel', 'events'); ?></button>
+                <button type="submit" name="add_event" id="add-edit-submit-event" class="btn btn-primary" value="1" title="<?php echo __('Add', 'events'); ?>">
+                    <?php echo __('Add', 'events'); ?>
+                </button>
+            </div>
+            <?php echo Form::close(); ?>
+        </div>
+    </div>
+</div>

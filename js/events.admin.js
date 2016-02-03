@@ -62,6 +62,15 @@ $.monstra.events = {
             $.monstra.events.showCategoryDialog($(this).val());
         });
 
+        // modal: new event
+        $('.new-event').click(function() {
+            $.monstra.events.showEventDialog();
+        });
+        // modal: edit event
+        $('.edit-event').click(function() {
+            $.monstra.events.showEventDialog($(this).val());
+        });
+
         // modal: readme greybox script
         $('.readme-plugin').click(function() {
             $.ajax({
@@ -161,7 +170,35 @@ $.monstra.events = {
             $.monstra.events.setColor('category', true);
         }
         dialog.modal('show');
+    },
+
+    // modal: handle new / edit event
+    showEventDialog: function(id) {
+        var dialog = $('#modal-event');
+        if (id !== null && id !== undefined && id >= 0) {
+            $.ajax({
+                type: 'post',
+                data: 'edit_event_id=' + id,
+                // on success: modify formula to edit
+                success: function(data){
+                    var event = JSON.parse(data);
+                    dialog.find('.modal-title').text($('#output_editevent').val() + ' « ' + event.title + ' »');
+                    dialog.find('input[name="event_title"]').val(event.title);
+                    dialog.find('input[name="event_color"]').val(event.color);
+                    dialog.find('#add-edit-submit-event').val(event.id).attr('name', 'edit_event').text($('#output_update').val());
+                    $.monstra.events.setColor('event', false);
+                }
+            });
+        } else {
+            dialog.find('.modal-title').text($('#output_addevent').val());
+            dialog.find('input[name="event_title"]').val('');
+            dialog.find('input[name="event_color"]').val('');
+            dialog.find('#add-edit-submit-event').val(1).attr('name', 'add_event').text($('#output_add').val());
+            $.monstra.events.setColor('event', true);
+        }
+        dialog.modal('show');
     }
+
 };
 
 $(document).ready(function(){
