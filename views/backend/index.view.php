@@ -63,6 +63,7 @@
                                     <th>Image</th>
                                     <th>Title</th>
                                     <th>Description</th>
+                                    <th>Color</th>
                                     <th>Category</th>
                                     <th></th>
                                 </tr>
@@ -82,6 +83,11 @@
                                                 <?php echo $event['short']; ?>
                                             </td>
                                             <td>
+                                                <div class="color-text-box" style="border-left: 1.4em solid #<?php echo $event['color'] ? $event['color'] : $categories_color[$event['category']]; ?>; padding-left: 10px;">
+                                                    <span class="code">#<?php echo $event['color'] ? $event['color'] : $categories_color[$event['category']] . ' <span class="glyphicon glyphicon-arrow-left" aria-hidden="true" title="' . __('Inherited from category', 'events') . '"></span>'; ?></span>
+                                                </div>
+                                            </td>
+                                            <td>
                                                 <?php echo $categories_title[$event['category']]; ?>
                                             </td>
                                             <td>
@@ -104,7 +110,7 @@
                                     <?php }
                                 } else { ?>
                                     <tr>
-                                        <td colspan="5">
+                                        <td colspan="6">
                                             <?php echo __('No upcoming events', 'events'); ?>
                                         </td>
                                     </tr>
@@ -124,6 +130,7 @@
                                     <th>Image</th>
                                     <th>Title</th>
                                     <th>Description</th>
+                                    <th>Color</th>
                                     <th>Category</th>
                                     <th></th>
                                 </tr>
@@ -141,6 +148,11 @@
                                             <td>
                                                 <?php echo $event['date'] ? $event['date'] . ' ' . $event['time'] . Html::br() : ''; ?>
                                                 <?php echo $event['short']; ?>
+                                            </td>
+                                            <td>
+                                                <div class="color-text-box" style="border-left: 1.4em solid #<?php echo $event['color'] ? $event['color'] : $categories_color[$event['category']]; ?>; padding-left: 10px;">
+                                                    <span class="code">#<?php echo $event['color'] ? $event['color'] : $categories_color[$event['category']] . ' <span class="glyphicon glyphicon-arrow-left" aria-hidden="true" title="' . __('Inherited from category', 'events') . '"></span>'; ?></span>
+                                                </div>
                                             </td>
                                             <td>
                                                 <?php echo $categories_title[$event['category']]; ?>
@@ -165,7 +177,7 @@
                                     <?php }
                                 } else { ?>
                                     <tr>
-                                        <td colspan="5">
+                                        <td colspan="6">
 
                                             <?php echo __('No past events', 'events'); ?>
                                         </td>
@@ -186,6 +198,7 @@
                                     <th>Image</th>
                                     <th>Title</th>
                                     <th>Description</th>
+                                    <th>Color</th>
                                     <th>Category</th>
                                     <th></th>
                                 </tr>
@@ -203,6 +216,11 @@
                                             <td>
                                                 <?php echo $event['date'] ? $event['date'] . ' ' . $event['time'] . Html::br() : ''; ?>
                                                 <?php echo $event['short']; ?>
+                                            </td>
+                                            <td>
+                                                <div class="color-text-box" style="border-left: 1.4em solid #<?php echo $event['color'] ? $event['color'] : $categories_color[$event['category']]; ?>; padding-left: 10px;">
+                                                    <span class="code">#<?php echo $event['color'] ? $event['color'] : $categories_color[$event['category']] . ' <span class="glyphicon glyphicon-arrow-left" aria-hidden="true" title="' . __('Inherited from category', 'events') . '"></span>'; ?></span>
+                                                </div>
                                             </td>
                                             <td>
                                                 <?php echo $categories_title[$event['category']]; ?>
@@ -227,7 +245,7 @@
                                     <?php }
                                 } else { ?>
                                     <tr>
-                                        <td colspan="5">
+                                        <td colspan="6">
                                             <?php echo __('No draft events', 'events'); ?>
                                         </td>
                                     </tr>
@@ -342,7 +360,10 @@
                         <table class="table table-bordered">
                             <thead>
                                 <tr>
+                                    <th>Image</th>
                                     <th>Title</th>
+                                    <th>Description</th>
+                                    <th>Color</th>
                                     <th>Category</th>
                                     <th></th>
                                 </tr>
@@ -352,12 +373,22 @@
                                 foreach ($deletedevents as $event) { ?>
                                     <tr>
                                         <td>
-                                            <div class="color-text-box" style="border-left: 1.4em solid #<?php echo $event['color'] ? $event['color'] : $categories_color[$event['category']] ; ?>; padding-left: 10px;">
-                                                <?php echo Html::heading($event['title'], 4); ?>
+                                            <?php if ($event['image']) echo Html::anchor('', $event['image'], array('rel' => $event['image'], 'class' => 'chocolat pull-left event-image section-' . $event['imagesection'], 'data-toggle' => 'lightbox', 'style' => 'background-image: url(' . $event['image'] . ')'));?>
+                                        </td>
+                                        <td>
+                                            <?php echo Html::heading($event['title'], 4); ?>
+                                        </td>
+                                        <td>
+                                            <?php echo $event['date'] ? $event['date'] . ' ' . $event['time'] . Html::br() : ''; ?>
+                                            <?php echo $event['short']; ?>
+                                        </td>
+                                        <td>
+                                            <div class="color-text-box" style="border-left: 1.4em solid #<?php echo $event['color'] ? $event['color'] : $categories_color[$event['category']]; ?>; padding-left: 10px;">
+                                                <span class="code">#<?php echo $event['color'] ? $event['color'] : $categories_color[$event['category']] . ' <span class="glyphicon glyphicon-arrow-left" aria-hidden="true" title="' . __('Inherited from category', 'events') . '"></span>'; ?></span>
                                             </div>
                                         </td>
                                         <td>
-                                            <?php echo $categories_title[$event['category']] . ($event['date'] ? ' — ' . $event['date'] . ' ' . $event['time'] : ''); ?>
+                                            <?php echo $categories_title[$event['category']]; ?>
                                         </td>
                                         <td>
                                             <div class="pull-right">
@@ -385,7 +416,7 @@
                                 <?php }
                             } else { ?>
                                 <tr>
-                                    <td colspan="3">
+                                    <td colspan="6">
                                         <?php echo __('No deleted events', 'events'); ?>
                                     </td>
                                 </tr>

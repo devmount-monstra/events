@@ -1,4 +1,7 @@
 /* Events plugin: backend styles */
+.code {
+    font-family: monospace;
+}
 .modal .row, 
 .events-admin .row {
     margin-bottom: 10px;
