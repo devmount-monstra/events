@@ -60,11 +60,11 @@
                         <table class="table table-bordered">
                             <thead>
                                 <tr>
-                                    <th>Image</th>
-                                    <th>Title</th>
-                                    <th>Description</th>
-                                    <th>Color</th>
-                                    <th>Category</th>
+                                    <th><?php echo __('Image', 'events'); ?></th>
+                                    <th><?php echo __('Title', 'events'); ?></th>
+                                    <th><?php echo __('Description', 'events'); ?></th>
+                                    <th><?php echo __('Color', 'events'); ?></th>
+                                    <th><?php echo __('Category', 'events'); ?></th>
                                     <th></th>
                                 </tr>
                             </thead>
@@ -73,7 +73,18 @@
                                     foreach ($upcomingevents as $event) { ?>
                                         <tr>
                                             <td>
-                                                <?php if ($event['image']) echo Html::anchor('', $event['image'], array('rel' => $event['image'], 'class' => 'chocolat pull-left event-image section-' . $event['imagesection'], 'data-toggle' => 'lightbox', 'style' => 'background-image: url(' . $event['image'] . ')'));?>
+                                                <?php if ($event['image'])
+                                                    echo Html::anchor(
+                                                        '',
+                                                        $event['image'],
+                                                        array(
+                                                            'rel' => $event['image'],
+                                                            'class' => 'chocolat pull-left event-image section-' . $event['imagesection'],
+                                                            'data-toggle' => 'lightbox',
+                                                            'style' => 'background-image: url(' . $event['image'] . ')'
+                                                        )
+                                                    );
+                                                ?>
                                             </td>
                                             <td>
                                                 <?php echo Html::heading($event['title'], 4); ?>
@@ -83,8 +94,13 @@
                                                 <?php echo $event['short']; ?>
                                             </td>
                                             <td>
-                                                <div class="color-text-box" style="border-left: 1.4em solid #<?php echo $event['color'] ? $event['color'] : $categories_color[$event['category']]; ?>; padding-left: 10px;">
-                                                    <span class="code">#<?php echo $event['color'] ? $event['color'] : $categories_color[$event['category']] . ' <span class="glyphicon glyphicon-arrow-left" aria-hidden="true" title="' . __('Inherited from category', 'events') . '"></span>'; ?></span>
+                                                <div
+                                                    class="color-text-box"
+                                                    style="border-left: 1.4em solid #<?php echo $event['color'] ? $event['color'] : $categories_color[$event['category']]; ?>; padding-left: 10px;"
+                                                >
+                                                    <span class="code">
+                                                        #<?php echo $event['color'] ? $event['color'] : $categories_color[$event['category']] . ' <span class="glyphicon glyphicon-arrow-left" aria-hidden="true" title="' . __('Inherited from category', 'events') . '"></span>'; ?>
+                                                    </span>
                                                 </div>
                                             </td>
                                             <td>
@@ -92,7 +108,11 @@
                                             </td>
                                             <td>
                                                 <div class="pull-right">
-                                                    <button class="btn btn-primary edit-event" value="<?php echo $event['id'] ?>" title="<?php echo __('Edit', 'events'); ?>">
+                                                    <button
+                                                        class="btn btn-primary edit-event"
+                                                        value="<?php echo $event['id'] ?>"
+                                                        title="<?php echo __('Edit', 'events'); ?>"
+                                                    >
                                                         <?php echo __('Edit', 'events'); ?>
                                                     </button>
                                                     <?php echo
@@ -100,7 +120,12 @@
                                                         Form::hidden('csrf', Security::token()) .
                                                         Form::hidden('delete_event', $event['id']);
                                                     ?>
-                                                        <button class="btn btn-danger" value="1" onclick="return confirmDelete('<?php echo __('Delete event &quot;:title&quot;', 'events', array(':title' => $event['title'])); ?>')" title="<?php echo __('Delete', 'events'); ?>">
+                                                        <button
+                                                            class="btn btn-danger"
+                                                            value="1"
+                                                            onclick="return confirmDelete('<?php echo __('Delete event &quot;:title&quot;', 'events', array(':title' => $event['title'])); ?>')"
+                                                            title="<?php echo __('Delete', 'events'); ?>"
+                                                        >
                                                             <?php echo __('Delete', 'events'); ?>
                                                         </button>
                                                     <?php echo Form::close(); ?>
@@ -127,11 +152,11 @@
                         <table class="table table-bordered">
                             <thead>
                                 <tr>
-                                    <th>Image</th>
-                                    <th>Title</th>
-                                    <th>Description</th>
-                                    <th>Color</th>
-                                    <th>Category</th>
+                                    <th><?php echo __('Image', 'events'); ?></th>
+                                    <th><?php echo __('Title', 'events'); ?></th>
+                                    <th><?php echo __('Description', 'events'); ?></th>
+                                    <th><?php echo __('Color', 'events'); ?></th>
+                                    <th><?php echo __('Category', 'events'); ?></th>
                                     <th></th>
                                 </tr>
                             </thead>
@@ -140,7 +165,16 @@
                                     foreach ($pastevents as $event) { ?>
                                         <tr>
                                             <td>
-                                                <?php if ($event['image']) echo Html::anchor('', $event['image'], array('rel' => $event['image'], 'class' => 'chocolat pull-left event-image section-' . $event['imagesection'], 'data-toggle' => 'lightbox', 'style' => 'background-image: url(' . $event['image'] . ')'));?>
+                                                <?php if ($event['image']) echo Html::anchor(
+                                                    '',
+                                                    $event['image'],
+                                                    array(
+                                                        'rel' => $event['image'],
+                                                        'class' => 'chocolat pull-left event-image section-' . $event['imagesection'],
+                                                        'data-toggle' => 'lightbox',
+                                                        'style' => 'background-image: url(' . $event['image'] . ')'
+                                                    ));
+                                                ?>
                                             </td>
                                             <td>
                                                 <?php echo Html::heading($event['title'], 4); ?>
@@ -150,8 +184,13 @@
                                                 <?php echo $event['short']; ?>
                                             </td>
                                             <td>
-                                                <div class="color-text-box" style="border-left: 1.4em solid #<?php echo $event['color'] ? $event['color'] : $categories_color[$event['category']]; ?>; padding-left: 10px;">
-                                                    <span class="code">#<?php echo $event['color'] ? $event['color'] : $categories_color[$event['category']] . ' <span class="glyphicon glyphicon-arrow-left" aria-hidden="true" title="' . __('Inherited from category', 'events') . '"></span>'; ?></span>
+                                                <div
+                                                    class="color-text-box"
+                                                    style="border-left: 1.4em solid #<?php echo $event['color'] ? $event['color'] : $categories_color[$event['category']]; ?>; padding-left: 10px;"
+                                                >
+                                                    <span class="code">
+                                                        #<?php echo $event['color'] ? $event['color'] : $categories_color[$event['category']] . ' <span class="glyphicon glyphicon-arrow-left" aria-hidden="true" title="' . __('Inherited from category', 'events') . '"></span>'; ?>
+                                                    </span>
                                                 </div>
                                             </td>
                                             <td>
@@ -159,7 +198,11 @@
                                             </td>
                                             <td>
                                                 <div class="pull-right">
-                                                    <button class="btn btn-primary edit-event" value="<?php echo $event['id'] ?>" title="<?php echo __('Edit', 'events'); ?>">
+                                                    <button
+                                                        class="btn btn-primary edit-event"
+                                                        value="<?php echo $event['id'] ?>"
+                                                        title="<?php echo __('Edit', 'events'); ?>"
+                                                    >
                                                         <?php echo __('Edit', 'events'); ?>
                                                     </button>
                                                     <?php echo
@@ -167,7 +210,12 @@
                                                         Form::hidden('csrf', Security::token()) .
                                                         Form::hidden('delete_event', $event['id']);
                                                     ?>
-                                                        <button class="btn btn-danger" value="1" onclick="return confirmDelete('<?php echo __('Delete event &quot;:title&quot;', 'events', array(':title' => $event['title'])); ?>')" title="<?php echo __('Delete', 'events'); ?>">
+                                                        <button
+                                                            class="btn btn-danger"
+                                                            value="1"
+                                                            onclick="return confirmDelete('<?php echo __('Delete event &quot;:title&quot;', 'events', array(':title' => $event['title'])); ?>')"
+                                                            title="<?php echo __('Delete', 'events'); ?>"
+                                                        >
                                                             <?php echo __('Delete', 'events'); ?>
                                                         </button>
                                                     <?php echo Form::close(); ?>
@@ -195,11 +243,11 @@
                         <table class="table table-bordered">
                             <thead>
                                 <tr>
-                                    <th>Image</th>
-                                    <th>Title</th>
-                                    <th>Description</th>
-                                    <th>Color</th>
-                                    <th>Category</th>
+                                    <th><?php echo __('Image', 'events'); ?></th>
+                                    <th><?php echo __('Title', 'events'); ?></th>
+                                    <th><?php echo __('Description', 'events'); ?></th>
+                                    <th><?php echo __('Color', 'events'); ?></th>
+                                    <th><?php echo __('Category', 'events'); ?></th>
                                     <th></th>
                                 </tr>
                             </thead>
@@ -208,7 +256,16 @@
                                     foreach ($draftevents as $event) { ?>
                                         <tr>
                                             <td>
-                                                <?php if ($event['image']) echo Html::anchor('', $event['image'], array('rel' => $event['image'], 'class' => 'chocolat pull-left event-image section-' . $event['imagesection'], 'data-toggle' => 'lightbox', 'style' => 'background-image: url(' . $event['image'] . ')'));?>
+                                                <?php if ($event['image']) echo Html::anchor(
+                                                    '',
+                                                    $event['image'],
+                                                    array(
+                                                        'rel' => $event['image'],
+                                                        'class' => 'chocolat pull-left event-image section-' . $event['imagesection'],
+                                                        'data-toggle' => 'lightbox',
+                                                        'style' => 'background-image: url(' . $event['image'] . ')'
+                                                    ));
+                                                ?>
                                             </td>
                                             <td>
                                                 <?php echo Html::heading($event['title'], 4); ?>
@@ -218,8 +275,13 @@
                                                 <?php echo $event['short']; ?>
                                             </td>
                                             <td>
-                                                <div class="color-text-box" style="border-left: 1.4em solid #<?php echo $event['color'] ? $event['color'] : $categories_color[$event['category']]; ?>; padding-left: 10px;">
-                                                    <span class="code">#<?php echo $event['color'] ? $event['color'] : $categories_color[$event['category']] . ' <span class="glyphicon glyphicon-arrow-left" aria-hidden="true" title="' . __('Inherited from category', 'events') . '"></span>'; ?></span>
+                                                <div
+                                                    class="color-text-box"
+                                                    style="border-left: 1.4em solid #<?php echo $event['color'] ? $event['color'] : $categories_color[$event['category']]; ?>; padding-left: 10px;"
+                                                >
+                                                    <span class="code">
+                                                        #<?php echo $event['color'] ? $event['color'] : $categories_color[$event['category']] . ' <span class="glyphicon glyphicon-arrow-left" aria-hidden="true" title="' . __('Inherited from category', 'events') . '"></span>'; ?>
+                                                    </span>
                                                 </div>
                                             </td>
                                             <td>
@@ -227,7 +289,11 @@
                                             </td>
                                             <td>
                                                 <div class="pull-right">
-                                                    <button class="btn btn-primary edit-event" value="<?php echo $event['id'] ?>" title="<?php echo __('Edit', 'events'); ?>">
+                                                    <button
+                                                        class="btn btn-primary edit-event"
+                                                        value="<?php echo $event['id'] ?>"
+                                                        title="<?php echo __('Edit', 'events'); ?>"
+                                                    >
                                                         <?php echo __('Edit', 'events'); ?>
                                                     </button>
                                                     <?php echo
@@ -235,7 +301,12 @@
                                                         Form::hidden('csrf', Security::token()) .
                                                         Form::hidden('delete_event', $event['id']);
                                                     ?>
-                                                        <button class="btn btn-danger" value="1" onclick="return confirmDelete('<?php echo __('Delete event &quot;:title&quot;', 'events', array(':title' => $event['title'])); ?>')" title="<?php echo __('Delete', 'events'); ?>">
+                                                        <button
+                                                            class="btn btn-danger"
+                                                            value="1"
+                                                            onclick="return confirmDelete('<?php echo __('Delete event &quot;:title&quot;', 'events', array(':title' => $event['title'])); ?>')"
+                                                            title="<?php echo __('Delete', 'events'); ?>"
+                                                        >
                                                             <?php echo __('Delete', 'events'); ?>
                                                         </button>
                                                     <?php echo Form::close(); ?>
@@ -263,9 +334,9 @@
                 <table class="table table-bordered">
                     <thead>
                         <tr>
-                            <th>Color</th>
-                            <th>Title</th>
-                            <th>Assigned</th>
+                            <th><?php echo __('Color', 'events'); ?></th>
+                            <th><?php echo __('Title', 'events'); ?></th>
+                            <th><?php echo __('Assigned', 'events'); ?></th>
                             <th></th>
                         </tr>
                     </thead>
@@ -274,7 +345,10 @@
                             foreach ($categories as $category) { ?>
                                 <tr>
                                     <td>
-                                        <div class="color-text-box" style="border-left: 1.4em solid #<?php echo $category['color']; ?>; padding-left: 10px;">
+                                        <div
+                                            class="color-text-box"
+                                            style="border-left: 1.4em solid #<?php echo $category['color']; ?>; padding-left: 10px;"
+                                        >
                                             #<?php echo $category['color']; ?>
                                         </div>
                                     </td>
@@ -287,13 +361,26 @@
                                     </td>
                                     <td>
                                         <div class="pull-right">
-                                            <button class="btn btn-primary edit-category" value="<?php echo $category['id'] ?>" title="<?php echo __('Edit', 'events'); ?>"><?php echo __('Edit', 'events'); ?></button>
+                                            <button
+                                                class="btn btn-primary edit-category"
+                                                value="<?php echo $category['id'] ?>"
+                                                title="<?php echo __('Edit', 'events'); ?>"
+                                            >
+                                                <?php echo __('Edit', 'events'); ?>
+                                            </button>
                                             <?php echo
                                                 Form::open() .
                                                 Form::hidden('csrf', Security::token()) .
                                                 Form::hidden('delete_category', $category['id']);
                                             ?>
-                                                <button class="btn btn-danger" value="1" onclick="return confirmDelete('<?php echo __('Delete category &quot;:title&quot;', 'events', array(':title' => $category['title'])); ?>')" title="<?php echo __('Delete', 'events'); ?>"><?php echo __('Delete', 'events'); ?></button>
+                                                <button
+                                                    class="btn btn-danger"
+                                                    value="1"
+                                                    onclick="return confirmDelete('<?php echo __('Delete category &quot;:title&quot;', 'events', array(':title' => $category['title'])); ?>')"
+                                                    title="<?php echo __('Delete', 'events'); ?>"
+                                                >
+                                                    <?php echo __('Delete', 'events'); ?>
+                                                </button>
                                             <?php echo Form::close(); ?>
                                         </div>
                                     </td>
@@ -332,7 +419,13 @@
             </div>
             <div class="row">
                 <div class="col-sm-12">
-                    <button type="submit" name="events_options" class="btn btn-primary" value="1" title="<?php echo __('Save', 'events'); ?>">
+                    <button
+                        type="submit"
+                        name="events_options"
+                        class="btn btn-primary"
+                        value="1"
+                        title="<?php echo __('Save', 'events'); ?>"
+                    >
                         <?php echo __('Save', 'events'); ?>
                     </button>
                 </div>
@@ -360,11 +453,11 @@
                         <table class="table table-bordered">
                             <thead>
                                 <tr>
-                                    <th>Image</th>
-                                    <th>Title</th>
-                                    <th>Description</th>
-                                    <th>Color</th>
-                                    <th>Category</th>
+                                    <th><?php echo __('Image', 'events'); ?></th>
+                                    <th><?php echo __('Title', 'events'); ?></th>
+                                    <th><?php echo __('Description', 'events'); ?></th>
+                                    <th><?php echo __('Color', 'events'); ?></th>
+                                    <th><?php echo __('Category', 'events'); ?></th>
                                     <th></th>
                                 </tr>
                             </thead>
@@ -373,7 +466,16 @@
                                 foreach ($deletedevents as $event) { ?>
                                     <tr>
                                         <td>
-                                            <?php if ($event['image']) echo Html::anchor('', $event['image'], array('rel' => $event['image'], 'class' => 'chocolat pull-left event-image section-' . $event['imagesection'], 'data-toggle' => 'lightbox', 'style' => 'background-image: url(' . $event['image'] . ')'));?>
+                                            <?php if ($event['image']) echo Html::anchor(
+                                                '',
+                                                $event['image'],
+                                                array(
+                                                    'rel' => $event['image'],
+                                                    'class' => 'chocolat pull-left event-image section-' . $event['imagesection'],
+                                                    'data-toggle' => 'lightbox',
+                                                    'style' => 'background-image: url(' . $event['image'] . ')'
+                                                ));
+                                            ?>
                                         </td>
                                         <td>
                                             <?php echo Html::heading($event['title'], 4); ?>
@@ -383,8 +485,13 @@
                                             <?php echo $event['short']; ?>
                                         </td>
                                         <td>
-                                            <div class="color-text-box" style="border-left: 1.4em solid #<?php echo $event['color'] ? $event['color'] : $categories_color[$event['category']]; ?>; padding-left: 10px;">
-                                                <span class="code">#<?php echo $event['color'] ? $event['color'] : $categories_color[$event['category']] . ' <span class="glyphicon glyphicon-arrow-left" aria-hidden="true" title="' . __('Inherited from category', 'events') . '"></span>'; ?></span>
+                                            <div
+                                                class="color-text-box"
+                                                style="border-left: 1.4em solid #<?php echo $event['color'] ? $event['color'] : $categories_color[$event['category']]; ?>; padding-left: 10px;"
+                                            >
+                                                <span class="code">
+                                                    #<?php echo $event['color'] ? $event['color'] : $categories_color[$event['category']] . ' <span class="glyphicon glyphicon-arrow-left" aria-hidden="true" title="' . __('Inherited from category', 'events') . '"></span>'; ?>
+                                                </span>
                                             </div>
                                         </td>
                                         <td>
@@ -397,7 +504,11 @@
                                                     Form::hidden('csrf', Security::token()) .
                                                     Form::hidden('restore_trash_event', $event['id']);
                                                 ?>
-                                                    <button class="btn btn-primary" value="<?php echo $event['id'] ?>" title="<?php echo __('Restore', 'events'); ?>">
+                                                    <button
+                                                        class="btn btn-primary"
+                                                        value="<?php echo $event['id'] ?>"
+                                                        title="<?php echo __('Restore', 'events'); ?>"
+                                                    >
                                                         <?php echo __('Restore', 'events'); ?>
                                                     </button>
                                                 <?php echo Form::close(); ?>
@@ -406,7 +517,12 @@
                                                     Form::hidden('csrf', Security::token()) .
                                                     Form::hidden('delete_trash_event', $event['id']);
                                                 ?>
-                                                    <button class="btn btn-danger" value="1" onclick="return confirmDelete('<?php echo __('Delete event &quot;:title&quot; permanently (can not be undone)', 'events', array(':title' => $event['title'])); ?>')" title="<?php echo __('Delete permanently', 'events'); ?>">
+                                                    <button
+                                                        class="btn btn-danger"
+                                                        value="1"
+                                                        onclick="return confirmDelete('<?php echo __('Delete event &quot;:title&quot; permanently (can not be undone)', 'events', array(':title' => $event['title'])); ?>')"
+                                                        title="<?php echo __('Delete permanently', 'events'); ?>"
+                                                    >
                                                         <?php echo __('Delete', 'events'); ?>
                                                     </button>
                                                 <?php echo Form::close(); ?>
@@ -434,9 +550,9 @@
                         <table class="table table-bordered">
                             <thead>
                                 <tr>
-                                    <th>Color</th>
-                                    <th>Title</th>
-                                    <th>Assigned</th>
+                                    <th><?php echo __('Color', 'events'); ?></th>
+                                    <th><?php echo __('Title', 'events'); ?></th>
+                                    <th><?php echo __('Assigned', 'events'); ?></th>
                                     <th></th>
                                 </tr>
                             </thead>
@@ -445,7 +561,10 @@
                                 foreach ($deletedcategories as $category) { ?>
                                     <tr>
                                         <td>
-                                            <div class="color-text-box" style="border-left: 1.4em solid #<?php echo $category['color']; ?>; padding-left: 10px;">
+                                            <div
+                                                class="color-text-box"
+                                                style="border-left: 1.4em solid #<?php echo $category['color']; ?>; padding-left: 10px;"
+                                            >
                                                 #<?php echo $category['color']; ?>
                                             </div>
                                         </td>
@@ -463,7 +582,11 @@
                                                     Form::hidden('csrf', Security::token()) .
                                                     Form::hidden('restore_trash_category', $category['id']);
                                                 ?>
-                                                    <button class="btn btn-primary" value="<?php echo $category['id'] ?>" title="<?php echo __('Restore', 'events'); ?>">
+                                                    <button
+                                                        class="btn btn-primary"
+                                                        value="<?php echo $category['id'] ?>"
+                                                        title="<?php echo __('Restore', 'events'); ?>"
+                                                    >
                                                         <?php echo __('Restore', 'events'); ?>
                                                     </button>
                                                 <?php echo Form::close(); ?>
@@ -472,7 +595,12 @@
                                                     Form::hidden('csrf', Security::token()) .
                                                     Form::hidden('delete_trash_category', $category['id']);
                                                 ?>
-                                                    <button class="btn btn-danger" value="1" onclick="return confirmDelete('<?php echo __('Delete category &quot;:title&quot; permanently (can not be undone)', 'events', array(':title' => $category['title'])); ?>')" title="<?php echo __('Delete permanently', 'events'); ?>">
+                                                    <button
+                                                        class="btn btn-danger"
+                                                        value="1"
+                                                        onclick="return confirmDelete('<?php echo __('Delete category &quot;:title&quot; permanently (can not be undone)', 'events', array(':title' => $category['title'])); ?>')"
+                                                        title="<?php echo __('Delete permanently', 'events'); ?>"
+                                                    >
                                                         <?php echo __('Delete', 'events'); ?>
                                                     </button>
                                                 <?php echo Form::close(); ?>
@@ -541,8 +669,21 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal"><?php echo __('Cancel', 'events'); ?></button>
-                <button type="submit" name="add_category" id="add-edit-submit-category" class="btn btn-primary" value="1" title="<?php echo __('Add', 'events'); ?>">
+                <button
+                    type="button"
+                    class="btn btn-default"
+                    data-dismiss="modal"
+                >
+                    <?php echo __('Cancel', 'events'); ?>
+                </button>
+                <button
+                    type="submit"
+                    name="add_category"
+                    id="add-edit-submit-category"
+                    class="btn btn-primary"
+                    value="1"
+                    title="<?php echo __('Add', 'events'); ?>"
+                >
                     <?php echo __('Add', 'events'); ?>
                 </button>
             </div>
@@ -654,20 +795,45 @@
                         <?php echo
                             Form::label('event_imagesection', __('Clip image', 'events')) . Html::br();
                         ?>
-                        <label class="image-section-label" title="Clip to top"><?php echo Form::radio('event_imagesection', 't'); ?><span class="image-section section-portrait section-top"></span></label>
-                        <label class="image-section-label" title="Clip to middle"><?php echo Form::radio('event_imagesection', 'm', True); ?><span class="image-section section-portrait section-middle"></span></label>
-                        <label class="image-section-label" title="Clip to bottom"><?php echo Form::radio('event_imagesection', 'b'); ?><span class="image-section section-portrait section-bottom"></span></label>
-                        <label class="image-section-label" title="Clip to left"><?php echo Form::radio('event_imagesection', 'l'); ?><span class="image-section section-landscape section-left"></span></label>
-                        <label class="image-section-label" title="Clip to center"><?php echo Form::radio('event_imagesection', 'c'); ?><span class="image-section section-landscape section-center"></span></label>
-                        <label class="image-section-label" title="Clip to right"><?php echo Form::radio('event_imagesection', 'r'); ?><span class="image-section section-landscape section-right"></span></label>
+                        <label class="image-section-label" title="Clip to top"><?php echo Form::radio('event_imagesection', 't'); ?>
+                            <span class="image-section section-portrait section-top"></span>
+                        </label>
+                        <label class="image-section-label" title="Clip to middle"><?php echo Form::radio('event_imagesection', 'm', True); ?>
+                            <span class="image-section section-portrait section-middle"></span>
+                        </label>
+                        <label class="image-section-label" title="Clip to bottom"><?php echo Form::radio('event_imagesection', 'b'); ?>
+                            <span class="image-section section-portrait section-bottom"></span>
+                        </label>
+                        <label class="image-section-label" title="Clip to left"><?php echo Form::radio('event_imagesection', 'l'); ?>
+                            <span class="image-section section-landscape section-left"></span>
+                        </label>
+                        <label class="image-section-label" title="Clip to center"><?php echo Form::radio('event_imagesection', 'c'); ?>
+                            <span class="image-section section-landscape section-center"></span>
+                        </label>
+                        <label class="image-section-label" title="Clip to right"><?php echo Form::radio('event_imagesection', 'r'); ?>
+                            <span class="image-section section-landscape section-right"></span>
+                        </label>
                     </div>
                     <div class="col-sm-6">
                     </div>
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal"><?php echo __('Cancel', 'events'); ?></button>
-                <button type="submit" name="add_event" id="add-edit-submit-event" class="btn btn-primary" value="1" title="<?php echo __('Add', 'events'); ?>">
+                <button
+                    type="button"
+                    class="btn btn-default"
+                    data-dismiss="modal"
+                >
+                    <?php echo __('Cancel', 'events'); ?>
+                </button>
+                <button
+                    type="submit"
+                    name="add_event"
+                    id="add-edit-submit-event"
+                    class="btn btn-primary"
+                    value="1"
+                    title="<?php echo __('Add', 'events'); ?>"
+                >
                     <?php echo __('Add', 'events'); ?>
                 </button>
             </div>
