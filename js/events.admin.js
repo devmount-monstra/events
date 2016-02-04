@@ -5,6 +5,9 @@ $.monstra.events = {
 
     /* initialize document ready functions */
 	init: function(){
+        // activate current tab on page reload
+        $.monstra.events.handleTabLinks();
+        
         // handle color field changes
         $('#event-color').on('input change paste keyup', function(){
             $.monstra.events.setColor('event', false);
@@ -41,6 +44,7 @@ $.monstra.events = {
                 }
             });
         });
+        
     },
 
     /* set color of input field
@@ -135,6 +139,20 @@ $.monstra.events = {
             $.monstra.events.setColor('event', true);
         }
         dialog.modal('show');
+    },
+    
+    handleTabLinks: function() {
+        var hash = window.location.href.split("#")[1];
+        if (hash !== undefined) {
+            var hpieces = hash.split("/");
+            for (var i=0;i<hpieces.length;i++) {
+                var domelid = hpieces[i];
+                var domitem = $('a[href=#' + domelid + '][data-toggle=tab]');
+                if (domitem.length > 0) {
+                    domitem.tab('show');
+                }
+            }
+        }
     }
 
 };

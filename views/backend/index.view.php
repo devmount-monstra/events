@@ -1,14 +1,6 @@
-<?php //var_dump($directories); ?>
-
 <!-- custom plugin script -->
 <script src="//cdn.jsdelivr.net/jquery.scrollto/2.1.2/jquery.scrollTo.min.js"></script>
 
-<!-- notifications -->
-<?php
-    Notification::get('success') AND Alert::success(Notification::get('success'));
-    Notification::get('warning') AND Alert::warning(Notification::get('warning'));
-    Notification::get('error')   AND Alert::error(Notification::get('error'));
-?>
 
 <!-- i18n PHP output for JS -->
 <?php echo
@@ -30,8 +22,8 @@
         </div>
         <div class="text-right row-phone">
             <?php echo
-                Html::anchor(__('New Event', 'events'), '#events', array('class' => 'btn btn-phone btn-primary new-event', 'data-toggle' => 'tab', 'title' => __('New Event', 'events'))) . Html::nbsp() .
-                Html::anchor(__('New Category', 'events'), '#categories', array('class' => 'btn btn-phone btn-primary new-category', 'data-toggle' => 'tab', 'title' => __('New Category', 'events'))) . Html::nbsp() .
+                Html::anchor(__('New Event', 'events'), '#', array('class' => 'btn btn-phone btn-primary new-event', 'title' => __('New Event', 'events'))) . Html::nbsp() .
+                Html::anchor(__('New Category', 'events'), '#', array('class' => 'btn btn-phone btn-primary new-category', 'title' => __('New Category', 'events'))) . Html::nbsp() .
                 Html::anchor(__('Documentation', 'events'), '#', array('class' => 'btn btn-phone btn-default readme-plugin', 'data-toggle' => 'modal', 'data-target' => '#modal-documentation', 'readme-plugin' => 'events'));
             ?>
         </div>

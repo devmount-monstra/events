@@ -80,10 +80,11 @@ class EventsAdmin extends Backend
                         'color' => (string) Request::post('event_color'),
                     )
                 );
-                Notification::setNow('success', __('Event was added with success!', 'events'));
+                Notification::set('success', __('Event was added with success!', 'events'));
+                Request::redirect('index.php?id=events#events/' . EventsAdmin::eventStatus(strtotime(Request::post('event_timestamp'))) . '-events');
             }
             else {
-                Notification::setNow('error', __('Request was denied. Invalid security token. Please refresh the page and try again.', 'events'));
+                Notification::set('error', __('Request was denied. Invalid security token. Please refresh the page and try again.', 'events'));
                 die();
             }
         }
@@ -108,43 +109,50 @@ class EventsAdmin extends Backend
                         'color' => (string) Request::post('event_color'),
                     )
                 );
-                Notification::setNow('success', __('Event was updated with success!', 'events'));
+                Notification::set('success', __('Event was updated with success!', 'events'));
+                Request::redirect('index.php?id=events#events/' . EventsAdmin::eventStatus(strtotime(Request::post('event_timestamp'))) . '-events');
             }
             else {
-                Notification::setNow('error', __('Request was denied. Invalid security token. Please refresh the page and try again.', 'events'));
+                Notification::set('error', __('Request was denied. Invalid security token. Please refresh the page and try again.', 'events'));
                 die();
             }
         }
         // Request: restore event
         if (Request::post('restore_trash_event')) {
             if (Security::check(Request::post('csrf'))) {
-                $events->update((int) Request::post('restore_trash_event'), array('deleted' => 0));
-                Notification::setNow('success', __('Event has been restored from trash with success!', 'events'));
+                $id = (int) Request::post('restore_trash_event');
+                $events->update($id, array('deleted' => 0));
+                Notification::set('success', __('Event has been restored from trash with success!', 'events'));
+                Request::redirect('index.php?id=events#trash/trash-events');
             }
             else {
-                Notification::setNow('error', __('Request was denied. Invalid security token. Please refresh the page and try again.', 'events'));
+                Notification::set('error', __('Request was denied. Invalid security token. Please refresh the page and try again.', 'events'));
                 die();
             }
         }
         // Request: delete event
         if (Request::post('delete_event')) {
             if (Security::check(Request::post('csrf'))) {
-                $events->update((int) Request::post('delete_event'), array('deleted' => 1));
-                Notification::setNow('success', __('Event has been moved to trash with success!', 'events'));
+                $id = (int) Request::post('delete_event');
+                $events->update($id, array('deleted' => 1));
+                $record = $events->select('[id=' . $id . ']');
+                Notification::set('success', __('Event has been moved to trash with success!', 'events'));
+                Request::redirect('index.php?id=events#events/' . EventsAdmin::eventStatus($record[0]['timestamp']) . '-events');
             }
             else {
-                Notification::setNow('error', __('Request was denied. Invalid security token. Please refresh the page and try again.', 'events'));
+                Notification::set('error', __('Request was denied. Invalid security token. Please refresh the page and try again.', 'events'));
                 die();
             }
         }
         // Request: delete trash event
         if (Request::post('delete_trash_event')) {
             if (Security::check(Request::post('csrf'))) {
-                $events->delete(Request::post('delete_trash_event'));
-                Notification::setNow('success', __('Event has been deleted permanently with success!', 'events'));
+                $events->delete((int) Request::post('delete_trash_event'));
+                Notification::set('success', __('Event has been deleted permanently with success!', 'events'));
+                Request::redirect('index.php?id=events#trash/trash-events');
             }
             else {
-                Notification::setNow('error', __('Request was denied. Invalid security token. Please refresh the page and try again.', 'events'));
+                Notification::set('error', __('Request was denied. Invalid security token. Please refresh the page and try again.', 'events'));
                 die();
             }
         }
@@ -159,10 +167,11 @@ class EventsAdmin extends Backend
                         'color' => (string) Request::post('category_color'),
                     )
                 );
-                Notification::setNow('success', __('Category was added with success!', 'events'));
+                Notification::set('success', __('Category was added with success!', 'events'));
+                Request::redirect('index.php?id=events#categories');
             }
             else {
-                Notification::setNow('error', __('Request was denied. Invalid security token. Please refresh the page and try again.', 'events'));
+                Notification::set('error', __('Request was denied. Invalid security token. Please refresh the page and try again.', 'events'));
                 die();
             }
         }
@@ -177,10 +186,11 @@ class EventsAdmin extends Backend
                         'color' => (string) Request::post('category_color'),
                     )
                 );
-                Notification::setNow('success', __('Category was updated with success!', 'events'));
+                Notification::set('success', __('Category was updated with success!', 'events'));
+                Request::redirect('index.php?id=events#categories');
             }
             else {
-                Notification::setNow('error', __('Request was denied. Invalid security token. Please refresh the page and try again.', 'events'));
+                Notification::set('error', __('Request was denied. Invalid security token. Please refresh the page and try again.', 'events'));
                 die();
             }
         }
@@ -188,10 +198,11 @@ class EventsAdmin extends Backend
         if (Request::post('restore_trash_category')) {
             if (Security::check(Request::post('csrf'))) {
                 $categories->update((int) Request::post('restore_trash_category'), array('deleted' => 0));
-                Notification::setNow('success', __('Category has been restored from trash with success!', 'events'));
+                Notification::set('success', __('Category has been restored from trash with success!', 'events'));
+                Request::redirect('index.php?id=events#trash/trash-categories');
             }
             else {
-                Notification::setNow('error', __('Request was denied. Invalid security token. Please refresh the page and try again.', 'events'));
+                Notification::set('error', __('Request was denied. Invalid security token. Please refresh the page and try again.', 'events'));
                 die();
             }
         }
@@ -199,10 +210,11 @@ class EventsAdmin extends Backend
         if (Request::post('delete_category')) {
             if (Security::check(Request::post('csrf'))) {
                 $categories->update((int) Request::post('delete_category'), array('deleted' => 1));
-                Notification::setNow('success', __('Category has been moved to trash with success!', 'events'));
+                Notification::set('success', __('Category has been moved to trash with success!', 'events'));
+                Request::redirect('index.php?id=events#categories');
             }
             else {
-                Notification::setNow('error', __('Request was denied. Invalid security token. Please refresh the page and try again.', 'events'));
+                Notification::set('error', __('Request was denied. Invalid security token. Please refresh the page and try again.', 'events'));
                 die();
             }
         }
@@ -210,10 +222,11 @@ class EventsAdmin extends Backend
         if (Request::post('delete_trash_category')) {
             if (Security::check(Request::post('csrf'))) {
                 $categories->delete(Request::post('delete_trash_category'));
-                Notification::setNow('success', __('Category has been deleted with success!', 'events'));
+                Notification::set('success', __('Category has been deleted with success!', 'events'));
+                Request::redirect('index.php?id=events#trash/trash-categories');
             }
             else {
-                Notification::setNow('error', __('Request was denied. Invalid security token. Please refresh the page and try again.', 'events'));
+                Notification::set('error', __('Request was denied. Invalid security token. Please refresh the page and try again.', 'events'));
                 die();
             }
         }
@@ -222,10 +235,11 @@ class EventsAdmin extends Backend
         if (Request::post('events_options')) {
             if (Security::check(Request::post('csrf'))) {
                 Option::update('events_image_directory', Request::post('events_image_directory'));
-                Notification::setNow('success', __('Configuration has been saved with success!', 'toggle'));
+                Notification::set('success', __('Configuration has been saved with success!', 'toggle'));
+                Request::redirect('index.php?id=events#configuration');
             }
             else {
-                Notification::setNow('error', __('Request was denied. Invalid security token. Please refresh the page and try again.', 'toggle'));
+                Notification::set('error', __('Request was denied. Invalid security token. Please refresh the page and try again.', 'toggle'));
                 die();
             }
         }
@@ -290,6 +304,23 @@ class EventsAdmin extends Backend
             ->assign('files', $files)
             ->assign('path', $path)
             ->display();
+    }
+
+    /**
+     * returns status for a given timestamp: 'upcoming', 'past', 'draft'
+     * @param: $timestamp   int     event time
+     */
+    protected static function eventStatus($timestamp)
+    {
+        $now = time();
+        if ($timestamp == 0) {
+            return 'draft';
+        } else
+        if ($timestamp >= $now) {
+            return 'upcoming';
+        } else {
+            return 'past';
+        }
     }
 
     /**
