@@ -20,11 +20,11 @@ defined('MONSTRA_ACCESS') or die('No direct script access.');
 
 // Register plugin
 Plugin::register(
-    __FILE__,                    
+    __FILE__,
     __('Events'),
-    __('Event management for Monstra.'),  
+    __('Event management for Monstra.'),
     '0.1.2016-01-02',
-    'devmount',                 
+    'devmount',
     'http://devmount.de'
 );
 
@@ -49,18 +49,18 @@ Action::add('theme_header', 'Events::_insertCSS');
 
 /**
  * Events class
- * 
+ *
  * Usage: <?php Events::show('What is life, the universe and everything?', '42'); ?>
- * 
+ *
  */
 class Events
 {
     /**
      * _shortcode function
-     * 
+     *
      * @param  array $attributes given
      * @return void generated content
-     * 
+     *
      */
     public static function _shortcode($attributes)
     {
@@ -69,7 +69,7 @@ class Events
                 return Events::listEvents($attributes['style'], $attributes['time'], $attributes['count'], $attributes['order']);
                 // return 'test';
                 break;
-            
+
             default:
                 return Events::error();
                 break;
@@ -79,9 +79,9 @@ class Events
 
     /**
      * _insertJS function
-     * 
+     *
      * @return JavaScript to insert
-     * 
+     *
      */
     public static function _insertJS()
     {
@@ -91,15 +91,15 @@ class Events
 
     /**
      * _insertCSS function
-     * 
+     *
      * @return JavaScript to insert
-     * 
+     *
      */
     public static function _insertCSS()
     {
         echo '<link rel="stylesheet" type="text/css" href="' . Option::get('siteurl') . '/plugins/events/css/events.plugin.css" />';
     }
-     
+
     /**
      * Assign to view
      */
@@ -113,7 +113,7 @@ class Events
         foreach ($allcategories as $c) {
             $categories_title[$c['id']] = $c['title'];
         }
-        
+
         // handle style
         $template = '';
         if (in_array(trim($style), array('extended', 'minimal'))) {
@@ -142,7 +142,7 @@ class Events
                 break;
             case 'all':
             default:
-                $eventlist = $events->select('[deleted=0]', 'all', null, null, 'timestamp', $roworder);
+                $eventlist = $events->select('[deleted=0 and timestamp>0]', 'all', null, null, 'timestamp', $roworder);
                 break;
         }
 
@@ -162,7 +162,7 @@ class Events
             ->assign('categories', $categories_title)
             ->render();
     }
-     
+
     /**
      * Assign to view
      */
