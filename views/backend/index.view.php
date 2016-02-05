@@ -123,7 +123,7 @@
                                                         <button
                                                             class="btn btn-danger"
                                                             value="1"
-                                                            onclick="return confirmDelete('<?php echo __('Delete event &quot;:title&quot;', 'events', array(':title' => $event['title'])); ?>')"
+                                                            onclick="return confirmDelete('<?php echo __('Delete event »:title«', 'events', array(':title' => $event['title'])); ?>')"
                                                             title="<?php echo __('Delete', 'events'); ?>"
                                                         >
                                                             <?php echo __('Delete', 'events'); ?>
@@ -213,7 +213,7 @@
                                                         <button
                                                             class="btn btn-danger"
                                                             value="1"
-                                                            onclick="return confirmDelete('<?php echo __('Delete event &quot;:title&quot;', 'events', array(':title' => $event['title'])); ?>')"
+                                                            onclick="return confirmDelete('<?php echo __('Delete event »:title«', 'events', array(':title' => $event['title'])); ?>')"
                                                             title="<?php echo __('Delete', 'events'); ?>"
                                                         >
                                                             <?php echo __('Delete', 'events'); ?>
@@ -304,7 +304,7 @@
                                                         <button
                                                             class="btn btn-danger"
                                                             value="1"
-                                                            onclick="return confirmDelete('<?php echo __('Delete event &quot;:title&quot;', 'events', array(':title' => $event['title'])); ?>')"
+                                                            onclick="return confirmDelete('<?php echo __('Delete event »:title«', 'events', array(':title' => $event['title'])); ?>')"
                                                             title="<?php echo __('Delete', 'events'); ?>"
                                                         >
                                                             <?php echo __('Delete', 'events'); ?>
@@ -376,7 +376,7 @@
                                                 <button
                                                     class="btn btn-danger"
                                                     value="1"
-                                                    onclick="return confirmDelete('<?php echo __('Delete category &quot;:title&quot;', 'events', array(':title' => $category['title'])); ?>')"
+                                                    onclick="return confirmDelete('<?php echo __('Delete category »:title«', 'events', array(':title' => $category['title'])); ?>')"
                                                     title="<?php echo __('Delete', 'events'); ?>"
                                                 >
                                                     <?php echo __('Delete', 'events'); ?>
@@ -520,7 +520,7 @@
                                                     <button
                                                         class="btn btn-danger"
                                                         value="1"
-                                                        onclick="return confirmDelete('<?php echo __('Delete event &quot;:title&quot; permanently (can not be undone)', 'events', array(':title' => $event['title'])); ?>')"
+                                                        onclick="return confirmDelete('<?php echo __('Delete event »:title« permanently (can not be undone)', 'events', array(':title' => $event['title'])); ?>')"
                                                         title="<?php echo __('Delete permanently', 'events'); ?>"
                                                     >
                                                         <?php echo __('Delete', 'events'); ?>
@@ -598,7 +598,7 @@
                                                     <button
                                                         class="btn btn-danger"
                                                         value="1"
-                                                        onclick="return confirmDelete('<?php echo __('Delete category &quot;:title&quot; permanently (can not be undone)', 'events', array(':title' => $category['title'])); ?>')"
+                                                        onclick="return confirmDelete('<?php echo __('Delete category »:title« permanently (can not be undone)', 'events', array(':title' => $category['title'])); ?>')"
                                                         title="<?php echo __('Delete permanently', 'events'); ?>"
                                                     >
                                                         <?php echo __('Delete', 'events'); ?>
@@ -639,7 +639,7 @@
     </div>
 </div>
 
-<!-- modal: category -->
+<!-- modal: category add/edit form -->
 <div id="modal-category" class="modal fade" tabindex="-1">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -692,7 +692,7 @@
     </div>
 </div>
 
-<!-- modal: event -->
+<!-- modal: event add/edit form -->
 <div id="modal-event" class="modal fade" tabindex="-1">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -737,7 +737,7 @@
                     <div class="col-sm-6">
                         <?php echo
                             Form::label('event_category', __('Category', 'events')) .
-                            Form::select('event_category', $categories_title, Null, array('class' => 'form-control clear', 'required' => 'required'));
+                            Form::select('event_category', $categories_active_title, Null, array('class' => 'form-control clear', 'required' => 'required'));
                         ?>
                     </div>
                     <div class="col-sm-6">

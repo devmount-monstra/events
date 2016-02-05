@@ -141,6 +141,7 @@ $.monstra.events = {
         dialog.modal('show');
     },
     
+    /* activate tab and sub tab by GET param */
     handleTabLinks: function() {
         var hash = window.location.href.split("#")[1];
         if (hash !== undefined) {

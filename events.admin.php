@@ -250,12 +250,16 @@ class EventsAdmin extends Backend
         $allcategories = $categories->select(Null, 'all');
         $activecategories = $categories->select('[deleted=0]');
         $categories_title = array();
+        $categories_active_title = array();
         $categories_color = array();
         $categories_count = array();
         foreach ($allcategories as $c) {
             $categories_title[$c['id']] = $c['title'];
             $categories_color[$c['id']] = $c['color'];
             $categories_count[$c['id']] = sizeof($events->select('[category=' . $c['id'] . ' and deleted=0]'));
+        }
+        foreach ($activecategories as $c) {
+            $categories_active_title[$c['id']] = $c['title'];
         }
         // get all existing events from db
         $upcomingevents = $events->select('[timestamp>=' . $now . ' and deleted=0]');
@@ -294,6 +298,7 @@ class EventsAdmin extends Backend
             ->assign('categories', $activecategories)
             ->assign('deletedcategories', $deletedcategories)
             ->assign('categories_title', $categories_title)
+            ->assign('categories_active_title', $categories_active_title)
             ->assign('categories_color', $categories_color)
             ->assign('categories_count', $categories_count)
             ->assign('upcomingevents', $upcomingevents)
