@@ -5,7 +5,7 @@
             <?php if (sizeof($eventlist) > 0) {
                 foreach ($eventlist as $event) { ?>
                     <tr>
-                        <td><?php echo $categories[$event['category']] ?></td>
+                        <td><?php echo $categories['title'][$event['category']] ?></td>
                         <td><?php echo $event['title'] == '' ? $event['short'] : '»' . $event['title'] . '«' ?></td>
                         <td><?php echo $event['date'] ?></td>
                     </tr>

@@ -35,7 +35,7 @@ if (Session::exists('user_role') && in_array(Session::get('user_role'), array('a
 
 
 /**
- * Shortcode: {events type="list" time="future" order="ASC"}
+ * Add shortcode
  */
 Shortcode::add('events', 'Events::_shortcode');
 
@@ -50,13 +50,19 @@ Action::add('theme_header', 'Events::_insertCSS');
 /**
  * Events class
  *
- * Usage: <?php Events::show('What is life, the universe and everything?', '42'); ?>
+ * <code>
+ *      <?php Events::listEvents('list', 'minimal', 'future', 5, 'ASC'); ?>
+ * </code>
  *
  */
 class Events
 {
     /**
-     * _shortcode function
+     * Creates shortcodes for content pages
+     *
+     * <code>
+     *      {events type="list" style="minimal" time="future" count="5" order="ASC"}
+     * </code>
      *
      * @param  array $attributes given
      * @return void generated content
@@ -76,6 +82,7 @@ class Events
         }
         return Events::error();
     }
+
 
     /**
      * _insertJS function
@@ -100,20 +107,12 @@ class Events
         echo '<link rel="stylesheet" type="text/css" href="' . Option::get('siteurl') . '/plugins/events/css/events.plugin.css" />';
     }
 
+
     /**
      * Assign to view
      */
     public function listEvents($style, $time = 'all', $count = 'all', $order = 'ASC')
     {
-        // get db table objects
-        $events = new Table('events');
-        $categories = new Table('categories');
-        $allcategories = $categories->select(Null, 'all');
-        $categories_title = array();
-        foreach ($allcategories as $c) {
-            $categories_title[$c['id']] = $c['title'];
-        }
-
         // handle style
         $template = '';
         if (in_array(trim($style), array('extended', 'minimal'))) {
@@ -121,6 +120,61 @@ class Events
         } else {
             $template = 'list-minimal';
         }
+
+        return View::factory('events/views/frontend/' . $template)
+            ->assign('eventlist', Events::_getEvents($time, $count, $order))
+            ->assign('categories', array(
+                'color' => Events::_getCategoryAttributes('color'),
+                'title' => Events::_getCategoryAttributes('title'),
+            ))
+            ->render();
+    }
+
+
+    /**
+     * error occurance
+     */
+    public function error()
+    {
+        return 'error occured';
+    }
+
+
+    /**
+     * get list of category attributes
+     *
+     * @return array
+     *
+     */
+    private static function _getCategoryAttributes($field)
+    {
+        // get db table object
+        $categories = new Table('categories');
+        // get all categories
+        $allcategories = $categories->select(Null, 'all');
+        // build array with category id => category attribute
+        $categories_attribute = array();
+        foreach ($allcategories as $c) {
+            $categories_attribute[$c['id']] = $c[$field];
+        }
+        return $categories_attribute;
+    }
+
+
+    /**
+     * get list of events
+     *
+     * @param string time
+     * @param string count
+     * @param string order
+     *
+     * @return array
+     *
+     */
+    private static function _getEvents($time, $count, $order)
+    {
+        // get db table object
+        $events = new Table('events');
 
         // handle order
         $roworder = '';
@@ -157,18 +211,7 @@ class Events
             }
         }
 
-        return View::factory('events/views/frontend/' . $template)
-            ->assign('eventlist', $eventlist)
-            ->assign('categories', $categories_title)
-            ->render();
-    }
-
-    /**
-     * Assign to view
-     */
-    public function error()
-    {
-        return 'error occured';
+        return $eventlist;
     }
 
 }
