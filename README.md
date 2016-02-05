@@ -14,11 +14,11 @@ An event managment plugin for Monstra. CRUD for events and categories in backend
 ## Frontend
 Shortcode for content pages:
 
-    {events-list type="extended" range="future" order="ASC"}
+    {events type="list" time="future" order="ASC"}
 
 Codesnippet for templates:
 
-    <?php Events::list(<type>, <range>, <order>); ?>
+    <?php Events::list(<time>, <order>); ?>
 
 ## Backend
 

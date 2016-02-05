@@ -72,7 +72,7 @@ $.monstra.events = {
                 dataType: 'json',
                 // on success: modify formula to edit
                 success: function(category){
-                    dialog.find('.modal-title').text($('#output_editcategory').val() + ' « ' + category.title + ' »');
+                    dialog.find('.modal-title').text($('#output_editcategory').val() + ' »' + category.title + '«');
                     dialog.find('input[name="category_title"]').val(category.title);
                     dialog.find('input[name="category_color"]').val(category.color);
                     dialog.find('#add-edit-submit-category').val(category.id).attr('name', 'edit_category').text($('#output_update').val());
@@ -101,7 +101,7 @@ $.monstra.events = {
                 dataType: 'json',
                 // on success: modify formula to edit
                 success: function(event){
-                    dialog.find('.modal-title').text($('#output_editevent').val() + ' « ' + event.title + ' »');
+                    dialog.find('.modal-title').text($('#output_editevent').val() + ' »' + event.title + '«');
                     dialog.find('input[name="event_title"]').val(event.title);
                     dialog.find('input[name="event_timestamp"]').val(event.timestamp ? new Date(event.timestamp * 1000).toISOString().slice(0, -1) : '');
                     dialog.find('select[name="event_category"]').val(event.category);

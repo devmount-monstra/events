@@ -709,7 +709,7 @@
                     <div class="col-sm-12">
                         <?php echo
                             Form::label('event_title', __('Title', 'events')) .
-                            Form::input('event_title', Null, array('class' => 'form-control clear', 'id' => 'focus-events', 'required' => 'required'));
+                            Form::input('event_title', Null, array('class' => 'form-control clear', 'id' => 'focus-events'));
                         ?>
                     </div>
                 </div>

@@ -35,7 +35,7 @@ if (Session::exists('user_role') && in_array(Session::get('user_role'), array('a
 
 
 /**
- * Shortcode: {events click="some link text" toggle="some toggle content"}
+ * Shortcode: {events type="list" time="future" order="ASC"}
  */
 Shortcode::add('events', 'Events::_shortcode');
 
@@ -64,7 +64,17 @@ class Events
      */
     public static function _shortcode($attributes)
     {
-        return Events::show($attributes['click'], $attributes['toggle']);
+        switch ($attributes['type']) {
+            case 'list':
+                return Events::listEvents($attributes['style'], $attributes['time'], $attributes['count'], $attributes['order']);
+                // return 'test';
+                break;
+            
+            default:
+                return Events::error();
+                break;
+        }
+        return Events::error();
     }
 
     /**
@@ -75,17 +85,7 @@ class Events
      */
     public static function _insertJS()
     {
-        echo '<script type="text/javascript">
-            $(document).ready(function(){
-                $(".click").click(function(event){
-                    /* set configuration */
-                    $(this).children(".toggle").slideToggle(
-                        ' . Option::get('toggle_duration') . ',
-                        "' . Option::get('toggle_easing') . '"
-                    );
-                });
-            });
-        </script>';
+        echo '';
     }
 
 
@@ -97,18 +97,78 @@ class Events
      */
     public static function _insertCSS()
     {
-        echo '<link rel="stylesheet" type="text/css" href="' . Option::get('siteurl') . '/plugins/toggle/css/toggle.css" />';
+        echo '<link rel="stylesheet" type="text/css" href="' . Option::get('siteurl') . '/plugins/events/css/events.plugin.css" />';
     }
      
     /**
      * Assign to view
      */
-    public function show($click, $toggle)
+    public function listEvents($style, $time = 'all', $count = 'all', $order = 'ASC')
     {
-        View::factory('toggle/views/frontend/index')
-            ->assign('click', $click)
-            ->assign('toggle', $toggle)
-            ->display();
+        // get db table objects
+        $events = new Table('events');
+        $categories = new Table('categories');
+        $allcategories = $categories->select(Null, 'all');
+        $categories_title = array();
+        foreach ($allcategories as $c) {
+            $categories_title[$c['id']] = $c['title'];
+        }
+        
+        // handle style
+        $template = '';
+        if (in_array(trim($style), array('extended', 'minimal'))) {
+            $template = 'list-' . trim($style);
+        } else {
+            $template = 'list-minimal';
+        }
+
+        // handle order
+        $roworder = '';
+        if (in_array(trim($order), array('ASC', 'DESC'))) {
+            $roworder = trim($order);
+        } else {
+            $template = 'ASC';
+        }
+
+        // handle time
+        $now = time();
+
+        switch ($time) {
+            case 'future':
+                $eventlist = $events->select('[timestamp>=' . $now . ' and deleted=0]', 'all', null, null, 'timestamp', $roworder);
+                break;
+            case 'past':
+                $eventlist = $events->select('[timestamp<' . $now . ' and deleted=0]', 'all', null, null, 'timestamp', $roworder);
+                break;
+            case 'all':
+            default:
+                $eventlist = $events->select('[deleted=0]', 'all', null, null, 'timestamp', $roworder);
+                break;
+        }
+
+        // handle count
+        if (trim($count) != 'all') {
+            if($roworder == 'ASC') {
+                $eventlist = array_slice($eventlist, 0, (int) $count);
+            } else {
+                $offset = count($eventlist)-((int) $count);
+                $offset = $offset < 0 ? : $offset;
+                $eventlist = array_slice($eventlist, $offset);
+            }
+        }
+
+        return View::factory('events/views/frontend/' . $template)
+            ->assign('eventlist', $eventlist)
+            ->assign('categories', $categories_title)
+            ->render();
+    }
+     
+    /**
+     * Assign to view
+     */
+    public function error()
+    {
+        return 'error occured';
     }
 
 }

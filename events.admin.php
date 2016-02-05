@@ -59,7 +59,7 @@ class EventsAdmin extends Backend
         // get db table objects
         $events = new Table('events');
         $categories = new Table('categories');
-        
+
         // Request: add event
         if (Request::post('add_event')) {
             if (Security::check(Request::post('csrf'))) {
