@@ -723,7 +723,7 @@
                     <div class="col-sm-3">
                         <?php echo
                             Form::label('event_date', __('Date', 'events')) .
-                            Form::input('event_date', Null, array('class' => 'form-control clear'));
+                            Form::input('event_date', Null, array('class' => 'form-control clear', 'required' => 'required'));
                         ?>
                     </div>
                     <div class="col-sm-3">

@@ -17,6 +17,11 @@
 							<?php echo $event['date'] ?>
 						</div>
 					</div>
+                    <div class="event-content-extend">
+                        <div><?php echo $event['date'] . ($event['time'] ? ' – ' . $event['time'] : '') ?></div>
+                        <div><?php echo ($event['short'] ? $event['short'] : '') ?></div>
+                        <div><?php echo ($event['description'] ? $event['description'] : '') ?></div>
+                    </div>
 				</div>
 			</div>
 		<?php }

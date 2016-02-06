@@ -8,6 +8,8 @@
 .events-plugin .event {
     width: 100%;
     min-width: 400px;
+    position: relative;
+    overflow: hidden;
 }
 .events-plugin .event-content {
     height: 8em;
@@ -24,12 +26,25 @@
     margin-bottom: 0;
 }
 .events-plugin .event-content .description {
-    min-height: 2.6em;
+    min-height: 2.5em;
 }
 .events-plugin .event-content .date {
     font-size: 2.2em;
     font-weight: 300;
     margin-top: 10px;
+}
+.events-plugin .event-content-extend {
+    position: absolute;
+    height: 8em;
+    padding: 10px;
+    width: 100%;
+    background: rgba(0, 0, 0, .85);
+    color: #fff;
+    top: 8em;
+    transition: all .2s;
+}
+.events-plugin .event:hover .event-content-extend {
+    top: 0;
 }
 
 .events-plugin .row:nth-child(even) .event-image {
