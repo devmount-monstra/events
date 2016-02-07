@@ -28,7 +28,7 @@ Action::add('admin_pre_render','EventsAdmin::_getAjaxData');
 
 /**
  * Events class
- * 
+ *
  */
 class EventsAdmin extends Backend
 {
@@ -50,7 +50,7 @@ class EventsAdmin extends Backend
             Request::shutdown();
         }
     }
-    
+
     /**
      * main events admin function
      */
@@ -70,10 +70,14 @@ class EventsAdmin extends Backend
                         'deleted' => 0,
                         'category' => (int) Request::post('event_category'),
                         'date' => (string) Request::post('event_date'),
+                        'openat' => (string) Request::post('event_openat'),
                         'time' => (string) Request::post('event_time'),
                         'location' => (string) Request::post('event_location'),
+                        'address' => (string) Request::post('event_address'),
                         'short' => (string) Request::post('event_short'),
                         'description' => (string) Request::post('event_description'),
+                        'hashtag' => (string) Request::post('event_hashtag'),
+                        'facebook' => (string) Request::post('event_facebook'),
                         'image' => (string) Request::post('event_image'),
                         'imagesection' => (string) Request::post('event_imagesection'),
                         'audio' => (string) Request::post('event_audio'),
@@ -99,10 +103,14 @@ class EventsAdmin extends Backend
                         'deleted' => 0,
                         'category' => (int) Request::post('event_category'),
                         'date' => (string) Request::post('event_date'),
+                        'openat' => (string) Request::post('event_openat'),
                         'time' => (string) Request::post('event_time'),
                         'location' => (string) Request::post('event_location'),
+                        'address' => (string) Request::post('event_address'),
                         'short' => (string) Request::post('event_short'),
                         'description' => (string) Request::post('event_description'),
+                        'hashtag' => (string) Request::post('event_hashtag'),
+                        'facebook' => (string) Request::post('event_facebook'),
                         'image' => (string) Request::post('event_image'),
                         'imagesection' => (string) Request::post('event_imagesection'),
                         'audio' => (string) Request::post('event_audio'),
@@ -230,7 +238,7 @@ class EventsAdmin extends Backend
                 die();
             }
         }
-        
+
         // Request: options
         if (Request::post('events_options')) {
             if (Security::check(Request::post('csrf'))) {
@@ -276,12 +284,12 @@ class EventsAdmin extends Backend
         $directories = array(DS => DS);
         if (isset($_list['dirs'])) {
             foreach ($_list['dirs'] as $dirs) {
-                if (strpos($dirs, '.') === false && strpos($dirs, '..') === false){ 
+                if (strpos($dirs, '.') === false && strpos($dirs, '..') === false){
                     $directories[$dirs] = DS . $dirs;
                 }
             }
         }
-        
+
         // Get information about current path
         $_list = EventsAdmin::fdir($path . Option::get('events_image_directory'));
         $files = array('' => '');
@@ -291,7 +299,7 @@ class EventsAdmin extends Backend
                 $files[Site::url() . DS . 'public' . DS . 'uploads' . DS . Option::get('events_image_directory') . DS . $fls] = $fls;
             }
         }
-        
+
 
         // Display view
         View::factory('events/views/backend/index')

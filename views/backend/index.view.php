@@ -235,7 +235,7 @@
                         </table>
                     </div>
                 </div>
-                    
+
                 <!-- Tab: draft events -->
                 <div class="tab-pane" id="draft-events">
 
@@ -435,7 +435,7 @@
 
         <!-- Tab: trash -->
         <div class="tab-pane" id="trash">
-            
+
             <!-- Secondary pill navigation -->
             <ul class="nav nav-pills">
                 <li class="active"><?php echo Html::anchor(__('Events', 'events'), '#trash-events', array('data-toggle' => 'tab')); ?></li>
@@ -541,7 +541,7 @@
                         </table>
                     </div>
                 </div>
-                
+
                 <!-- Tab: trash categories -->
                 <div class="tab-pane" id="trash-categories">
 
@@ -706,10 +706,16 @@
             ?>
             <div class="modal-body">
                 <div class="row">
-                    <div class="col-sm-12">
+                    <div class="col-sm-9">
                         <?php echo
                             Form::label('event_title', __('Title', 'events')) .
                             Form::input('event_title', Null, array('class' => 'form-control clear', 'id' => 'focus-events'));
+                        ?>
+                    </div>
+                    <div class="col-sm-3">
+                        <?php echo
+                            Form::label('event_date', __('Date', 'events')) .
+                            Form::input('event_date', Null, array('class' => 'form-control clear', 'required' => 'required'));
                         ?>
                     </div>
                 </div>
@@ -722,8 +728,8 @@
                     </div>
                     <div class="col-sm-3">
                         <?php echo
-                            Form::label('event_date', __('Date', 'events')) .
-                            Form::input('event_date', Null, array('class' => 'form-control clear', 'required' => 'required'));
+                            Form::label('event_openat', __('Open at', 'events')) .
+                            Form::input('event_openat', Null, array('class' => 'form-control clear'));
                         ?>
                     </div>
                     <div class="col-sm-3">
@@ -744,16 +750,24 @@
                         <?php echo Form::label('event-color', __('Color', 'events')); ?>
                         <div class="input-group">
                             <span class="input-group-addon" id="event-color-addon">#</span>
-                            <?php echo Form::input('event_color', '', array('class' => 'form-control clear', 'id' => 'event-color', 'aria-describedby' => 'event-color-addon')); ?>
+                            <?php echo Form::input('event_color', Null, array('class' => 'form-control clear', 'id' => 'event-color', 'aria-describedby' => 'event-color-addon')); ?>
                         </div>
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-sm-12">
-                        <?php echo
-                            Form::label('event_location', __('Location', 'events')) .
-                            Form::input('event_location', Null, array('class' => 'form-control clear'));
-                        ?>
+                    <div class="col-sm-6">
+                        <?php echo Form::label('event_location', __('Location', 'events')); ?>
+                        <div class="input-group">
+                            <span class="input-group-addon" id="event-location-addon">@</span>
+                            <?php echo Form::input('event_location', Null, array('class' => 'form-control clear', 'aria-describedby' => 'event-location-addon')); ?>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <?php echo Form::label('event_address', __('address', 'events')); ?>
+                        <div class="input-group">
+                            <span class="input-group-addon" id="event-address-addon"><span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span></span>
+                            <?php echo Form::input('event_address', Null, array('class' => 'form-control clear', 'aria-describedby' => 'event-address-addon')); ?>
+                        </div>
                     </div>
                 </div>
                 <div class="row">
@@ -769,6 +783,21 @@
                         <?php echo
                             Form::label('event_description', __('Description', 'events')) .
                             Form::textarea('event_description', Null, array('class' => 'form-control clear'));
+                        ?>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <?php echo Form::label('event_hashtag', __('Hashtag', 'events')); ?>
+                        <div class="input-group">
+                            <span class="input-group-addon" id="event-hashtag-addon">#</span>
+                            <?php echo Form::input('event_hashtag', Null, array('class' => 'form-control clear', 'aria-describedby' => 'event-hashtag-addon')); ?>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <?php echo
+                            Form::label('event_facebook', __('Facebook event ID', 'events')) .
+                            Form::input('event_facebook', Null, array('class' => 'form-control clear'));
                         ?>
                     </div>
                 </div>

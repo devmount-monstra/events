@@ -7,7 +7,7 @@ $.monstra.events = {
 	init: function(){
         // activate current tab on page reload
         $.monstra.events.handleTabLinks();
-        
+
         // handle color field changes
         $('#event-color').on('input change paste keyup', function(){
             $.monstra.events.setColor('event', false);
@@ -44,7 +44,7 @@ $.monstra.events = {
                 }
             });
         });
-        
+
     },
 
     /* set color of input field
@@ -106,10 +106,14 @@ $.monstra.events = {
                     dialog.find('input[name="event_timestamp"]').val(event.timestamp ? new Date(event.timestamp * 1000).toISOString().slice(0, -1) : '');
                     dialog.find('select[name="event_category"]').val(event.category);
                     dialog.find('input[name="event_date"]').val(event.date);
+                    dialog.find('input[name="event_openat"]').val(event.openat);
                     dialog.find('input[name="event_time"]').val(event.time);
                     dialog.find('input[name="event_location"]').val(event.location);
+                    dialog.find('input[name="event_address"]').val(event.address);
                     dialog.find('input[name="event_short"]').val(event.short);
                     dialog.find('textarea[name="event_description"]').val(event.description);
+                    dialog.find('input[name="event_hashtag"]').val(event.hashtag);
+                    dialog.find('input[name="event_facebook"]').val(event.facebook);
                     dialog.find('select[name="event_image"]').val(event.image);
                     if (event.imagesection === '') event.imagesection = 'm';
                     dialog.find('input[name="event_imagesection"]').attr("checked", false);
@@ -119,7 +123,7 @@ $.monstra.events = {
                         dialog.find('input[name="event_imagesection"][value="' + event.imagesection + '"]').parent().addClass('checked');
                     dialog.find('input[name="event_audio"]').val(event.audio);
                     dialog.find('input[name="event_color"]').val(event.color);
-                
+
                     dialog.find('#add-edit-submit-event').val(event.id).attr('name', 'edit_event').text($('#output_update').val());
                     $.monstra.events.setColor('event', false);
                 }
@@ -140,7 +144,7 @@ $.monstra.events = {
         }
         dialog.modal('show');
     },
-    
+
     /* activate tab and sub tab by GET param */
     handleTabLinks: function() {
         var hash = window.location.href.split("#")[1];
