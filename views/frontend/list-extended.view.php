@@ -11,14 +11,22 @@
 					<div class="event-content" style="background: #<?php echo $event['color'] ? $event['color'] : $categories['color'][$event['category']]; ?>;">
 						<?php echo Html::heading($categories['title'][$event['category']], 3); ?>
 						<div class="description">
-							<?php echo $event['title'] == '' ? $event['short'] : '»' . $event['title'] . '«' ?>
+							<?php echo $event['title'] == '' ? $event['short'] : '»' . $event['title'] . '«' ?><br />
+							<?php echo $event['location'] == '' ? '' : '@' . $event['location'] ?>
 						</div>
 						<div class="date">
 							<?php echo $event['date'] ?>
 						</div>
 					</div>
                     <div class="event-content-extend">
-                        <div><?php echo $event['date'] . ($event['time'] ? ' – ' . $event['time'] : '') ?></div>
+                        <div>
+							<?php echo
+								$event['date'] .
+								($event['time'] ? ' – ' . $event['time'] : '') .
+								($event['openat'] ? ', ' . __('Lounge ab ', 'events') . $event['openat'] : '')
+							?>
+						</div>
+                        <div><?php echo ($event['address'] ? $event['address'] : '') ?></div>
                         <div><?php echo ($event['short'] ? $event['short'] : '') ?></div>
                         <div><?php echo ($event['description'] ? $event['description'] : '') ?></div>
                     </div>

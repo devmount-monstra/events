@@ -12,7 +12,7 @@
     overflow: hidden;
 }
 .events-plugin .event-content {
-    height: 8em;
+    height: 9em;
     padding: 8px 10px;
 }
 .events-plugin .event-content h3,
@@ -26,7 +26,8 @@
     margin-bottom: 0;
 }
 .events-plugin .event-content .description {
-    min-height: 2.5em;
+    min-height: 3.5em;
+    line-height: 1.4em;
 }
 .events-plugin .event-content .date {
     font-size: 2.2em;
@@ -35,12 +36,12 @@
 }
 .events-plugin .event-content-extend {
     position: absolute;
-    height: 8em;
+    height: 9em;
     padding: 10px;
     width: 100%;
     background: rgba(0, 0, 0, .85);
     color: #fff;
-    top: 8em;
+    top: 9em;
     transition: all .2s;
 }
 .events-plugin .event:hover .event-content-extend {
@@ -56,19 +57,19 @@
     margin-left: 15px;
 }
 .events-plugin .event-image {
-    height: 8em;
-    width: 8em;
+    height: 9em;
+    width: 9em;
 }
 
 .events-plugin .event-image.section-b,
 .events-plugin .event-image.section-m,
 .events-plugin .event-image.section-t {
-    background-size: 8em auto;
+    background-size: 9em auto;
 }
 .events-plugin .event-image.section-l,
 .events-plugin .event-image.section-c,
 .events-plugin .event-image.section-r {
-    background-size: auto 8em;
+    background-size: auto 9em;
 }
 .events-plugin .event-image.section-t {
     background-position: top;
