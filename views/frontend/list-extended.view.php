@@ -28,7 +28,11 @@
 						</div>
                         <div><?php echo ($event['address'] ? $event['address'] : '') ?></div>
                         <div><?php echo ($event['short'] ? $event['short'] : '') ?></div>
-                        <div><?php echo ($event['description'] ? $event['description'] : '') ?></div>
+                        <div>
+							<?php if ($event['facebook']) {
+								echo Html::arrow('right') . ' ' . Html::anchor(__('Facebook event', 'events'), 'https://www.facebook.com/events/' . $event['facebook'], array('class' => 'facebook', 'target' => '_blank'));
+							} ?>
+						</div>
                     </div>
 				</div>
 			</div>
