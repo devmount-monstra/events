@@ -31,11 +31,11 @@
                         <div>
 							<?php if ($event['facebook']) {
 								echo
-									Html::arrow('right') . ' ' . Html::anchor(__('Facebook event', 'events'), 'https://www.facebook.com/events/' . $event['facebook'], array('class' => 'facebook', 'target' => '_blank'));
+									Html::arrow('right') . ' ' . Html::anchor(__('Facebook', 'events'), 'https://www.facebook.com/events/' . $event['facebook'], array('class' => 'facebook', 'target' => '_blank'));
 							} ?>
 							<?php if ($event['address']) {
 								echo
-									Html::nbsp() . Html::nbsp() . Html::nbsp() . 
+									Html::nbsp() . Html::nbsp() . Html::nbsp() .
 									Html::arrow('right') . ' ' . Html::anchor(__('Map', 'events'), 'http://nominatim.openstreetmap.org/search?q=' . $event['address'], array('class' => 'map', 'target' => '_blank'));
 							} ?>
 						</div>
