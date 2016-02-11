@@ -96,11 +96,16 @@
                                             <td>
                                                 <div
                                                     class="color-text-box"
+                                                    title="#<?php echo $event['color'] ? $event['color'] : $categories_color[$event['category']]; ?>"
                                                     style="border-left: 1.4em solid #<?php echo $event['color'] ? $event['color'] : $categories_color[$event['category']]; ?>; padding-left: 10px;"
                                                 >
-                                                    <span class="code">
-                                                        #<?php echo $event['color'] ? $event['color'] : $categories_color[$event['category']] . ' <span class="glyphicon glyphicon-arrow-left" aria-hidden="true" title="' . __('Inherited from category', 'events') . '"></span>'; ?>
-                                                    </span>
+                                                    <?php if(!$event['color']){ ?>
+                                                        <span
+                                                            class="glyphicon glyphicon-arrow-left"
+                                                            aria-hidden="true"
+                                                            title="<?php echo __('Inherited from category', 'events'); ?>"
+                                                        ></span>
+                                                    <?php } ?>
                                                 </div>
                                             </td>
                                             <td>
@@ -186,11 +191,16 @@
                                             <td>
                                                 <div
                                                     class="color-text-box"
+                                                    title="#<?php echo $event['color'] ? $event['color'] : $categories_color[$event['category']]; ?>"
                                                     style="border-left: 1.4em solid #<?php echo $event['color'] ? $event['color'] : $categories_color[$event['category']]; ?>; padding-left: 10px;"
                                                 >
-                                                    <span class="code">
-                                                        #<?php echo $event['color'] ? $event['color'] : $categories_color[$event['category']] . ' <span class="glyphicon glyphicon-arrow-left" aria-hidden="true" title="' . __('Inherited from category', 'events') . '"></span>'; ?>
-                                                    </span>
+                                                    <?php if(!$event['color']){ ?>
+                                                        <span
+                                                            class="glyphicon glyphicon-arrow-left"
+                                                            aria-hidden="true"
+                                                            title="<?php echo __('Inherited from category', 'events'); ?>"
+                                                        ></span>
+                                                    <?php } ?>
                                                 </div>
                                             </td>
                                             <td>
@@ -277,11 +287,16 @@
                                             <td>
                                                 <div
                                                     class="color-text-box"
+                                                    title="#<?php echo $event['color'] ? $event['color'] : $categories_color[$event['category']]; ?>"
                                                     style="border-left: 1.4em solid #<?php echo $event['color'] ? $event['color'] : $categories_color[$event['category']]; ?>; padding-left: 10px;"
                                                 >
-                                                    <span class="code">
-                                                        #<?php echo $event['color'] ? $event['color'] : $categories_color[$event['category']] . ' <span class="glyphicon glyphicon-arrow-left" aria-hidden="true" title="' . __('Inherited from category', 'events') . '"></span>'; ?>
-                                                    </span>
+                                                    <?php if(!$event['color']){ ?>
+                                                        <span
+                                                            class="glyphicon glyphicon-arrow-left"
+                                                            aria-hidden="true"
+                                                            title="<?php echo __('Inherited from category', 'events'); ?>"
+                                                        ></span>
+                                                    <?php } ?>
                                                 </div>
                                             </td>
                                             <td>
@@ -487,11 +502,16 @@
                                         <td>
                                             <div
                                                 class="color-text-box"
+                                                title="#<?php echo $event['color'] ? $event['color'] : $categories_color[$event['category']]; ?>"
                                                 style="border-left: 1.4em solid #<?php echo $event['color'] ? $event['color'] : $categories_color[$event['category']]; ?>; padding-left: 10px;"
                                             >
-                                                <span class="code">
-                                                    #<?php echo $event['color'] ? $event['color'] : $categories_color[$event['category']] . ' <span class="glyphicon glyphicon-arrow-left" aria-hidden="true" title="' . __('Inherited from category', 'events') . '"></span>'; ?>
-                                                </span>
+                                                <?php if(!$event['color']){ ?>
+                                                    <span
+                                                        class="glyphicon glyphicon-arrow-left"
+                                                        aria-hidden="true"
+                                                        title="<?php echo __('Inherited from category', 'events'); ?>"
+                                                    ></span>
+                                                <?php } ?>
                                             </div>
                                         </td>
                                         <td>
