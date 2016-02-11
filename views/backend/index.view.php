@@ -113,6 +113,26 @@
                                             </td>
                                             <td>
                                                 <div class="pull-right">
+                                                    <?php if($event['facebook']) { ?>
+                                                        <a
+                                                            class="btn btn-info"
+                                                            href="https://www.facebook.com/events/<?php echo $event['facebook'] ?>"
+                                                            title="<?php echo __('Facebook event', 'events'); ?>"
+                                                            target="_blank"
+                                                        >
+                                                            FB
+                                                        </a>
+                                                    <?php } ?>
+                                                    <?php if($event['address']) { ?>
+                                                        <a
+                                                            class="btn btn-info"
+                                                            href="http://nominatim.openstreetmap.org/search?q=<?php echo $event['address'] ?>"
+                                                            title="<?php echo __('Show map', 'events'); ?>"
+                                                            target="_blank"
+                                                        >
+                                                            <span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span>
+                                                        </a>
+                                                    <?php } ?>
                                                     <button
                                                         class="btn btn-primary edit-event"
                                                         value="<?php echo $event['id'] ?>"
@@ -208,6 +228,26 @@
                                             </td>
                                             <td>
                                                 <div class="pull-right">
+                                                    <?php if($event['facebook']) { ?>
+                                                        <a
+                                                            class="btn btn-info"
+                                                            href="https://www.facebook.com/events/<?php echo $event['facebook'] ?>"
+                                                            title="<?php echo __('Facebook event', 'events'); ?>"
+                                                            target="_blank"
+                                                        >
+                                                            FB
+                                                        </a>
+                                                    <?php } ?>
+                                                    <?php if($event['address']) { ?>
+                                                        <a
+                                                            class="btn btn-info"
+                                                            href="http://nominatim.openstreetmap.org/search?q=<?php echo $event['address'] ?>"
+                                                            title="<?php echo __('Show map', 'events'); ?>"
+                                                            target="_blank"
+                                                        >
+                                                            <span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span>
+                                                        </a>
+                                                    <?php } ?>
                                                     <button
                                                         class="btn btn-primary edit-event"
                                                         value="<?php echo $event['id'] ?>"
@@ -304,6 +344,26 @@
                                             </td>
                                             <td>
                                                 <div class="pull-right">
+                                                    <?php if($event['facebook']) { ?>
+                                                        <a
+                                                            class="btn btn-info"
+                                                            href="https://www.facebook.com/events/<?php echo $event['facebook'] ?>"
+                                                            title="<?php echo __('Facebook event', 'events'); ?>"
+                                                            target="_blank"
+                                                        >
+                                                            FB
+                                                        </a>
+                                                    <?php } ?>
+                                                    <?php if($event['address']) { ?>
+                                                        <a
+                                                            class="btn btn-info"
+                                                            href="http://nominatim.openstreetmap.org/search?q=<?php echo $event['address'] ?>"
+                                                            title="<?php echo __('Show map', 'events'); ?>"
+                                                            target="_blank"
+                                                        >
+                                                            <span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span>
+                                                        </a>
+                                                    <?php } ?>
                                                     <button
                                                         class="btn btn-primary edit-event"
                                                         value="<?php echo $event['id'] ?>"
@@ -519,6 +579,26 @@
                                         </td>
                                         <td>
                                             <div class="pull-right">
+                                                <?php if($event['facebook']) { ?>
+                                                    <a
+                                                        class="btn btn-info"
+                                                        href="https://www.facebook.com/events/<?php echo $event['facebook'] ?>"
+                                                        title="<?php echo __('Facebook event', 'events'); ?>"
+                                                        target="_blank"
+                                                    >
+                                                        FB
+                                                    </a>
+                                                <?php } ?>
+                                                <?php if($event['address']) { ?>
+                                                    <a
+                                                        class="btn btn-info"
+                                                        href="http://nominatim.openstreetmap.org/search?q=<?php echo $event['address'] ?>"
+                                                        title="<?php echo __('Show map', 'events'); ?>"
+                                                        target="_blank"
+                                                    >
+                                                        <span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span>
+                                                    </a>
+                                                <?php } ?>
                                                 <?php echo
                                                     Form::open() .
                                                     Form::hidden('csrf', Security::token()) .
