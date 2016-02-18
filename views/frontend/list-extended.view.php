@@ -31,7 +31,7 @@
                                 <div>
                                     <?php if ($event['facebook']) {
                                         echo
-                                            Html::arrow('right') . ' ' . Html::anchor(__('Facebook', 'events'), 'https://www.facebook.com/events/' . $event['facebook'], array('class' => 'facebook', 'target' => '_blank'));
+                                            Html::arrow('right') . ' ' . Html::anchor(__('Facebook', 'events'), $event['facebook'], array('class' => 'facebook', 'target' => '_blank'));
                                     } ?>
                                     <?php if ($event['address']) {
                                         echo

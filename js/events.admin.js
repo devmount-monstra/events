@@ -115,7 +115,7 @@ $.monstra.events = {
                     dialog.find('input[name="event_hashtag"]').val(event.hashtag);
                     dialog.find('input[name="event_facebook"]').val(event.facebook);
                     dialog.find('select[name="event_image"]').val(event.image);
-                    if (event.imagesection === '') event.imagesection = 'm';
+                    if (event.imagesection === '' || event.imagesection === null) event.imagesection = 'm';
                     dialog.find('input[name="event_imagesection"]').attr("checked", false);
                         dialog.find('.image-section-label>div.checked').removeClass('checked');
                         dialog.find('input[name="event_imagesection"][value="' + event.imagesection + '"]').attr('checked', 'checked');

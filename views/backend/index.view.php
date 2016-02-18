@@ -116,8 +116,8 @@
                                                     <?php if($event['facebook']) { ?>
                                                         <a
                                                             class="btn btn-info"
-                                                            href="https://www.facebook.com/events/<?php echo $event['facebook'] ?>"
-                                                            title="<?php echo __('Facebook event', 'events'); ?>"
+                                                            href="<?php echo $event['facebook'] ?>"
+                                                            title="<?php echo __('Facebook URL', 'events'); ?>"
                                                             target="_blank"
                                                         >
                                                             FB
@@ -231,8 +231,8 @@
                                                     <?php if($event['facebook']) { ?>
                                                         <a
                                                             class="btn btn-info"
-                                                            href="https://www.facebook.com/events/<?php echo $event['facebook'] ?>"
-                                                            title="<?php echo __('Facebook event', 'events'); ?>"
+                                                            href="<?php echo $event['facebook'] ?>"
+                                                            title="<?php echo __('Facebook URL', 'events'); ?>"
                                                             target="_blank"
                                                         >
                                                             FB
@@ -347,8 +347,8 @@
                                                     <?php if($event['facebook']) { ?>
                                                         <a
                                                             class="btn btn-info"
-                                                            href="https://www.facebook.com/events/<?php echo $event['facebook'] ?>"
-                                                            title="<?php echo __('Facebook event', 'events'); ?>"
+                                                            href="<?php echo $event['facebook'] ?>"
+                                                            title="<?php echo __('Facebook URL', 'events'); ?>"
                                                             target="_blank"
                                                         >
                                                             FB
@@ -582,8 +582,8 @@
                                                 <?php if($event['facebook']) { ?>
                                                     <a
                                                         class="btn btn-info"
-                                                        href="https://www.facebook.com/events/<?php echo $event['facebook'] ?>"
-                                                        title="<?php echo __('Facebook event', 'events'); ?>"
+                                                        href="<?php echo $event['facebook'] ?>"
+                                                        title="<?php echo __('Facebook URL', 'events'); ?>"
                                                         target="_blank"
                                                     >
                                                         FB
@@ -896,7 +896,7 @@
                     </div>
                     <div class="col-sm-6">
                         <?php echo
-                            Form::label('event_facebook', __('Facebook event ID', 'events')) .
+                            Form::label('event_facebook', __('Facebook URL', 'events')) .
                             Form::input('event_facebook', Null, array('class' => 'form-control clear'));
                         ?>
                     </div>
