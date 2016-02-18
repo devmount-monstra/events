@@ -7,25 +7,31 @@
 
 .events-plugin .event {
     width: 100%;
-    min-width: 400px;
+    min-width: 500px;
     position: relative;
     overflow: hidden;
 }
 .events-plugin .event-content {
     height: 9em;
-    padding: 8px 10px;
+    position: relative;
 }
 .events-plugin .event-content h3,
-.events-plugin .event-content .description,
+.events-plugin .event-content .text,
 .events-plugin .event-content .date {
     color: #fff;
+}
+.events-plugin .event-content .description {
+    position: absolute;
+    top: 0;
+    padding: 6px 10px;
+    width: calc(100% - 9em);
 }
 .events-plugin .event-content h3 {
     font-size: 1.4em;
     font-weight: bold;
     margin-bottom: 0;
 }
-.events-plugin .event-content .description {
+.events-plugin .event-content .text {
     min-height: 3.5em;
     line-height: 1.6em;
 }
@@ -37,28 +43,40 @@
 .events-plugin .event-content-extend {
     position: absolute;
     height: 9em;
-    padding: 10px;
+    padding: 9px 10px;
     width: 100%;
     background: rgba(0, 0, 0, .85);
     color: #fff;
-    top: 9em;
-    transition: all .2s;
-}
-.events-plugin .event:hover .event-content-extend {
     top: 0;
+    opacity: 0;
+    transition: all .4s;
+}
+.events-plugin .row:nth-child(even) .event-image,
+.events-plugin .row:nth-child(odd) .description,
+.events-plugin .row:nth-child(odd) .event-content-extend {
+    left: 0;
+}
+.events-plugin .row:nth-child(odd) .event-image,
+.events-plugin .row:nth-child(even) .description,
+.events-plugin .row:nth-child(even) .event-content-extend {
+    right: 0;
 }
 
-.events-plugin .row:nth-child(even) .event-image {
-    float: left;
-    margin-right: 15px;
+.events-plugin .event:hover .event-content .description h3,
+.events-plugin .event:hover .event-content .description .text,
+.events-plugin .event:hover .event-content .description .date {
+    -webkit-filter: blur(3px);
+    filter: blur(3px);
 }
-.events-plugin .row:nth-child(odd) .event-image {
-    float: right;
-    margin-left: 15px;
+.events-plugin .event:hover .event-content-extend {
+    opacity: 1;
 }
 .events-plugin .event-image {
     height: 9em;
     width: 9em;
+    position: absolute;
+    z-index: 10;
+    top: 0;
 }
 
 .events-plugin .event-image.section-b,
