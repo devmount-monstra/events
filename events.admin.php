@@ -243,11 +243,11 @@ class EventsAdmin extends Backend
         if (Request::post('events_options')) {
             if (Security::check(Request::post('csrf'))) {
                 Option::update('events_image_directory', Request::post('events_image_directory'));
-                Notification::set('success', __('Configuration has been saved with success!', 'toggle'));
+                Notification::set('success', __('Configuration has been saved with success!', 'events'));
                 Request::redirect('index.php?id=events#configuration');
             }
             else {
-                Notification::set('error', __('Request was denied. Invalid security token. Please refresh the page and try again.', 'toggle'));
+                Notification::set('error', __('Request was denied. Invalid security token. Please refresh the page and try again.', 'events'));
                 die();
             }
         }
