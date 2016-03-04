@@ -76,10 +76,12 @@ class EventsAdmin extends Backend
                         'address' => (string) Request::post('event_address'),
                         'short' => (string) Request::post('event_short'),
                         'description' => (string) Request::post('event_description'),
+                        'archiv' => (string) Request::post('event_archiv'),
                         'hashtag' => (string) Request::post('event_hashtag'),
                         'facebook' => (string) Request::post('event_facebook'),
                         'image' => (string) Request::post('event_image'),
                         'imagesection' => (string) Request::post('event_imagesection'),
+                        'gallery' => (string) Request::post('event_gallery'),
                         'audio' => (string) Request::post('event_audio'),
                         'color' => (string) Request::post('event_color'),
                     )
@@ -109,10 +111,12 @@ class EventsAdmin extends Backend
                         'address' => (string) Request::post('event_address'),
                         'short' => (string) Request::post('event_short'),
                         'description' => (string) Request::post('event_description'),
+                        'archiv' => (string) Request::post('event_archiv'),
                         'hashtag' => (string) Request::post('event_hashtag'),
                         'facebook' => (string) Request::post('event_facebook'),
                         'image' => (string) Request::post('event_image'),
                         'imagesection' => (string) Request::post('event_imagesection'),
+                        'gallery' => (string) Request::post('event_gallery'),
                         'audio' => (string) Request::post('event_audio'),
                         'color' => (string) Request::post('event_color'),
                     )
@@ -297,6 +301,7 @@ class EventsAdmin extends Backend
         if (isset($_list['files'])) {
             foreach ($_list['files'] as $fls) {
                 $files[Site::url() . DS . 'public' . DS . 'uploads' . DS . Option::get('events_image_directory') . DS . $fls] = $fls;
+                ksort($files);
             }
         }
 

@@ -16,10 +16,12 @@ $e->addField('location');
 $e->addField('address');
 $e->addField('short');
 $e->addField('description');
+$e->addField('archiv');
 $e->addField('hashtag');
 $e->addField('facebook');
 $e->addField('image');
 $e->addField('imagesection');
+$e->addField('gallery');
 $e->addField('audio');
 $e->addField('color');
 

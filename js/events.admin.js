@@ -112,8 +112,10 @@ $.monstra.events = {
                     dialog.find('input[name="event_address"]').val(event.address);
                     dialog.find('input[name="event_short"]').val(event.short);
                     dialog.find('textarea[name="event_description"]').val(event.description);
+                    dialog.find('textarea[name="event_archiv"]').val(event.archiv);
                     dialog.find('input[name="event_hashtag"]').val(event.hashtag);
                     dialog.find('input[name="event_facebook"]').val(event.facebook);
+                    dialog.find('input[name="event_gallery"]').val(event.gallery);
                     dialog.find('select[name="event_image"]').val(event.image);
                     if (event.imagesection === '' || event.imagesection === null) event.imagesection = 'm';
                     dialog.find('input[name="event_imagesection"]').attr("checked", false);

@@ -115,7 +115,7 @@ class Events
     {
         // handle style
         $template = '';
-        if (in_array(trim($style), array('extended', 'minimal'))) {
+        if (in_array(trim($style), array('extended', 'minimal', 'archiv'))) {
             $template = 'list-' . trim($style);
         } else {
             $template = 'list-minimal';

@@ -2,7 +2,7 @@
 	<?php if (sizeof($eventlist) > 0) {
 		foreach ($eventlist as $event) { ?>
 			<div class="row">
-				<div class="col-md-12 event">
+				<div class="col-md-12 event extended">
 					<div class="event-content" style="background: #<?php echo $event['color'] ? $event['color'] : $categories['color'][$event['category']]; ?>;">
                         <div
                             class="event-image section-<?php echo $event['imagesection']; ?>"

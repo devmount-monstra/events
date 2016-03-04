@@ -887,6 +887,14 @@
                     </div>
                 </div>
                 <div class="row">
+                    <div class="col-sm-12">
+                        <?php echo
+                            Form::label('event_archiv', __('Archiv description', 'events')) .
+                            Form::textarea('event_archiv', Null, array('class' => 'form-control clear', 'placeholder' => 'Prediger, Moderation, Band, Special Guest'));
+                        ?>
+                    </div>
+                </div>
+                <div class="row">
                     <div class="col-sm-6">
                         <?php echo Form::label('event_hashtag', __('Hashtag', 'events')); ?>
                         <div class="input-group">
@@ -914,8 +922,8 @@
                     </div>
                     <div class="col-sm-6">
                         <?php echo
-                            Form::label('event_audio', __('Audio file', 'events')) .
-                            Form::input('event_audio', Null, array('class' => 'form-control clear'));
+                            Form::label('event_gallery', __('Gallery URL', 'events')) .
+                            Form::input('event_gallery', Null, array('class' => 'form-control clear'));
                         ?>
                     </div>
                 </div>
@@ -944,6 +952,10 @@
                         </label>
                     </div>
                     <div class="col-sm-6">
+                        <?php echo
+                            Form::label('event_audio', __('Audio file', 'events')) .
+                            Form::input('event_audio', Null, array('class' => 'form-control clear'));
+                        ?>
                     </div>
                 </div>
             </div>
