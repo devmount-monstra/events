@@ -11,8 +11,15 @@
     position: relative;
     overflow: hidden;
 }
-.events-plugin .event-content {
+.events-plugin .event.archiv {
+    margin: 2px 0;
+}
+.events-plugin .extended .event-content {
     height: 9em;
+    position: relative;
+}
+.events-plugin .archiv .event-content {
+    height: auto;
     position: relative;
 }
 .events-plugin .event-content h3,
@@ -20,11 +27,16 @@
 .events-plugin .event-content .date {
     color: #fff;
 }
-.events-plugin .event-content .description {
+.events-plugin .extended .event-content .description {
     position: absolute;
     top: 0;
     padding: 6px 10px;
     width: calc(100% - 9em);
+}
+.events-plugin .archiv .event-content .description {
+    position: relative;
+    padding: .6em 0;
+    margin-left: 6em;
 }
 .events-plugin .event-content h3 {
     font-size: 1.4em;
@@ -35,6 +47,9 @@
 .events-plugin .event-content .text {
     min-height: 3.5em;
     line-height: 1.6em;
+}
+.events-plugin .archiv .event-content .text {
+    font-size: .8em;
 }
 .events-plugin .event-content .date {
     font-size: 2.2em;
@@ -52,14 +67,14 @@
     opacity: 0;
     transition: all .4s;
 }
-.events-plugin .row:nth-child(even) .event-image,
-.events-plugin .row:nth-child(odd) .description,
-.events-plugin .row:nth-child(odd) .event-content-extend {
+.events-plugin .row:nth-child(even) .extended .event-image,
+.events-plugin .row:nth-child(odd) .extended .description,
+.events-plugin .row:nth-child(odd) .extended .event-content-extend {
     left: 0;
 }
-.events-plugin .row:nth-child(odd) .event-image,
-.events-plugin .row:nth-child(even) .description,
-.events-plugin .row:nth-child(even) .event-content-extend {
+.events-plugin .row:nth-child(odd) .extended .event-image,
+.events-plugin .row:nth-child(even) .extended .description,
+.events-plugin .row:nth-child(even) .extended .event-content-extend {
     right: 0;
 }
 
@@ -79,6 +94,14 @@
     z-index: 10;
     top: 0;
 }
+.events-plugin .archiv .event-image {
+    height: 4em;
+    width: 4em;
+    position: absolute;
+    z-index: 10;
+    top: 1em;
+    left: 1em;
+}
 
 .events-plugin .event-image.section-b,
 .events-plugin .event-image.section-m,
@@ -89,6 +112,16 @@
 .events-plugin .event-image.section-c,
 .events-plugin .event-image.section-r {
     background-size: auto 9em;
+}
+.events-plugin .archiv .event-image.section-b,
+.events-plugin .archiv .event-image.section-m,
+.events-plugin .archiv .event-image.section-t {
+    background-size: 4em auto;
+}
+.events-plugin .archiv .event-image.section-l,
+.events-plugin .archiv .event-image.section-c,
+.events-plugin .archiv .event-image.section-r {
+    background-size: auto 4em;
 }
 .events-plugin .event-image.section-t {
     background-position: top;
