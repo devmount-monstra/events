@@ -274,9 +274,9 @@ class EventsAdmin extends Backend
             $categories_active_title[$c['id']] = $c['title'];
         }
         // get all existing events from db
-        $upcomingevents = $events->select('[timestamp>=' . $now . ' and deleted=0]');
-        $pastevents = $events->select('[timestamp<' . $now . ' and deleted=0]');
-        $draftevents = $events->select('[timestamp="" and deleted=0]');
+        $upcomingevents = $events->select('[timestamp>=' . $now . ' and deleted=0]', 'all', null, null, 'timestamp', 'ASC');
+        $pastevents = $events->select('[timestamp<' . $now . ' and deleted=0]', 'all', null, null, 'timestamp', 'DESC');
+        $draftevents = $events->select('[timestamp="" and deleted=0]', 'all', null, null, 'timestamp', 'ASC');
 
         // get all deleted records from db
         $deletedevents = $events->select('[deleted=1]');

@@ -181,7 +181,7 @@ class Events
         if (in_array(trim($order), array('ASC', 'DESC'))) {
             $roworder = trim($order);
         } else {
-            $template = 'ASC';
+            $roworder = 'ASC';
         }
 
         // handle time
