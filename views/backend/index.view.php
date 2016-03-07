@@ -484,7 +484,7 @@
                 <div class="col-md-6">
                     <!-- config image directory -->
                     <?php echo
-                        Form::label('events_image_directory', __('Image directory for events', 'events')) .
+                        Form::label('events_image_directory', __('Image directory for events', 'events'), array('data-toggle' => 'tooltip', 'data-placement' => 'top', 'title' => __('Existing directory for event images, that will be displayed in the select list of the events add/edit formula', 'events'))) .
                         Form::select('events_image_directory', $directories, Option::get('events_image_directory'), array('class' => 'form-control'));
                     ?>
                 </div>
@@ -755,12 +755,12 @@
                 <div class="row">
                     <div class="col-sm-6">
                         <?php echo
-                            Form::label('category_title', __('Title', 'events')) .
+                            Form::label('category_title', __('Title', 'events'), array('data-toggle' => 'tooltip', 'data-placement' => 'top', 'title' => __('Category header, should be unique', 'events'))) .
                             Form::input('category_title', Null, array('class' => 'form-control clear', 'id' => 'focus-categories', 'required' => 'required'));
                         ?>
                     </div>
                     <div class="col-sm-6">
-                        <?php echo Form::label('category-color', __('Color', 'events')); ?>
+                        <?php echo Form::label('category-color', __('Color', 'events'), array('data-toggle' => 'tooltip', 'data-placement' => 'top', 'title' => __('Category specific color, sets color for each assigned event, that has no color set', 'events'))); ?>
                         <div class="input-group">
                             <span class="input-group-addon" id="category-color-addon">#</span>
                             <?php echo Form::input('category_color', '', array('class' => 'form-control clear', 'id' => 'category-color', 'aria-describedby' => 'category-color-addon')); ?>
