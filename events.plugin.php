@@ -115,14 +115,16 @@ class Events
     {
         // handle style
         $template = '';
-        if (in_array(trim($style), array('extended', 'minimal', 'archiv'))) {
-            $template = 'list-' . trim($style);
+        $style = trim($style);
+        if (in_array($style, array('extended', 'minimal', 'archiv'))) {
+            $template = 'list-' . $style;
+            $groupby = $style == 'archiv' ? 'year' : '';
         } else {
             $template = 'list-minimal';
         }
 
         return View::factory('events/views/frontend/' . $template)
-            ->assign('eventlist', Events::_getEvents($time, $count, $order))
+            ->assign('eventlist', Events::_getEvents($time, $count, $order, $groupby))
             ->assign('categories', array(
                 'color' => Events::_getCategoryAttributes('color'),
                 'title' => Events::_getCategoryAttributes('title'),
@@ -167,11 +169,12 @@ class Events
      * @param string time
      * @param string count
      * @param string order
+     * @param string groupby
      *
      * @return array
      *
      */
-    private static function _getEvents($time, $count, $order)
+    private static function _getEvents($time, $count, $order, $groupby = '')
     {
         // get db table object
         $events = new Table('events');
@@ -209,6 +212,16 @@ class Events
                 $offset = $offset < 0 ? : $offset;
                 $eventlist = array_slice($eventlist, $offset);
             }
+        }
+
+        // handle group by
+        if ($groupby == 'year') {
+            $eventlistyears = array();
+            foreach ($eventlist as $event) {
+                $date = getdate($event['timestamp']);
+                $eventlistyears[$date['year']][] = $event;
+            }
+            return $eventlistyears;
         }
 
         return $eventlist;

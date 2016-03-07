@@ -5,6 +5,11 @@
     overflow-y: hidden;
 }
 
+.events-plugin .heading-archiv {
+    margin: 2em 0 .8em 0;
+    text-align: center;
+}
+
 .events-plugin .event {
     width: 100%;
     min-width: 500px;
