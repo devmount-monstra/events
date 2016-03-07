@@ -62,9 +62,9 @@
                                 <tr>
                                     <th><?php echo __('Image', 'events'); ?></th>
                                     <th><?php echo __('Title', 'events'); ?></th>
-                                    <th><?php echo __('Description', 'events'); ?></th>
-                                    <th><?php echo __('Color', 'events'); ?></th>
-                                    <th><?php echo __('Category', 'events'); ?></th>
+                                    <th class="visible-lg hidden-xs"><?php echo __('Description', 'events'); ?></th>
+                                    <th class="visible-lg hidden-xs"><?php echo __('Color', 'events'); ?></th>
+                                    <th class="visible-lg hidden-xs"><?php echo __('Category', 'events'); ?></th>
                                     <th></th>
                                 </tr>
                             </thead>
@@ -89,11 +89,11 @@
                                             <td>
                                                 <?php echo Html::heading($event['title'], 4); ?>
                                             </td>
-                                            <td>
+                                            <td class="visible-lg hidden-xs">
                                                 <?php echo $event['date'] ? $event['date'] . ' ' . $event['time'] . Html::br() : ''; ?>
                                                 <?php echo $event['short']; ?>
                                             </td>
-                                            <td>
+                                            <td class="visible-lg hidden-xs">
                                                 <div
                                                     class="color-text-box"
                                                     title="#<?php echo $event['color'] ? $event['color'] : $categories_color[$event['category']]; ?>"
@@ -108,7 +108,7 @@
                                                     <?php } ?>
                                                 </div>
                                             </td>
-                                            <td>
+                                            <td class="visible-lg hidden-xs">
                                                 <?php echo $categories_title[$event['category']]; ?>
                                             </td>
                                             <td>
@@ -295,9 +295,9 @@
                                 <tr>
                                     <th><?php echo __('Image', 'events'); ?></th>
                                     <th><?php echo __('Title', 'events'); ?></th>
-                                    <th><?php echo __('Description', 'events'); ?></th>
-                                    <th><?php echo __('Color', 'events'); ?></th>
-                                    <th><?php echo __('Category', 'events'); ?></th>
+                                    <th class="visible-lg hidden-xs"><?php echo __('Description', 'events'); ?></th>
+                                    <th class="visible-lg hidden-xs"><?php echo __('Color', 'events'); ?></th>
+                                    <th class="visible-lg hidden-xs"><?php echo __('Category', 'events'); ?></th>
                                     <th></th>
                                 </tr>
                             </thead>
@@ -320,11 +320,11 @@
                                             <td>
                                                 <?php echo Html::heading($event['title'], 4); ?>
                                             </td>
-                                            <td>
+                                            <td class="visible-lg hidden-xs">
                                                 <?php echo $event['date'] ? $event['date'] . ' ' . $event['time'] . Html::br() : ''; ?>
                                                 <?php echo $event['short']; ?>
                                             </td>
-                                            <td>
+                                            <td class="visible-lg hidden-xs">
                                                 <div
                                                     class="color-text-box"
                                                     title="#<?php echo $event['color'] ? $event['color'] : $categories_color[$event['category']]; ?>"
@@ -339,7 +339,7 @@
                                                     <?php } ?>
                                                 </div>
                                             </td>
-                                            <td>
+                                            <td class="visible-lg hidden-xs">
                                                 <?php echo $categories_title[$event['category']]; ?>
                                             </td>
                                             <td>
@@ -530,9 +530,9 @@
                                 <tr>
                                     <th><?php echo __('Image', 'events'); ?></th>
                                     <th><?php echo __('Title', 'events'); ?></th>
-                                    <th><?php echo __('Description', 'events'); ?></th>
-                                    <th><?php echo __('Color', 'events'); ?></th>
-                                    <th><?php echo __('Category', 'events'); ?></th>
+                                    <th class="visible-lg hidden-xs"><?php echo __('Description', 'events'); ?></th>
+                                    <th class="visible-lg hidden-xs"><?php echo __('Color', 'events'); ?></th>
+                                    <th class="visible-lg hidden-xs"><?php echo __('Category', 'events'); ?></th>
                                     <th></th>
                                 </tr>
                             </thead>
@@ -555,11 +555,11 @@
                                         <td>
                                             <?php echo Html::heading($event['title'], 4); ?>
                                         </td>
-                                        <td>
+                                        <td class="visible-lg hidden-xs">
                                             <?php echo $event['date'] ? $event['date'] . ' ' . $event['time'] . Html::br() : ''; ?>
                                             <?php echo $event['short']; ?>
                                         </td>
-                                        <td>
+                                        <td class="visible-lg hidden-xs">
                                             <div
                                                 class="color-text-box"
                                                 title="#<?php echo $event['color'] ? $event['color'] : $categories_color[$event['category']]; ?>"
@@ -574,7 +574,7 @@
                                                 <?php } ?>
                                             </div>
                                         </td>
-                                        <td>
+                                        <td class="visible-lg hidden-xs">
                                             <?php echo $categories_title[$event['category']]; ?>
                                         </td>
                                         <td>
