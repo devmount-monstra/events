@@ -45,6 +45,11 @@ $.monstra.events = {
             });
         });
 
+        // enable tooltips
+        $(function () {
+            $('[data-toggle="tooltip"]').tooltip()
+        })
+
     },
 
     /* set color of input field

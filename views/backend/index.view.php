@@ -808,13 +808,13 @@
                 <div class="row">
                     <div class="col-sm-9">
                         <?php echo
-                            Form::label('event_title', __('Title', 'events')) .
-                            Form::input('event_title', Null, array('class' => 'form-control clear', 'id' => 'focus-events'));
+                            Form::label('event_title', __('Title', 'events'), array('data-toggle' => 'tooltip', 'data-placement' => 'top', 'title' => __('Event header, should be unique', 'events'))) .
+                            Form::input('event_title', Null, array('class' => 'form-control clear'));
                         ?>
                     </div>
                     <div class="col-sm-3">
                         <?php echo
-                            Form::label('event_date', __('Date', 'events')) .
+                            Form::label('event_date', __('Date', 'events'), array('data-toggle' => 'tooltip', 'data-placement' => 'top', 'title' => __('Event date as free text to specify single dates or ranges', 'events'))) .
                             Form::input('event_date', Null, array('class' => 'form-control clear', 'required' => 'required'));
                         ?>
                     </div>
@@ -822,19 +822,19 @@
                 <div class="row">
                     <div class="col-sm-6">
                         <?php echo
-                            Form::label('event_timestamp', __('Timestamp', 'events')) .
+                            Form::label('event_timestamp', __('Timestamp', 'events'), array('data-toggle' => 'tooltip', 'data-placement' => 'top', 'title' => __('Local datetime timestamp in format "2015-04-18T19:00:00.000", used to specify event date and put events in chronological order', 'events'))) .
                             Form::input('event_timestamp', '', array('class' => 'form-control clear', 'type' => 'datetime-local'));
                         ?>
                     </div>
                     <div class="col-sm-3">
                         <?php echo
-                            Form::label('event_openat', __('Open at', 'events')) .
+                            Form::label('event_openat', __('Open at', 'events'), array('data-toggle' => 'tooltip', 'data-placement' => 'top', 'title' => __('Event admittance time as free text', 'events'))) .
                             Form::input('event_openat', Null, array('class' => 'form-control clear'));
                         ?>
                     </div>
                     <div class="col-sm-3">
                         <?php echo
-                            Form::label('event_time', __('Time', 'events')) .
+                            Form::label('event_time', __('Time', 'events'), array('data-toggle' => 'tooltip', 'data-placement' => 'top', 'title' => __('Event starting time as free text', 'events'))) .
                             Form::input('event_time', Null, array('class' => 'form-control clear'));
                         ?>
                     </div>
@@ -842,12 +842,12 @@
                 <div class="row">
                     <div class="col-sm-6">
                         <?php echo
-                            Form::label('event_category', __('Category', 'events')) .
+                            Form::label('event_category', __('Category', 'events'), array('data-toggle' => 'tooltip', 'data-placement' => 'top', 'title' => __('Event category, used to group similar events', 'events'))) .
                             Form::select('event_category', $categories_active_title, Null, array('class' => 'form-control clear', 'required' => 'required'));
                         ?>
                     </div>
                     <div class="col-sm-6">
-                        <?php echo Form::label('event-color', __('Color', 'events')); ?>
+                        <?php echo Form::label('event-color', __('Color', 'events'), array('data-toggle' => 'tooltip', 'data-placement' => 'top', 'title' => __('Event specific color in hex format (without #), inherits color of category if not set', 'events'))); ?>
                         <div class="input-group">
                             <span class="input-group-addon" id="event-color-addon">#</span>
                             <?php echo Form::input('event_color', Null, array('class' => 'form-control clear', 'id' => 'event-color', 'aria-describedby' => 'event-color-addon')); ?>
@@ -856,14 +856,14 @@
                 </div>
                 <div class="row">
                     <div class="col-sm-6">
-                        <?php echo Form::label('event_location', __('Location', 'events')); ?>
+                        <?php echo Form::label('event_location', __('Location', 'events'), array('data-toggle' => 'tooltip', 'data-placement' => 'top', 'title' => __('Event location name', 'events'))); ?>
                         <div class="input-group">
                             <span class="input-group-addon" id="event-location-addon">@</span>
                             <?php echo Form::input('event_location', Null, array('class' => 'form-control clear', 'aria-describedby' => 'event-location-addon')); ?>
                         </div>
                     </div>
                     <div class="col-sm-6">
-                        <?php echo Form::label('event_address', __('address', 'events')); ?>
+                        <?php echo Form::label('event_address', __('address', 'events'), array('data-toggle' => 'tooltip', 'data-placement' => 'top', 'title' => __('Event location adress, used to generate OpenStreetMap link', 'events'))); ?>
                         <div class="input-group">
                             <span class="input-group-addon" id="event-address-addon"><span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span></span>
                             <?php echo Form::input('event_address', Null, array('class' => 'form-control clear', 'aria-describedby' => 'event-address-addon')); ?>
@@ -873,7 +873,7 @@
                 <div class="row">
                     <div class="col-sm-12">
                         <?php echo
-                            Form::label('event_short', __('Short description', 'events')) .
+                            Form::label('event_short', __('Short description', 'events'), array('data-toggle' => 'tooltip', 'data-placement' => 'top', 'title' => __('Event description in one line', 'events'))) .
                             Form::input('event_short', Null, array('class' => 'form-control clear'));
                         ?>
                     </div>
@@ -881,7 +881,7 @@
                 <div class="row">
                     <div class="col-sm-12">
                         <?php echo
-                            Form::label('event_description', __('Description', 'events')) .
+                            Form::label('event_description', __('Description', 'events'), array('data-toggle' => 'tooltip', 'data-placement' => 'top', 'title' => __('Long event description used for single event view, line breaks are preserved', 'events'))) .
                             Form::textarea('event_description', Null, array('class' => 'form-control clear'));
                         ?>
                     </div>
@@ -889,14 +889,14 @@
                 <div class="row">
                     <div class="col-sm-12">
                         <?php echo
-                            Form::label('event_archiv', __('Archiv description', 'events')) .
+                            Form::label('event_archiv', __('Archiv description', 'events'), array('data-toggle' => 'tooltip', 'data-placement' => 'top', 'title' => __('Event description used for archiv view, line breaks are preserved', 'events'))) .
                             Form::textarea('event_archiv', Null, array('class' => 'form-control clear', 'placeholder' => 'Prediger, Moderation, Band, Special Guest'));
                         ?>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-sm-6">
-                        <?php echo Form::label('event_hashtag', __('Hashtag', 'events')); ?>
+                        <?php echo Form::label('event_hashtag', __('Hashtag', 'events'), array('data-toggle' => 'tooltip', 'data-placement' => 'top', 'title' => __('Event specific hashtag in social nets', 'events'))); ?>
                         <div class="input-group">
                             <span class="input-group-addon" id="event-hashtag-addon">#</span>
                             <?php echo Form::input('event_hashtag', Null, array('class' => 'form-control clear', 'aria-describedby' => 'event-hashtag-addon')); ?>
@@ -904,7 +904,7 @@
                     </div>
                     <div class="col-sm-6">
                         <?php echo
-                            Form::label('event_facebook', __('Facebook URL', 'events')) .
+                            Form::label('event_facebook', __('Facebook URL', 'events'), array('data-toggle' => 'tooltip', 'data-placement' => 'top', 'title' => __('URL to facebook event', 'events'))) .
                             Form::input('event_facebook', Null, array('class' => 'form-control clear'));
                         ?>
                     </div>
@@ -912,7 +912,7 @@
                 <div class="row">
                     <div class="col-sm-6">
                         <?php
-                            echo Form::label('event_image', __('Image file', 'events'));
+                            echo Form::label('event_image', __('Image file', 'events'), array('data-toggle' => 'tooltip', 'data-placement' => 'top', 'title' => __('Event title image from preconfigured image directory', 'events')));
                             if (sizeof($files)>1) {
                                 echo Form::select('event_image', $files, Null, array('class' => 'form-control clear'));
                             } else {
@@ -922,7 +922,7 @@
                     </div>
                     <div class="col-sm-6">
                         <?php echo
-                            Form::label('event_gallery', __('Gallery URL', 'events')) .
+                            Form::label('event_gallery', __('Gallery URL', 'events'), array('data-toggle' => 'tooltip', 'data-placement' => 'top', 'title' => __('URL to gallery (e.g. facebook gallery)', 'events'))) .
                             Form::input('event_gallery', Null, array('class' => 'form-control clear'));
                         ?>
                     </div>
@@ -930,7 +930,7 @@
                 <div class="row">
                     <div class="col-sm-6">
                         <?php echo
-                            Form::label('event_imagesection', __('Clip image', 'events')) . Html::br();
+                            Form::label('event_imagesection', __('Clip image', 'events'), array('data-toggle' => 'tooltip', 'data-placement' => 'top', 'title' => __('Specifies how to clip image to square', 'events'))) . Html::br();
                         ?>
                         <label class="image-section-label" title="Clip to top"><?php echo Form::radio('event_imagesection', 't'); ?>
                             <span class="image-section section-portrait section-top"></span>
@@ -953,7 +953,7 @@
                     </div>
                     <div class="col-sm-6">
                         <?php echo
-                            Form::label('event_audio', __('Audio file', 'events')) .
+                            Form::label('event_audio', __('Audio file', 'events'), array('data-toggle' => 'tooltip', 'data-placement' => 'top', 'title' => __('URL to audio file', 'events'))) .
                             Form::input('event_audio', Null, array('class' => 'form-control clear'));
                         ?>
                     </div>
