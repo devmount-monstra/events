@@ -15,7 +15,7 @@
                                 <?php echo Html::heading($categories['title'][$event['category']], 3); ?>
                                 <div class="text">
                                     <?php echo $event['title'] == '' ? $event['short'] : '»' . $event['title'] . '«'; ?><br />
-                                    <?php echo $event['date']; ?>
+                                    <?php echo date('j.n.y', $event['timestamp']); ?>
                                     <?php echo $event['location'] == '' ? '' : ' | @' . $event['location']; ?>
                                     <div style="white-space: pre-wrap;"><?php echo $event['archiv']; ?></div>
                                 </div>
