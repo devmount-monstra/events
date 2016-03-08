@@ -406,7 +406,7 @@
                                     </td>
                                     <td>
                                         <!-- number of events for each category -->
-                                        <?php echo $category['count'] . ' ' . __('events', 'events'); ?>
+                                        <?php echo $categories[$category['id']]['count'] . ' ' . __('events', 'events'); ?>
                                     </td>
                                     <td>
                                         <div class="pull-right">
@@ -722,7 +722,7 @@
                                         </td>
                                         <td>
                                             <!-- number of events for each category -->
-                                            <?php echo $category['count'] . ' ' . __('events', 'events'); ?>
+                                            <?php echo $categories[$category['id']]['count'] . ' ' . __('events', 'events'); ?>
                                         </td>
                                         <td>
                                             <div class="pull-right">
