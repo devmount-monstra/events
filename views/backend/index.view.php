@@ -9,6 +9,8 @@
     Form::hidden('output_addevent', __('Add event', 'events')) .
     Form::hidden('output_editcategory', __('Edit category', 'events')) .
     Form::hidden('output_addcategory', __('Add category', 'events')) .
+    Form::hidden('output_editlocation', __('Edit location', 'events')) .
+    Form::hidden('output_addlocation', __('Add location', 'events')) .
     Form::hidden('output_update', __('Update', 'events'));
 ?>
 
@@ -24,6 +26,7 @@
             <?php echo
                 Html::anchor(__('New Event', 'events'), '#', array('class' => 'btn btn-phone btn-primary new-event', 'title' => __('New Event', 'events'))) . Html::nbsp() .
                 Html::anchor(__('New Category', 'events'), '#', array('class' => 'btn btn-phone btn-primary new-category', 'title' => __('New Category', 'events'))) . Html::nbsp() .
+                Html::anchor(__('New Location', 'events'), '#', array('class' => 'btn btn-phone btn-primary new-location', 'title' => __('New Location', 'events'))) . Html::nbsp() .
                 Html::anchor(__('Documentation', 'events'), '#', array('class' => 'btn btn-phone btn-default readme-plugin', 'data-toggle' => 'modal', 'data-target' => '#modal-documentation', 'readme-plugin' => 'events'));
             ?>
         </div>
@@ -33,6 +36,7 @@
     <ul class="nav nav-tabs">
         <li class="active"><?php echo Html::anchor(__('Events', 'events'), '#events', array('data-toggle' => 'tab')); ?></li>
         <li><?php echo Html::anchor(__('Categories', 'events'), '#categories', array('data-toggle' => 'tab')); ?></li>
+        <li><?php echo Html::anchor(__('Locations', 'events'), '#locations', array('data-toggle' => 'tab')); ?></li>
         <li><?php echo Html::anchor(__('Configuration', 'events'), '#configuration', array('data-toggle' => 'tab')); ?></li>
         <li><?php echo Html::anchor(__('Trash', 'events'), '#trash', array('data-toggle' => 'tab')); ?></li>
     </ul>
@@ -473,6 +477,86 @@
             </div>
         </div>
 
+        <!-- Tab: locations -->
+        <div class="tab-pane" id="locations">
+            <div class="table-responsive">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th><?php echo __('Title', 'events'); ?></th>
+                            <th><?php echo __('Address', 'events'); ?></th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php if (sizeof($locations) > 0) {
+                            foreach ($locations as $location) { ?>
+                                <tr>
+                                    <td>
+                                        <?php echo Html::heading($location['title'], 4); ?>
+                                    </td>
+                                    <td>
+                                        <?php echo $location['address']; ?>
+                                    </td>
+                                    <td>
+                                        <div class="pull-right">
+                                            <?php if($location['website']) { ?>
+                                                <a
+                                                    class="btn btn-info"
+                                                    href="<?php echo $location['website'] ?>"
+                                                    title="<?php echo __('Website URL', 'events'); ?>"
+                                                    target="_blank"
+                                                >
+                                                    <span class="glyphicon glyphicon-link" aria-hidden="true"></span>
+                                                </a>
+                                            <?php } ?>
+                                            <?php if($location['address']) { ?>
+                                                <a
+                                                    class="btn btn-info"
+                                                    href="http://nominatim.openstreetmap.org/search?q=<?php echo $location['address'] ?>"
+                                                    title="<?php echo __('Show map', 'events'); ?>"
+                                                    target="_blank"
+                                                >
+                                                    <span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span>
+                                                </a>
+                                            <?php } ?>
+                                            <button
+                                                class="btn btn-primary edit-location"
+                                                value="<?php echo $location['id'] ?>"
+                                                title="<?php echo __('Edit', 'events'); ?>"
+                                            >
+                                                <?php echo __('Edit', 'events'); ?>
+                                            </button>
+                                            <?php echo
+                                                Form::open() .
+                                                Form::hidden('csrf', Security::token()) .
+                                                Form::hidden('delete_location', $location['id']);
+                                            ?>
+                                                <button
+                                                    class="btn btn-danger"
+                                                    value="1"
+                                                    onclick="return confirmDelete('<?php echo __('Delete location »:title«', 'events', array(':title' => $location['title'])); ?>')"
+                                                    title="<?php echo __('Delete', 'events'); ?>"
+                                                >
+                                                    <?php echo __('Delete', 'events'); ?>
+                                                </button>
+                                            <?php echo Form::close(); ?>
+                                        </div>
+                                    </td>
+                                </tr>
+                            <?php }
+                        } else { ?>
+                            <tr>
+                                <td colspan="3">
+                                    <?php echo __('No location available.', 'events'); ?>
+                                </td>
+                            </tr>
+                        <?php } ?>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
         <!-- Tab: configuration -->
         <div class="tab-pane no-table" id="configuration">
             <?php echo
@@ -491,7 +575,7 @@
                 <div class="col-md-6">
                     <!-- config archiv description placeholder -->
                     <?php echo
-                        Form::label('events_placeholder_archiv', __('Placeholder text for archiv description field', 'events'), array('data-toggle' => 'tooltip', 'data-placement' => 'top', 'title' => __('Custom placeholder text for "Archiv description" textarea in the events add/edit form', 'events'))) .
+                        Form::label('events_placeholder_archiv', __('Placeholder for archiv description field', 'events'), array('data-toggle' => 'tooltip', 'data-placement' => 'top', 'title' => __('Custom placeholder text for "Archiv description" textarea in the events add/edit form', 'events'))) .
                         Form::input('events_placeholder_archiv', Option::get('events_placeholder_archiv'), array('class' => 'form-control'));
                     ?>
                 </div>
@@ -519,6 +603,7 @@
             <ul class="nav nav-pills">
                 <li class="active"><?php echo Html::anchor(__('Events', 'events'), '#trash-events', array('data-toggle' => 'tab')); ?></li>
                 <li><?php echo Html::anchor(__('Categories', 'events'), '#trash-categories', array('data-toggle' => 'tab')); ?></li>
+                <li><?php echo Html::anchor(__('Locations', 'events'), '#trash-locations', array('data-toggle' => 'tab')); ?></li>
             </ul>
 
             <!-- Secondary tab content -->
@@ -723,6 +808,87 @@
                         </table>
                     </div>
                 </div>
+
+                <!-- Tab: trash locations -->
+                <div class="tab-pane" id="trash-locations">
+
+                    <!-- deleted locations -->
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th><?php echo __('Title', 'events'); ?></th>
+                                <th><?php echo __('Address', 'events'); ?></th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php if (sizeof($deletedlocations) > 0) {
+                                foreach ($deletedlocations as $location) { ?>
+                                    <tr>
+                                        <td>
+                                            <?php echo Html::heading($location['title'], 4); ?>
+                                        </td>
+                                        <td>
+                                            <?php echo $location['address']; ?>
+                                        </td>
+                                        <td>
+                                            <div class="pull-right">
+                                                <?php if($location['website']) { ?>
+                                                    <a
+                                                        class="btn btn-info"
+                                                        href="<?php echo $location['website'] ?>"
+                                                        title="<?php echo __('Website URL', 'events'); ?>"
+                                                        target="_blank"
+                                                    >
+                                                        <span class="glyphicon glyphicon-link" aria-hidden="true"></span>
+                                                    </a>
+                                                <?php } ?>
+                                                <?php if($location['address']) { ?>
+                                                    <a
+                                                        class="btn btn-info"
+                                                        href="http://nominatim.openstreetmap.org/search?q=<?php echo $location['address'] ?>"
+                                                        title="<?php echo __('Show map', 'events'); ?>"
+                                                        target="_blank"
+                                                    >
+                                                        <span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span>
+                                                    </a>
+                                                <?php } ?>
+                                                <button
+                                                    class="btn btn-primary edit-location"
+                                                    value="<?php echo $location['id'] ?>"
+                                                    title="<?php echo __('Edit', 'events'); ?>"
+                                                >
+                                                    <?php echo __('Edit', 'events'); ?>
+                                                </button>
+                                                <?php echo
+                                                    Form::open() .
+                                                    Form::hidden('csrf', Security::token()) .
+                                                    Form::hidden('delete_location', $location['id']);
+                                                ?>
+                                                    <button
+                                                        class="btn btn-danger"
+                                                        value="1"
+                                                        onclick="return confirmDelete('<?php echo __('Delete location »:title«', 'events', array(':title' => $location['title'])); ?>')"
+                                                        title="<?php echo __('Delete', 'events'); ?>"
+                                                    >
+                                                        <?php echo __('Delete', 'events'); ?>
+                                                    </button>
+                                                <?php echo Form::close(); ?>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                <?php }
+                            } else { ?>
+                                <tr>
+                                    <td colspan="3">
+                                        <?php echo __('No deleted locations', 'events'); ?>
+                                    </td>
+                                </tr>
+                            <?php } ?>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -760,7 +926,7 @@
                     <div class="col-sm-6">
                         <?php echo
                             Form::label('category_title', __('Title', 'events'), array('data-toggle' => 'tooltip', 'data-placement' => 'top', 'title' => __('Category header, should be unique', 'events'))) .
-                            Form::input('category_title', Null, array('class' => 'form-control clear', 'id' => 'focus-categories', 'required' => 'required'));
+                            Form::input('category_title', Null, array('class' => 'form-control clear', 'required' => 'required'));
                         ?>
                     </div>
                     <div class="col-sm-6">
@@ -784,6 +950,68 @@
                     type="submit"
                     name="add_category"
                     id="add-edit-submit-category"
+                    class="btn btn-primary"
+                    value="1"
+                    title="<?php echo __('Add', 'events'); ?>"
+                >
+                    <?php echo __('Add', 'events'); ?>
+                </button>
+            </div>
+            <?php echo Form::close(); ?>
+        </div>
+    </div>
+</div>
+
+<!-- modal: location add/edit form -->
+<div id="modal-location" class="modal fade" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="close" data-dismiss="modal">&times;</div>
+                <h4 class="modal-title"><?php echo __('New location', 'filesmanager'); ?></h4>
+            </div>
+            <?php echo
+                Form::open(Null, array('role' => 'form')) .
+                Form::hidden('csrf', Security::token());
+            ?>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <?php echo
+                            Form::label('location_title', __('Title', 'events'), array('data-toggle' => 'tooltip', 'data-placement' => 'top', 'title' => __('Location header, should be unique', 'events'))) .
+                            Form::input('location_title', Null, array('class' => 'form-control clear', 'required' => 'required'));
+                        ?>
+                    </div>
+                    <div class="col-sm-6">
+                        <?php echo Form::label('location_website', __('Website URL', 'events'), array('data-toggle' => 'tooltip', 'data-placement' => 'top', 'title' => __('Complete URL for this specific location', 'events'))); ?>
+                        <div class="input-group">
+                            <span class="input-group-addon" id="location-website-addon"><span class="glyphicon glyphicon-link" aria-hidden="true"></span></span>
+                            <?php echo Form::input('location_website', Null, array('class' => 'form-control clear', 'aria-describedby' => 'location-website-addon', 'required' => 'required')); ?>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <?php echo Form::label('location_address', __('Address', 'events'), array('data-toggle' => 'tooltip', 'data-placement' => 'top', 'title' => __('Location address, used to generate OpenStreetMap link', 'events'))); ?>
+                        <div class="input-group">
+                            <span class="input-group-addon" id="location-address-addon"><span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span></span>
+                            <?php echo Form::input('location_address', Null, array('class' => 'form-control clear', 'aria-describedby' => 'location-address-addon')); ?>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button
+                    type="button"
+                    class="btn btn-default"
+                    data-dismiss="modal"
+                >
+                    <?php echo __('Cancel', 'events'); ?>
+                </button>
+                <button
+                    type="submit"
+                    name="add_location"
+                    id="add-edit-submit-location"
                     class="btn btn-primary"
                     value="1"
                     title="<?php echo __('Add', 'events'); ?>"

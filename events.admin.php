@@ -49,6 +49,12 @@ class EventsAdmin extends Backend
             echo json_encode($categories->select('[id=' . Request::post('edit_category_id') . ']')[0]);
             Request::shutdown();
         }
+        // Ajax Request: add location
+        if (Request::post('edit_location_id')) {
+            $locations = new Table('locations');
+            echo json_encode($locations->select('[id=' . Request::post('edit_location_id') . ']')[0]);
+            Request::shutdown();
+        }
     }
 
     /**
@@ -59,6 +65,7 @@ class EventsAdmin extends Backend
         // get db table objects
         $events = new Table('events');
         $categories = new Table('categories');
+        $locations = new Table('locations');
 
         // Request: add event
         if (Request::post('add_event')) {
@@ -230,12 +237,88 @@ class EventsAdmin extends Backend
                 die();
             }
         }
-        // Request: delete category
+        // Request: delete trash category
         if (Request::post('delete_trash_category')) {
             if (Security::check(Request::post('csrf'))) {
                 $categories->delete(Request::post('delete_trash_category'));
                 Notification::set('success', __('Category has been deleted with success!', 'events'));
                 Request::redirect('index.php?id=events#trash/trash-categories');
+            }
+            else {
+                Notification::set('error', __('Request was denied. Invalid security token. Please refresh the page and try again.', 'events'));
+                die();
+            }
+        }
+
+        // Request: add location
+        if (Request::post('add_location')) {
+            if (Security::check(Request::post('csrf'))) {
+                $locations->insert(
+                    array(
+                        'title' => (string) Request::post('location_title'),
+                        'website' => (string) Request::post('location_website'),
+                        'address' => (string) Request::post('location_address'),
+                        'deleted' => 0,
+                    )
+                );
+                Notification::set('success', __('Location was added with success!', 'events'));
+                Request::redirect('index.php?id=events#locations');
+            }
+            else {
+                Notification::set('error', __('Request was denied. Invalid security token. Please refresh the page and try again.', 'events'));
+                die();
+            }
+        }
+        // Request: edit location
+        if (Request::post('edit_location')) {
+            if (Security::check(Request::post('csrf'))) {
+                $locations->update(
+                    (int) Request::post('edit_location'),
+                    array(
+                        'title' => (string) Request::post('location_title'),
+                        'website' => (string) Request::post('location_website'),
+                        'address' => (string) Request::post('location_address'),
+                        'deleted' => 0,
+                    )
+                );
+                Notification::set('success', __('Location was updated with success!', 'events'));
+                Request::redirect('index.php?id=events#locations');
+            }
+            else {
+                Notification::set('error', __('Request was denied. Invalid security token. Please refresh the page and try again.', 'events'));
+                die();
+            }
+        }
+        // Request: restore location
+        if (Request::post('restore_trash_location')) {
+            if (Security::check(Request::post('csrf'))) {
+                $locations->update((int) Request::post('restore_trash_location'), array('deleted' => 0));
+                Notification::set('success', __('Location has been restored from trash with success!', 'events'));
+                Request::redirect('index.php?id=events#trash/trash-locations');
+            }
+            else {
+                Notification::set('error', __('Request was denied. Invalid security token. Please refresh the page and try again.', 'events'));
+                die();
+            }
+        }
+        // Request: delete location
+        if (Request::post('delete_location')) {
+            if (Security::check(Request::post('csrf'))) {
+                $locations->update((int) Request::post('delete_location'), array('deleted' => 1));
+                Notification::set('success', __('Location has been moved to trash with success!', 'events'));
+                Request::redirect('index.php?id=events#locations');
+            }
+            else {
+                Notification::set('error', __('Request was denied. Invalid security token. Please refresh the page and try again.', 'events'));
+                die();
+            }
+        }
+        // Request: delete trash location
+        if (Request::post('delete_trash_location')) {
+            if (Security::check(Request::post('csrf'))) {
+                $locations->delete(Request::post('delete_trash_location'));
+                Notification::set('success', __('Location has been deleted with success!', 'events'));
+                Request::redirect('index.php?id=events#trash/trash-locations');
             }
             else {
                 Notification::set('error', __('Request was denied. Invalid security token. Please refresh the page and try again.', 'events'));
@@ -259,6 +342,7 @@ class EventsAdmin extends Backend
 
         // get current time
         $now = time();
+        
         // get all existing categories from db
         $allcategories = $categories->select(Null, 'all');
         $activecategories = $categories->select('[deleted=0]');
@@ -274,6 +358,11 @@ class EventsAdmin extends Backend
         foreach ($activecategories as $c) {
             $categories_active_title[$c['id']] = $c['title'];
         }
+
+        // get all existing locations from db
+        $alllocations = $locations->select(Null, 'all');
+        $activelocations = $locations->select('[deleted=0]');
+
         // get all existing events from db
         $upcomingevents = $events->select('[timestamp>=' . $now . ' and deleted=0]', 'all', null, null, 'timestamp', 'ASC');
         $pastevents = $events->select('[timestamp<' . $now . ' and deleted=0]', 'all', null, null, 'timestamp', 'DESC');
@@ -282,6 +371,7 @@ class EventsAdmin extends Backend
         // get all deleted records from db
         $deletedevents = $events->select('[deleted=1]');
         $deletedcategories = $categories->select('[deleted=1]');
+        $deletedlocations = $locations->select('[deleted=1]');
 
         // get upload directories
         $path = ROOT . DS . 'public' . DS . 'uploads/';
@@ -315,6 +405,8 @@ class EventsAdmin extends Backend
             ->assign('categories_active_title', $categories_active_title)
             ->assign('categories_color', $categories_color)
             ->assign('categories_count', $categories_count)
+            ->assign('locations', $activelocations)
+            ->assign('deletedlocations', $deletedlocations)
             ->assign('upcomingevents', $upcomingevents)
             ->assign('pastevents', $pastevents)
             ->assign('deletedevents', $deletedevents)

@@ -30,6 +30,12 @@ $c = new Table('categories');
 $c->addField('deleted');
 $c->addField('color');
 
+Table::create('locations', array('title'));
+$c = new Table('locations');
+$c->addField('deleted');
+$c->addField('website');
+$c->addField('address');
+
 // Add Options
 Option::add('events_image_directory', '/');
 Option::add('events_placeholder_archiv', '');

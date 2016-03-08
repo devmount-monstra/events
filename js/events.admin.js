@@ -25,6 +25,15 @@ $.monstra.events = {
             $.monstra.events.showCategoryDialog($(this).val());
         });
 
+        // modal: new location
+        $('.new-location').click(function() {
+            $.monstra.events.showLocationDialog();
+        });
+        // modal: edit location
+        $('.edit-location').click(function() {
+            $.monstra.events.showLocationDialog($(this).val());
+        });
+
         // modal: new event
         $('.new-event').click(function() {
             $.monstra.events.showEventDialog();
@@ -90,6 +99,34 @@ $.monstra.events = {
             dialog.find('input.clear').each(function(){ $(this).val(''); });
             dialog.find('#add-edit-submit-category').val(1).attr('name', 'add_category').text($('#output_add').val());
             $.monstra.events.setColor('category', true);
+        }
+        dialog.modal('show');
+    },
+
+    /* modal: handle new / edit location
+     * @param: id int  location to handle; no given id will clear the formula
+     */
+    showLocationDialog: function(id) {
+        var dialog = $('#modal-location');
+        if (id !== null && id !== undefined && id >= 0) {
+            $.ajax({
+                type: 'post',
+                data: 'edit_location_id=' + id,
+                dataType: 'json',
+                // on success: modify formula to edit
+                success: function(location){
+                    dialog.find('.modal-title').text($('#output_editlocation').val() + ' »' + location.title + '«');
+                    dialog.find('input[name="location_title"]').val(location.title);
+                    dialog.find('input[name="location_website"]').val(location.website);
+                    dialog.find('input[name="location_address"]').val(location.address);
+                    dialog.find('#add-edit-submit-location').val(location.id).attr('name', 'edit_location').text($('#output_update').val());
+                }
+            });
+        } else {
+            // clear formula
+            dialog.find('.modal-title').text($('#output_addlocation').val());
+            dialog.find('input.clear').each(function(){ $(this).val(''); });
+            dialog.find('#add-edit-submit-location').val(1).attr('name', 'add_location').text($('#output_add').val());
         }
         dialog.modal('show');
     },
