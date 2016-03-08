@@ -73,8 +73,8 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <?php if (sizeof($upcomingevents) > 0) {
-                                    foreach ($upcomingevents as $event) { ?>
+                                <?php if (sizeof($events_upcoming) > 0) {
+                                    foreach ($events_upcoming as $event) { ?>
                                         <tr>
                                             <td>
                                                 <?php if ($event['image'])
@@ -100,8 +100,8 @@
                                             <td class="visible-lg hidden-xs">
                                                 <div
                                                     class="color-text-box"
-                                                    title="#<?php echo $event['color'] ? $event['color'] : $categories_color[$event['category']]; ?>"
-                                                    style="border-left: 1.4em solid #<?php echo $event['color'] ? $event['color'] : $categories_color[$event['category']]; ?>; padding-left: 10px;"
+                                                    title="#<?php echo $event['color'] ? $event['color'] : $categories[$event['category']]['color']; ?>"
+                                                    style="border-left: 1.4em solid #<?php echo $event['color'] ? $event['color'] : $categories[$event['category']]['color']; ?>; padding-left: 10px;"
                                                 >
                                                     <?php if(!$event['color']){ ?>
                                                         <span
@@ -113,7 +113,7 @@
                                                 </div>
                                             </td>
                                             <td class="visible-lg hidden-xs">
-                                                <?php echo $categories_title[$event['category']]; ?>
+                                                <?php echo $categories[$event['category']]['title']; ?>
                                             </td>
                                             <td>
                                                 <div class="pull-right">
@@ -180,8 +180,8 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <?php if (sizeof($pastevents) > 0) {
-                                    foreach ($pastevents as $event) { ?>
+                                <?php if (sizeof($events_past) > 0) {
+                                    foreach ($events_past as $event) { ?>
                                         <tr>
                                             <td>
                                                 <?php if ($event['image']) echo Html::anchor(
@@ -205,8 +205,8 @@
                                             <td class="visible-lg hidden-xs">
                                                 <div
                                                     class="color-text-box"
-                                                    title="#<?php echo $event['color'] ? $event['color'] : $categories_color[$event['category']]; ?>"
-                                                    style="border-left: 1.4em solid #<?php echo $event['color'] ? $event['color'] : $categories_color[$event['category']]; ?>; padding-left: 10px;"
+                                                    title="#<?php echo $event['color'] ? $event['color'] : $categories[$event['category']]['color']; ?>"
+                                                    style="border-left: 1.4em solid #<?php echo $event['color'] ? $event['color'] : $categories[$event['category']]['color']; ?>; padding-left: 10px;"
                                                 >
                                                     <?php if(!$event['color']){ ?>
                                                         <span
@@ -218,7 +218,7 @@
                                                 </div>
                                             </td>
                                             <td class="visible-lg hidden-xs">
-                                                <?php echo $categories_title[$event['category']]; ?>
+                                                <?php echo $categories[$event['category']]['title']; ?>
                                             </td>
                                             <td>
                                                 <div class="pull-right">
@@ -286,8 +286,8 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <?php if (sizeof($draftevents) > 0) {
-                                    foreach ($draftevents as $event) { ?>
+                                <?php if (sizeof($events_draft) > 0) {
+                                    foreach ($events_draft as $event) { ?>
                                         <tr>
                                             <td>
                                                 <?php if ($event['image']) echo Html::anchor(
@@ -311,8 +311,8 @@
                                             <td class="visible-lg hidden-xs">
                                                 <div
                                                     class="color-text-box"
-                                                    title="#<?php echo $event['color'] ? $event['color'] : $categories_color[$event['category']]; ?>"
-                                                    style="border-left: 1.4em solid #<?php echo $event['color'] ? $event['color'] : $categories_color[$event['category']]; ?>; padding-left: 10px;"
+                                                    title="#<?php echo $event['color'] ? $event['color'] : $categories[$event['category']]['color']; ?>"
+                                                    style="border-left: 1.4em solid #<?php echo $event['color'] ? $event['color'] : $categories[$event['category']]['color']; ?>; padding-left: 10px;"
                                                 >
                                                     <?php if(!$event['color']){ ?>
                                                         <span
@@ -324,7 +324,7 @@
                                                 </div>
                                             </td>
                                             <td class="visible-lg hidden-xs">
-                                                <?php echo $categories_title[$event['category']]; ?>
+                                                <?php echo $categories[$event['category']]['title']; ?>
                                             </td>
                                             <td>
                                                 <div class="pull-right">
@@ -390,8 +390,8 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <?php if (sizeof($categories) > 0) {
-                            foreach ($categories as $category) { ?>
+                        <?php if (sizeof($categories_active) > 0) {
+                            foreach ($categories_active as $category) { ?>
                                 <tr>
                                     <td>
                                         <div
@@ -406,7 +406,7 @@
                                     </td>
                                     <td>
                                         <!-- number of events for each category -->
-                                        <?php echo $categories_count[$category['id']] . ' ' . __('events', 'events'); ?>
+                                        <?php echo $category['count'] . ' ' . __('events', 'events'); ?>
                                     </td>
                                     <td>
                                         <div class="pull-right">
@@ -596,8 +596,8 @@
                                 </tr>
                             </thead>
                             <tbody>
-                            <?php if (sizeof($deletedevents) > 0) {
-                                foreach ($deletedevents as $event) { ?>
+                            <?php if (sizeof($events_deleted) > 0) {
+                                foreach ($events_deleted as $event) { ?>
                                     <tr>
                                         <td>
                                             <?php if ($event['image']) echo Html::anchor(
@@ -621,8 +621,8 @@
                                         <td class="visible-lg hidden-xs">
                                             <div
                                                 class="color-text-box"
-                                                title="#<?php echo $event['color'] ? $event['color'] : $categories_color[$event['category']]; ?>"
-                                                style="border-left: 1.4em solid #<?php echo $event['color'] ? $event['color'] : $categories_color[$event['category']]; ?>; padding-left: 10px;"
+                                                title="#<?php echo $event['color'] ? $event['color'] : $categories[$event['category']]['color']; ?>"
+                                                style="border-left: 1.4em solid #<?php echo $event['color'] ? $event['color'] : $categories[$event['category']]['color']; ?>; padding-left: 10px;"
                                             >
                                                 <?php if(!$event['color']){ ?>
                                                     <span
@@ -634,7 +634,7 @@
                                             </div>
                                         </td>
                                         <td class="visible-lg hidden-xs">
-                                            <?php echo $categories_title[$event['category']]; ?>
+                                            <?php echo $categories[$event['category']]['title']; ?>
                                         </td>
                                         <td>
                                             <div class="pull-right">
@@ -706,8 +706,8 @@
                                 </tr>
                             </thead>
                             <tbody>
-                            <?php if (sizeof($deletedcategories) > 0) {
-                                foreach ($deletedcategories as $category) { ?>
+                            <?php if (sizeof($categories_deleted) > 0) {
+                                foreach ($categories_deleted as $category) { ?>
                                     <tr>
                                         <td>
                                             <div
@@ -722,7 +722,7 @@
                                         </td>
                                         <td>
                                             <!-- number of events for each category -->
-                                            <?php echo $categories_count[$category['id']] . ' ' . __('events', 'events'); ?>
+                                            <?php echo $category['count'] . ' ' . __('events', 'events'); ?>
                                         </td>
                                         <td>
                                             <div class="pull-right">
@@ -1041,7 +1041,7 @@
                     <div class="col-sm-6">
                         <?php echo
                             Form::label('event_category', __('Category', 'events'), array('data-toggle' => 'tooltip', 'data-placement' => 'top', 'title' => __('Event category, used to group similar events', 'events'))) .
-                            Form::select('event_category', $categories_active_title, Null, array('class' => 'form-control clear', 'required' => 'required'));
+                            Form::select('event_category', $categories_select, Null, array('class' => 'form-control clear', 'required' => 'required'));
                         ?>
                     </div>
                     <div class="col-sm-6">

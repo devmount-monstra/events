@@ -344,28 +344,26 @@ class EventsAdmin extends Backend
         $now = time();
         
         // get all existing categories from db
-        $allcategories = $categories->select(Null, 'all', null, null, 'title', 'ASC');
-        $activecategories = $categories->select('[deleted=0]', 'all', null, null, 'title', 'ASC');
-        $categories_title = array();
-        $categories_active_title = array();
-        $categories_color = array();
-        $categories_count = array();
-        foreach ($allcategories as $c) {
-            $categories_title[$c['id']] = $c['title'];
-            $categories_color[$c['id']] = $c['color'];
-            $categories_count[$c['id']] = sizeof($events->select('[category=' . $c['id'] . ' and deleted=0]'));
+        $categories_all = $categories->select(Null, 'all', null, null, 'title', 'ASC');
+        $categories_active = $categories->select('[deleted=0]', 'all', null, null, 'title', 'ASC');
+        $categories_deleted = $categories->select('[deleted=1]');
+        $categories_objects = array();
+        $categories_select = array();
+        foreach ($categories_all as $c) {
+            $c['count'] = sizeof($events->select('[category=' . $c['id'] . ' and deleted=0]'));
+            $categories_objects[$c['id']] = $c;
         }
-        foreach ($activecategories as $c) {
-            $categories_active_title[$c['id']] = $c['title'];
+        foreach ($categories_active as $c) {
+            $categories_select[$c['id']] = $c['title'];
         }
 
         // get all existing locations from db
-        $alllocations = $locations->select(Null, 'all');
-        $locations_active = $locations->select('[deleted=0]', 'all', null, null, 'title', 'ASC');
+        $locations_all     = $locations->select(Null, 'all');
+        $locations_active  = $locations->select('[deleted=0]', 'all', null, null, 'title', 'ASC');
         $locations_deleted = $locations->select('[deleted=1]', 'all', null, null, 'title', 'ASC');
         $locations_objects = array();
-        $locations_select = array(0 => '');
-        foreach ($alllocations as $l) {
+        $locations_select  = array(0 => '');
+        foreach ($locations_all as $l) {
             $locations_objects[$l['id']] = $l;
         }
         foreach ($locations_active as $l) {
@@ -373,13 +371,10 @@ class EventsAdmin extends Backend
         }
 
         // get all existing events from db
-        $upcomingevents = $events->select('[timestamp>=' . $now . ' and deleted=0]', 'all', null, null, 'timestamp', 'ASC');
-        $pastevents = $events->select('[timestamp<' . $now . ' and deleted=0]', 'all', null, null, 'timestamp', 'DESC');
-        $draftevents = $events->select('[timestamp="" and deleted=0]', 'all', null, null, 'timestamp', 'ASC');
-
-        // get all deleted records from db
-        $deletedevents = $events->select('[deleted=1]');
-        $deletedcategories = $categories->select('[deleted=1]');
+        $events_upcoming = $events->select('[timestamp>=' . $now . ' and deleted=0]', 'all', null, null, 'timestamp', 'ASC');
+        $events_past     = $events->select('[timestamp<' . $now . ' and deleted=0]', 'all', null, null, 'timestamp', 'DESC');
+        $events_draft    = $events->select('[timestamp="" and deleted=0]', 'all', null, null, 'timestamp', 'ASC');
+        $events_deleted  = $events->select('[deleted=1]');
 
         // get upload directories
         $path = ROOT . DS . 'public' . DS . 'uploads/';
@@ -407,20 +402,18 @@ class EventsAdmin extends Backend
 
         // Display view
         View::factory('events/views/backend/index')
-            ->assign('categories', $activecategories)
-            ->assign('deletedcategories', $deletedcategories)
-            ->assign('categories_title', $categories_title)
-            ->assign('categories_active_title', $categories_active_title)
-            ->assign('categories_color', $categories_color)
-            ->assign('categories_count', $categories_count)
+            ->assign('categories', $categories_objects)
+            ->assign('categories_active', $categories_active)
+            ->assign('categories_select', $categories_select)
+            ->assign('categories_deleted', $categories_deleted)
             ->assign('locations', $locations_objects)
             ->assign('locations_active', $locations_active)
-            ->assign('locations_deleted', $locations_deleted)
             ->assign('locations_select', $locations_select)
-            ->assign('upcomingevents', $upcomingevents)
-            ->assign('pastevents', $pastevents)
-            ->assign('deletedevents', $deletedevents)
-            ->assign('draftevents', $draftevents)
+            ->assign('locations_deleted', $locations_deleted)
+            ->assign('events_upcoming', $events_upcoming)
+            ->assign('events_past', $events_past)
+            ->assign('events_draft', $events_draft)
+            ->assign('events_deleted', $events_deleted)
             ->assign('directories', $directories)
             ->assign('files', $files)
             ->assign('path', $path)
