@@ -489,8 +489,8 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <?php if (sizeof($locations) > 0) {
-                            foreach ($locations as $location) { ?>
+                        <?php if (sizeof($locations_active) > 0) {
+                            foreach ($locations_active as $location) { ?>
                                 <tr>
                                     <td>
                                         <?php echo Html::heading($location['title'], 4); ?>
@@ -822,8 +822,8 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <?php if (sizeof($deletedlocations) > 0) {
-                                foreach ($deletedlocations as $location) { ?>
+                            <?php if (sizeof($locations_deleted) > 0) {
+                                foreach ($locations_deleted as $location) { ?>
                                     <tr>
                                         <td>
                                             <?php echo Html::heading($location['title'], 4); ?>
@@ -986,7 +986,7 @@
                         <?php echo Form::label('location_website', __('Website URL', 'events'), array('data-toggle' => 'tooltip', 'data-placement' => 'top', 'title' => __('Complete URL for this specific location', 'events'))); ?>
                         <div class="input-group">
                             <span class="input-group-addon" id="location-website-addon"><span class="glyphicon glyphicon-link" aria-hidden="true"></span></span>
-                            <?php echo Form::input('location_website', Null, array('class' => 'form-control clear', 'aria-describedby' => 'location-website-addon', 'required' => 'required')); ?>
+                            <?php echo Form::input('location_website', Null, array('class' => 'form-control clear', 'aria-describedby' => 'location-website-addon')); ?>
                         </div>
                     </div>
                 </div>
@@ -1091,7 +1091,7 @@
                         <?php echo Form::label('event_location', __('Location', 'events'), array('data-toggle' => 'tooltip', 'data-placement' => 'top', 'title' => __('Event location name', 'events'))); ?>
                         <div class="input-group">
                             <span class="input-group-addon" id="event-location-addon">@</span>
-                            <?php echo Form::input('event_location', Null, array('class' => 'form-control clear', 'aria-describedby' => 'event-location-addon')); ?>
+                            <?php echo Form::select('event_location', $locations_select, Null, array('class' => 'form-control clear', 'aria-describedby' => 'event-location-addon')); ?>
                         </div>
                     </div>
                     <div class="col-sm-6">

@@ -151,7 +151,7 @@ $.monstra.events = {
                     dialog.find('input[name="event_date"]').val(event.date);
                     dialog.find('input[name="event_openat"]').val(event.openat);
                     dialog.find('input[name="event_time"]').val(event.time);
-                    dialog.find('input[name="event_location"]').val(event.location);
+                    dialog.find('select[name="event_location"]').val(event.location);
                     dialog.find('input[name="event_address"]').val(event.address);
                     dialog.find('input[name="event_short"]').val(event.short);
                     dialog.find('textarea[name="event_description"]').val(event.description);
@@ -161,7 +161,7 @@ $.monstra.events = {
                     dialog.find('input[name="event_gallery"]').val(event.gallery);
                     dialog.find('select[name="event_image"]').val(event.image);
                     if (event.imagesection === '' || event.imagesection === null) event.imagesection = 'm';
-                    dialog.find('input[name="event_imagesection"]').attr("checked", false);
+                    dialog.find('input[name="event_imagesection"]').attr('checked', false);
                         dialog.find('.image-section-label>div.checked').removeClass('checked');
                         dialog.find('input[name="event_imagesection"][value="' + event.imagesection + '"]').attr('checked', 'checked');
                         dialog.find('input[name="event_imagesection"][value="' + event.imagesection + '"]').parent().attr('aria-checked', true);
@@ -179,7 +179,7 @@ $.monstra.events = {
             dialog.find('input.clear').each(function(){ $(this).val(''); });
             dialog.find('select.clear').each(function(){ $(this).val(''); });
             dialog.find('textarea.clear').each(function(){ $(this).val(''); });
-            dialog.find('input[name="event_imagesection"]').attr("checked", false);
+            dialog.find('input[name="event_imagesection"]').attr('checked', false);
             dialog.find('.image-section-label>div.checked').removeClass('checked');
             dialog.find('input[name="event_imagesection"][value="m"]').attr('checked', 'checked');
             dialog.find('input[name="event_imagesection"][value="m"]').parent().attr('aria-checked', true);

@@ -72,18 +72,18 @@ class EventsAdmin extends Backend
             if (Security::check(Request::post('csrf'))) {
                 $events->insert(
                     array(
-                        'title' => (string) Request::post('event_title'),
+                        'title' => (string) htmlspecialchars(Request::post('event_title')),
                         'timestamp' => strtotime(Request::post('event_timestamp')),
                         'deleted' => 0,
                         'category' => (int) Request::post('event_category'),
                         'date' => (string) Request::post('event_date'),
                         'openat' => (string) Request::post('event_openat'),
                         'time' => (string) Request::post('event_time'),
-                        'location' => (string) Request::post('event_location'),
+                        'location' => (int) Request::post('event_location'),
                         'address' => (string) Request::post('event_address'),
-                        'short' => (string) Request::post('event_short'),
-                        'description' => (string) Request::post('event_description'),
-                        'archiv' => (string) Request::post('event_archiv'),
+                        'short' => (string) htmlspecialchars(Request::post('event_short')),
+                        'description' => (string) htmlspecialchars(Request::post('event_description')),
+                        'archiv' => (string) htmlspecialchars(Request::post('event_archiv')),
                         'hashtag' => (string) Request::post('event_hashtag'),
                         'facebook' => (string) Request::post('event_facebook'),
                         'image' => (string) Request::post('event_image'),
@@ -107,18 +107,18 @@ class EventsAdmin extends Backend
                 $events->update(
                     (int) Request::post('edit_event'),
                     array(
-                        'title' => (string) Request::post('event_title'),
+                        'title' => (string) htmlspecialchars(Request::post('event_title')),
                         'timestamp' => strtotime(Request::post('event_timestamp')),
                         'deleted' => 0,
                         'category' => (int) Request::post('event_category'),
                         'date' => (string) Request::post('event_date'),
                         'openat' => (string) Request::post('event_openat'),
                         'time' => (string) Request::post('event_time'),
-                        'location' => (string) Request::post('event_location'),
+                        'location' => (int) Request::post('event_location'),
                         'address' => (string) Request::post('event_address'),
-                        'short' => (string) Request::post('event_short'),
-                        'description' => (string) Request::post('event_description'),
-                        'archiv' => (string) Request::post('event_archiv'),
+                        'short' => (string) htmlspecialchars(Request::post('event_short')),
+                        'description' => (string) htmlspecialchars(Request::post('event_description')),
+                        'archiv' => (string) htmlspecialchars(Request::post('event_archiv')),
                         'hashtag' => (string) Request::post('event_hashtag'),
                         'facebook' => (string) Request::post('event_facebook'),
                         'image' => (string) Request::post('event_image'),
@@ -181,7 +181,7 @@ class EventsAdmin extends Backend
             if (Security::check(Request::post('csrf'))) {
                 $categories->insert(
                     array(
-                        'title' => (string) Request::post('category_title'),
+                        'title' => (string) htmlspecialchars(Request::post('category_title')),
                         'deleted' => 0,
                         'color' => (string) Request::post('category_color'),
                     )
@@ -200,7 +200,7 @@ class EventsAdmin extends Backend
                 $categories->update(
                     (int) Request::post('edit_category'),
                     array(
-                        'title' => (string) Request::post('category_title'),
+                        'title' => (string) htmlspecialchars(Request::post('category_title')),
                         'deleted' => 0,
                         'color' => (string) Request::post('category_color'),
                     )
@@ -255,7 +255,7 @@ class EventsAdmin extends Backend
             if (Security::check(Request::post('csrf'))) {
                 $locations->insert(
                     array(
-                        'title' => (string) Request::post('location_title'),
+                        'title' => (string) htmlspecialchars(Request::post('location_title')),
                         'website' => (string) Request::post('location_website'),
                         'address' => (string) Request::post('location_address'),
                         'deleted' => 0,
@@ -275,7 +275,7 @@ class EventsAdmin extends Backend
                 $locations->update(
                     (int) Request::post('edit_location'),
                     array(
-                        'title' => (string) Request::post('location_title'),
+                        'title' => (string) htmlspecialchars(Request::post('location_title')),
                         'website' => (string) Request::post('location_website'),
                         'address' => (string) Request::post('location_address'),
                         'deleted' => 0,
@@ -344,8 +344,8 @@ class EventsAdmin extends Backend
         $now = time();
         
         // get all existing categories from db
-        $allcategories = $categories->select(Null, 'all');
-        $activecategories = $categories->select('[deleted=0]');
+        $allcategories = $categories->select(Null, 'all', null, null, 'title', 'ASC');
+        $activecategories = $categories->select('[deleted=0]', 'all', null, null, 'title', 'ASC');
         $categories_title = array();
         $categories_active_title = array();
         $categories_color = array();
@@ -361,7 +361,16 @@ class EventsAdmin extends Backend
 
         // get all existing locations from db
         $alllocations = $locations->select(Null, 'all');
-        $activelocations = $locations->select('[deleted=0]');
+        $locations_active = $locations->select('[deleted=0]', 'all', null, null, 'title', 'ASC');
+        $locations_deleted = $locations->select('[deleted=1]', 'all', null, null, 'title', 'ASC');
+        $locations_objects = array();
+        $locations_select = array(0 => '');
+        foreach ($alllocations as $l) {
+            $locations_objects[$l['id']] = $l;
+        }
+        foreach ($locations_active as $l) {
+            $locations_select[$l['id']] = $l['title'];
+        }
 
         // get all existing events from db
         $upcomingevents = $events->select('[timestamp>=' . $now . ' and deleted=0]', 'all', null, null, 'timestamp', 'ASC');
@@ -371,7 +380,6 @@ class EventsAdmin extends Backend
         // get all deleted records from db
         $deletedevents = $events->select('[deleted=1]');
         $deletedcategories = $categories->select('[deleted=1]');
-        $deletedlocations = $locations->select('[deleted=1]');
 
         // get upload directories
         $path = ROOT . DS . 'public' . DS . 'uploads/';
@@ -405,8 +413,10 @@ class EventsAdmin extends Backend
             ->assign('categories_active_title', $categories_active_title)
             ->assign('categories_color', $categories_color)
             ->assign('categories_count', $categories_count)
-            ->assign('locations', $activelocations)
-            ->assign('deletedlocations', $deletedlocations)
+            ->assign('locations', $locations_objects)
+            ->assign('locations_active', $locations_active)
+            ->assign('locations_deleted', $locations_deleted)
+            ->assign('locations_select', $locations_select)
             ->assign('upcomingevents', $upcomingevents)
             ->assign('pastevents', $pastevents)
             ->assign('deletedevents', $deletedevents)
