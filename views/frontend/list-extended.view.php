@@ -12,7 +12,7 @@
                         <div class="description">
                             <?php echo Html::heading($categories['title'][$event['category']], 3); ?>
                             <div class="text">
-                                <?php echo $event['title'] == '' ? $event['short'] : '»' . $event['title'] . '«' ?><br />
+                                <?php echo $event['title'] == '' ? $event['short'] : '<span class="title">' . $event['title'] . '</span>' ?><br />
                                 <?php echo $event['location'] == '' ? '' : '@' . $event['location'] ?>
                             </div>
                             <div class="date">

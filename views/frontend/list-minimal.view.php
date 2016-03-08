@@ -6,7 +6,7 @@
                 foreach ($eventlist as $event) { ?>
                     <tr>
                         <td><?php echo $categories['title'][$event['category']] ?></td>
-                        <td><?php echo $event['title'] == '' ? $event['short'] : '»' . $event['title'] . '«' ?></td>
+                        <td><?php echo $event['title'] == '' ? $event['short'] : '<span class="title">' . $event['title'] . '</span>' ?></td>
                         <td><?php echo $event['date'] ?></td>
                     </tr>
                 <?php }
