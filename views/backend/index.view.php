@@ -813,23 +813,29 @@
                                                         <span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span>
                                                     </a>
                                                 <?php } ?>
-                                                <button
-                                                    class="btn btn-primary edit-location"
-                                                    value="<?php echo $location['id'] ?>"
-                                                    title="<?php echo __('Edit', 'events'); ?>"
-                                                >
-                                                    <?php echo __('Edit', 'events'); ?>
-                                                </button>
                                                 <?php echo
                                                     Form::open() .
                                                     Form::hidden('csrf', Security::token()) .
-                                                    Form::hidden('delete_location', $location['id']);
+                                                    Form::hidden('restore_trash_location', $location['id']);
+                                                ?>
+                                                    <button
+                                                        class="btn btn-primary"
+                                                        value="<?php echo $location['id'] ?>"
+                                                        title="<?php echo __('Restore', 'events'); ?>"
+                                                    >
+                                                        <?php echo __('Restore', 'events'); ?>
+                                                    </button>
+                                                <?php echo Form::close(); ?>
+                                                <?php echo
+                                                    Form::open() .
+                                                    Form::hidden('csrf', Security::token()) .
+                                                    Form::hidden('delete_trash_location', $location['id']);
                                                 ?>
                                                     <button
                                                         class="btn btn-danger"
                                                         value="1"
-                                                        onclick="return confirmDelete('<?php echo __('Delete location »:title«', 'events', array(':title' => $location['title'])); ?>')"
-                                                        title="<?php echo __('Delete', 'events'); ?>"
+                                                        onclick="return confirmDelete('<?php echo __('Delete location »:title« permanently (can not be undone)', 'events', array(':title' => $location['title'])); ?>')"
+                                                        title="<?php echo __('Delete permanently', 'events'); ?>"
                                                     >
                                                         <?php echo __('Delete', 'events'); ?>
                                                     </button>
