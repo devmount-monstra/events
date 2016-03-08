@@ -247,6 +247,7 @@ class EventsAdmin extends Backend
         if (Request::post('events_options')) {
             if (Security::check(Request::post('csrf'))) {
                 Option::update('events_image_directory', Request::post('events_image_directory'));
+                Option::update('events_placeholder_archiv', Request::post('events_placeholder_archiv'));
                 Notification::set('success', __('Configuration has been saved with success!', 'events'));
                 Request::redirect('index.php?id=events#configuration');
             }

@@ -32,4 +32,5 @@ $c->addField('color');
 
 // Add Options
 Option::add('events_image_directory', '/');
+Option::add('events_placeholder_archiv', '');
 Option::add('events_audio_directory', '/');

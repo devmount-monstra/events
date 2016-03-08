@@ -484,12 +484,16 @@
                 <div class="col-md-6">
                     <!-- config image directory -->
                     <?php echo
-                        Form::label('events_image_directory', __('Image directory for events', 'events'), array('data-toggle' => 'tooltip', 'data-placement' => 'top', 'title' => __('Existing directory for event images, that will be displayed in the select list of the events add/edit formula', 'events'))) .
+                        Form::label('events_image_directory', __('Image directory for events', 'events'), array('data-toggle' => 'tooltip', 'data-placement' => 'top', 'title' => __('Existing directory for event images, that will be displayed in the select list of the events add/edit form', 'events'))) .
                         Form::select('events_image_directory', $directories, Option::get('events_image_directory'), array('class' => 'form-control'));
                     ?>
                 </div>
                 <div class="col-md-6">
-                    <!-- TODO: config audio directory -->
+                    <!-- config archiv description placeholder -->
+                    <?php echo
+                        Form::label('events_placeholder_archiv', __('Placeholder text for archiv description field', 'events'), array('data-toggle' => 'tooltip', 'data-placement' => 'top', 'title' => __('Custom placeholder text for "Archiv description" textarea in the events add/edit form', 'events'))) .
+                        Form::input('events_placeholder_archiv', Option::get('events_placeholder_archiv'), array('class' => 'form-control'));
+                    ?>
                 </div>
             </div>
             <div class="row">
@@ -890,7 +894,7 @@
                     <div class="col-sm-12">
                         <?php echo
                             Form::label('event_archiv', __('Archiv description', 'events'), array('data-toggle' => 'tooltip', 'data-placement' => 'top', 'title' => __('Event description used for archiv view, line breaks are preserved', 'events'))) .
-                            Form::textarea('event_archiv', Null, array('class' => 'form-control clear', 'placeholder' => 'Prediger, Moderation, Band, Special Guest'));
+                            Form::textarea('event_archiv', Null, array('class' => 'form-control clear', 'placeholder' => Option::get('events_placeholder_archiv')));
                         ?>
                     </div>
                 </div>
