@@ -13,7 +13,7 @@
                             <?php echo Html::heading($categories['title'][$event['category']], 3); ?>
                             <div class="text">
                                 <?php echo $event['title'] == '' ? $event['short'] : '<span class="title">' . $event['title'] . '</span>' ?><br />
-                                <?php echo $event['location'] == '' ? '' : '@' . $event['location'] ?>
+                                <?php echo $event['location'] == '' ? '' : '@' . $locations[$event['location']]['title'] ?>
                             </div>
                             <div class="date">
                                 <?php echo $event['date'] ?>
@@ -26,17 +26,17 @@
                                         ($event['openat'] ? ', ' . __('Lounge ab ', 'events') . $event['openat'] : '')
                                     ?>
                                 </div>
-                                <div><?php echo ($event['address'] ? $event['address'] : '') ?></div>
+                                <div><?php echo ($locations[$event['location']]['address'] ? $locations[$event['location']]['address'] : '') ?></div>
                                 <div><?php echo ($event['short'] ? $event['short'] : '') ?></div>
                                 <div>
                                     <?php if ($event['facebook']) {
                                         echo
                                             Html::arrow('right') . ' ' . Html::anchor(__('Facebook', 'events'), $event['facebook'], array('class' => 'facebook', 'target' => '_blank'));
                                     } ?>
-                                    <?php if ($event['address']) {
+                                    <?php if ($locations[$event['location']]['address']) {
                                         echo
                                             Html::nbsp() . Html::nbsp() . Html::nbsp() .
-                                            Html::arrow('right') . ' ' . Html::anchor(__('Map', 'events'), 'http://nominatim.openstreetmap.org/search?q=' . $event['address'], array('class' => 'map', 'target' => '_blank'));
+                                            Html::arrow('right') . ' ' . Html::anchor(__('Map', 'events'), 'http://nominatim.openstreetmap.org/search?q=' . $locations[$event['location']]['address'], array('class' => 'map', 'target' => '_blank'));
                                     } ?>
                                 </div>
                             </div>

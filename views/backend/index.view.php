@@ -127,16 +127,6 @@
                                                             FB
                                                         </a>
                                                     <?php } ?>
-                                                    <?php if($event['address']) { ?>
-                                                        <a
-                                                            class="btn btn-info"
-                                                            href="http://nominatim.openstreetmap.org/search?q=<?php echo $event['address'] ?>"
-                                                            title="<?php echo __('Show map', 'events'); ?>"
-                                                            target="_blank"
-                                                        >
-                                                            <span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span>
-                                                        </a>
-                                                    <?php } ?>
                                                     <button
                                                         class="btn btn-primary edit-event"
                                                         value="<?php echo $event['id'] ?>"
@@ -240,16 +230,6 @@
                                                             target="_blank"
                                                         >
                                                             FB
-                                                        </a>
-                                                    <?php } ?>
-                                                    <?php if($event['address']) { ?>
-                                                        <a
-                                                            class="btn btn-info"
-                                                            href="http://nominatim.openstreetmap.org/search?q=<?php echo $event['address'] ?>"
-                                                            title="<?php echo __('Show map', 'events'); ?>"
-                                                            target="_blank"
-                                                        >
-                                                            <span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span>
                                                         </a>
                                                     <?php } ?>
                                                     <button
@@ -356,16 +336,6 @@
                                                             target="_blank"
                                                         >
                                                             FB
-                                                        </a>
-                                                    <?php } ?>
-                                                    <?php if($event['address']) { ?>
-                                                        <a
-                                                            class="btn btn-info"
-                                                            href="http://nominatim.openstreetmap.org/search?q=<?php echo $event['address'] ?>"
-                                                            title="<?php echo __('Show map', 'events'); ?>"
-                                                            target="_blank"
-                                                        >
-                                                            <span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span>
                                                         </a>
                                                     <?php } ?>
                                                     <button
@@ -676,16 +646,6 @@
                                                         target="_blank"
                                                     >
                                                         FB
-                                                    </a>
-                                                <?php } ?>
-                                                <?php if($event['address']) { ?>
-                                                    <a
-                                                        class="btn btn-info"
-                                                        href="http://nominatim.openstreetmap.org/search?q=<?php echo $event['address'] ?>"
-                                                        title="<?php echo __('Show map', 'events'); ?>"
-                                                        target="_blank"
-                                                    >
-                                                        <span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span>
                                                     </a>
                                                 <?php } ?>
                                                 <?php echo
@@ -1088,22 +1048,13 @@
                 </div>
                 <div class="row">
                     <div class="col-sm-6">
-                        <?php echo Form::label('event_location', __('Location', 'events'), array('data-toggle' => 'tooltip', 'data-placement' => 'top', 'title' => __('Event location name', 'events'))); ?>
+                        <?php echo Form::label('event_location', __('Location', 'events'), array('data-toggle' => 'tooltip', 'data-placement' => 'top', 'title' => __('Event location object', 'events'))); ?>
                         <div class="input-group">
                             <span class="input-group-addon" id="event-location-addon">@</span>
                             <?php echo Form::select('event_location', $locations_select, Null, array('class' => 'form-control clear', 'aria-describedby' => 'event-location-addon')); ?>
                         </div>
                     </div>
                     <div class="col-sm-6">
-                        <?php echo Form::label('event_address', __('address', 'events'), array('data-toggle' => 'tooltip', 'data-placement' => 'top', 'title' => __('Event location adress, used to generate OpenStreetMap link', 'events'))); ?>
-                        <div class="input-group">
-                            <span class="input-group-addon" id="event-address-addon"><span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span></span>
-                            <?php echo Form::input('event_address', Null, array('class' => 'form-control clear', 'aria-describedby' => 'event-address-addon')); ?>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-sm-12">
                         <?php echo
                             Form::label('event_short', __('Short description', 'events'), array('data-toggle' => 'tooltip', 'data-placement' => 'top', 'title' => __('Event description in one line', 'events'))) .
                             Form::input('event_short', Null, array('class' => 'form-control clear'));

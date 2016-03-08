@@ -129,6 +129,7 @@ class Events
                 'color' => Events::_getCategoryAttributes('color'),
                 'title' => Events::_getCategoryAttributes('title'),
             ))
+            ->assign('locations', Events::_getLocations())
             ->render();
     }
 
@@ -160,6 +161,27 @@ class Events
             $categories_attribute[$c['id']] = $c[$field];
         }
         return $categories_attribute;
+    }
+
+
+    /**
+     * get list of locations
+     *
+     * @return array
+     *
+     */
+    private static function _getLocations()
+    {
+        // get db table object
+        $locations = new Table('locations');
+        // get all locations
+        $alllocations = $locations->select(Null, 'all');
+        // build array with category id => location object
+        $locations_objects = array();
+        foreach ($alllocations as $l) {
+            $locations_objects[$l['id']] = $l;
+        }
+        return $locations_objects;
     }
 
 

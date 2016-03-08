@@ -16,7 +16,7 @@
                                 <div class="text">
                                     <?php echo $event['title'] == '' ? $event['short'] : '<span class="title">' . $event['title'] . '</span>'; ?><br />
                                     <?php echo date('j.n.y', $event['timestamp']); ?>
-                                    <?php echo $event['location'] == '' ? '' : ' | @' . $event['location']; ?>
+                                    <?php echo $event['location'] ? ' | @' . $locations[$event['location']]['title'] : ''; ?>
                                     <div style="white-space: pre-wrap;"><?php echo $event['archiv']; ?></div>
                                 </div>
                             </div>
