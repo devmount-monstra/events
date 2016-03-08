@@ -13,7 +13,6 @@ $e->addField('date');
 $e->addField('openat');
 $e->addField('time');
 $e->addField('location');
-$e->addField('address');
 $e->addField('short');
 $e->addField('description');
 $e->addField('archiv');
