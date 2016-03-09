@@ -119,13 +119,14 @@ class Events
         if (in_array($style, array('extended', 'minimal', 'archiv'))) {
             $template = 'list-' . $style;
             $groupby = $style == 'archiv' ? 'year' : '';
+            $is_archive = $style == 'archiv';
         } else {
             $template = 'list-minimal';
         }
 
         return View::factory('events/views/frontend/' . $template)
             // TODO: archiv events: check categorie archiv flag
-            ->assign('eventlist', Events::_getEvents($time, $count, $order, $groupby))
+            ->assign('eventlist', Events::_getEvents($time, $count, $order, $groupby, $is_archive))
             // TODO: _getCategoryAttributes -> _getCategories
             ->assign('categories', array(
                 'color' => Events::_getCategoryAttributes('color'),
@@ -194,11 +195,12 @@ class Events
      * @param string count
      * @param string order
      * @param string groupby
+     * @param bool   is_archive
      *
      * @return array
      *
      */
-    private static function _getEvents($time, $count, $order, $groupby = '')
+    private static function _getEvents($time, $count, $order, $groupby = '', $is_archive = false)
     {
         // get db table object
         $events = new Table('events');
@@ -237,6 +239,20 @@ class Events
                 $eventlist = array_slice($eventlist, $offset);
             }
         }
+        
+        // handle archive (remove events of category with flag (hidden_in_archive))
+        if ($is_archive) {
+            $categories = new Table('categories');
+            $category_ids = array();
+            foreach ($categories->select('[hidden_in_archive=1]', 'all', null, array('id')) as $category) {
+                $category_ids[] = $category['id'];
+            }
+            foreach ($eventlist as $key => $event) {
+                if (in_array($event['category'], $category_ids)) {
+                    unset($eventlist[$key]);
+                }
+            }
+        }
 
         // handle group by
         if ($groupby == 'year') {
@@ -247,6 +263,7 @@ class Events
             }
             return $eventlistyears;
         }
+        
 
         return $eventlist;
     }

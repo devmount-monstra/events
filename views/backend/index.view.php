@@ -912,6 +912,14 @@
                         </div>
                     </div>
                 </div>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <?php echo
+                            Form::checkbox('category_hidden_in_archive', 1) . Html::nbsp() .
+                            Form::label('category_hidden_in_archive', __('Hide in archive', 'events'), array('data-toggle' => 'tooltip', 'data-placement' => 'top', 'title' => __('If checked, events of this category will not be displayed in archive view', 'events')));
+                        ?>
+                    </div>
+                </div>
             </div>
             <div class="modal-footer">
                 <button

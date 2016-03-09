@@ -28,6 +28,7 @@ Table::create('categories', array('title'));
 $c = new Table('categories');
 $c->addField('deleted');
 $c->addField('color');
+$c->addField('hidden_in_archive');
 
 Table::create('locations', array('title'));
 $c = new Table('locations');

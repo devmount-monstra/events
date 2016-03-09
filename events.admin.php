@@ -66,7 +66,7 @@ class EventsAdmin extends Backend
         $events = new Table('events');
         $categories = new Table('categories');
         $locations = new Table('locations');
-
+        
         // Request: add event
         if (Request::post('add_event')) {
             if (Security::check(Request::post('csrf'))) {
@@ -202,6 +202,7 @@ class EventsAdmin extends Backend
                         'title' => (string) htmlspecialchars(Request::post('category_title')),
                         'deleted' => 0,
                         'color' => (string) Request::post('category_color'),
+                        'hidden_in_archive' => (int) Request::post('category_hidden_in_archive'),
                     )
                 );
                 if ($success) {
@@ -225,6 +226,7 @@ class EventsAdmin extends Backend
                         'title' => (string) htmlspecialchars(Request::post('category_title')),
                         'deleted' => 0,
                         'color' => (string) Request::post('category_color'),
+                        'hidden_in_archive' => (int) Request::post('category_hidden_in_archive'),
                     )
                 );
                 if ($success) {
@@ -402,11 +404,11 @@ class EventsAdmin extends Backend
         $now = time();
         
         // get all existing categories from db
-        $categories_all = $categories->select(Null, 'all', null, null, 'title', 'ASC');
-        $categories_active = $categories->select('[deleted=0]', 'all', null, null, 'title', 'ASC');
+        $categories_all     = $categories->select(Null, 'all', null, null, 'title', 'ASC');
+        $categories_active  = $categories->select('[deleted=0]', 'all', null, null, 'title', 'ASC');
         $categories_deleted = $categories->select('[deleted=1]');
         $categories_objects = array();
-        $categories_select = array();
+        $categories_select  = array();
         foreach ($categories_all as $c) {
             $c['count'] = sizeof($events->select('[category=' . $c['id'] . ' and deleted=0]'));
             $categories_objects[$c['id']] = $c;
