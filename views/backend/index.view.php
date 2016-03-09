@@ -14,7 +14,6 @@
     Form::hidden('output_update', __('Update', 'events'));
 ?>
 
-
 <!-- content -->
 <div class='events-admin'>
 
@@ -455,6 +454,7 @@
                         <tr>
                             <th><?php echo __('Title', 'events'); ?></th>
                             <th><?php echo __('Address', 'events'); ?></th>
+                            <th><?php echo __('Assigned', 'events'); ?></th>
                             <th></th>
                         </tr>
                     </thead>
@@ -467,6 +467,10 @@
                                     </td>
                                     <td>
                                         <?php echo $location['address']; ?>
+                                    </td>
+                                    <td>
+                                        <!-- number of events for each location -->
+                                        <?php echo $locations[$location['id']]['count'] . ' ' . __('events', 'events'); ?>
                                     </td>
                                     <td>
                                         <div class="pull-right">
@@ -695,7 +699,7 @@
                 <div class="tab-pane" id="trash-categories">
 
                     <!-- deleted categories -->
-                    <div class="table-responsive">
+                    <div class="table-responsive"> 
                         <table class="table table-bordered">
                             <thead>
                                 <tr>
@@ -778,6 +782,7 @@
                             <tr>
                                 <th><?php echo __('Title', 'events'); ?></th>
                                 <th><?php echo __('Address', 'events'); ?></th>
+                                <th><?php echo __('Assigned', 'events'); ?></th>
                                 <th></th>
                             </tr>
                         </thead>
@@ -790,6 +795,10 @@
                                         </td>
                                         <td>
                                             <?php echo $location['address']; ?>
+                                        </td>
+                                        <td>
+                                            <!-- number of events for each location -->
+                                            <?php echo $locations[$location['id']]['count'] . ' ' . __('events', 'events'); ?>
                                         </td>
                                         <td>
                                             <div class="pull-right">

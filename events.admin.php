@@ -422,6 +422,7 @@ class EventsAdmin extends Backend
         $locations_objects = array();
         $locations_select  = array(0 => '');
         foreach ($locations_all as $l) {
+            $l['count'] = sizeof($events->select('[location=' . $l['id'] . ' and deleted=0]'));
             $locations_objects[$l['id']] = $l;
         }
         foreach ($locations_active as $l) {

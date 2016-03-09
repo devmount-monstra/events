@@ -124,7 +124,9 @@ class Events
         }
 
         return View::factory('events/views/frontend/' . $template)
+            // TODO: archiv events: check categorie archiv flag
             ->assign('eventlist', Events::_getEvents($time, $count, $order, $groupby))
+            // TODO: _getCategoryAttributes -> _getCategories
             ->assign('categories', array(
                 'color' => Events::_getCategoryAttributes('color'),
                 'title' => Events::_getCategoryAttributes('title'),
