@@ -97,7 +97,7 @@ class EventsAdmin extends Backend
                 } else {
                     Notification::set('error', __('Table->insert() returned an error. Event could not be saved.', 'events'));
                 }
-                Request::redirect('index.php?id=events#events/' . EventsAdmin::eventStatus(strtotime(Request::post('event_timestamp'))) . '-events');
+                Request::redirect('index.php?id=events#events/' . EventsAdmin::_eventStatus(strtotime(Request::post('event_timestamp'))) . '-events');
             }
             else {
                 Notification::set('error', __('Request was denied. Invalid security token. Please refresh the page and try again.', 'events'));
@@ -135,7 +135,7 @@ class EventsAdmin extends Backend
                 } else {
                     Notification::set('error', __('Table->update() returned an error. Event could not be saved.', 'events'));
                 }
-                Request::redirect('index.php?id=events#events/' . EventsAdmin::eventStatus(strtotime(Request::post('event_timestamp'))) . '-events');
+                Request::redirect('index.php?id=events#events/' . EventsAdmin::_eventStatus(strtotime(Request::post('event_timestamp'))) . '-events');
             }
             else {
                 Notification::set('error', __('Request was denied. Invalid security token. Please refresh the page and try again.', 'events'));
@@ -170,7 +170,7 @@ class EventsAdmin extends Backend
                     Notification::set('error', __('Table->update() returned an error. Event could not be deleted.', 'events'));
                 }
                 $record = $events->select('[id=' . $id . ']');
-                Request::redirect('index.php?id=events#events/' . EventsAdmin::eventStatus($record[0]['timestamp']) . '-events');
+                Request::redirect('index.php?id=events#events/' . EventsAdmin::_eventStatus($record[0]['timestamp']) . '-events');
             }
             else {
                 Notification::set('error', __('Request was denied. Invalid security token. Please refresh the page and try again.', 'events'));
@@ -260,11 +260,16 @@ class EventsAdmin extends Backend
         // Request: delete category
         if (Request::post('delete_category')) {
             if (Security::check(Request::post('csrf'))) {
-                $success = $categories->update((int) Request::post('delete_category'), array('deleted' => 1));
-                if ($success) {
-                    Notification::set('success', __('Category has been moved to trash with success!', 'events'));
+                $id = (int) Request::post('delete_category');
+                if (!EventsAdmin::_hasEvents('category', $id)) {
+                    $success = $categories->update($id, array('deleted' => 1));
+                    if ($success) {
+                        Notification::set('success', __('Category has been moved to trash with success!', 'events'));
+                    } else {
+                        Notification::set('error', __('Table->update() returned an error. Category could not be deleted.', 'events'));
+                    }
                 } else {
-                    Notification::set('error', __('Table->update() returned an error. Category could not be deleted.', 'events'));
+                    Notification::set('error', __('Deletion failed. This category is assigned to at least one event. Remove this category from every event to delete it.', 'events'));
                 }
                 Request::redirect('index.php?id=events#categories');
             }
@@ -356,11 +361,16 @@ class EventsAdmin extends Backend
         // Request: delete location
         if (Request::post('delete_location')) {
             if (Security::check(Request::post('csrf'))) {
-                $success = $locations->update((int) Request::post('delete_location'), array('deleted' => 1));
-                if ($success) {
-                    Notification::set('success', __('Location has been moved to trash with success!', 'events'));
+                $id = (int) Request::post('delete_location');
+                if (!EventsAdmin::_hasEvents('location', $id)) {
+                    $success = $locations->update($id, array('deleted' => 1));
+                    if ($success) {
+                        Notification::set('success', __('Location has been moved to trash with success!', 'events'));
+                    } else {
+                        Notification::set('error', __('Table->update() returned an error. Location could not be deleted.', 'events'));
+                    }
                 } else {
-                    Notification::set('error', __('Table->update() returned an error. Location could not be deleted.', 'events'));
+                    Notification::set('error', __('Deletion failed. This location is assigned to at least one event. Remove this location from every event to delete it.', 'events'));
                 }
                 Request::redirect('index.php?id=events#locations');
             }
@@ -439,7 +449,7 @@ class EventsAdmin extends Backend
 
         // get upload directories
         $path = ROOT . DS . 'public' . DS . 'uploads/';
-        $_list = EventsAdmin::fdir($path);
+        $_list = EventsAdmin::_fdir($path);
         $directories = array(DS => DS);
         if (isset($_list['dirs'])) {
             foreach ($_list['dirs'] as $dirs) {
@@ -450,7 +460,7 @@ class EventsAdmin extends Backend
         }
 
         // Get information about current path
-        $_list = EventsAdmin::fdir($path . Option::get('events_image_directory'));
+        $_list = EventsAdmin::_fdir($path . Option::get('events_image_directory'));
         $files = array('' => '');
         // Get files
         if (isset($_list['files'])) {
@@ -483,9 +493,10 @@ class EventsAdmin extends Backend
 
     /**
      * returns status for a given timestamp: 'upcoming', 'past', 'draft'
+     *
      * @param: $timestamp   int     event time
      */
-    protected static function eventStatus($timestamp)
+    private static function _eventStatus($timestamp)
     {
         $now = time();
         if ($timestamp == 0) {
@@ -499,9 +510,21 @@ class EventsAdmin extends Backend
     }
 
     /**
+     * returns true if object has events assigned
+     *
+     * @param: $attribute   string  attribute of events where event is assigned to (e.g. category or location)
+     * @param: $id          int     id of object to check
+     */
+    private static function _hasEvents($attribute, $id)
+    {
+        $events = new Table('events');
+        return sizeof($events->select('[' . $attribute . '=' . $id . ' and deleted=0]', 'all'))>0;
+    }
+
+    /**
      * Get directories and files in current path
      */
-    protected static function fdir($dir, $type = null)
+    private static function _fdir($dir, $type = null)
     {
         $files = array();
         $c = 0;
