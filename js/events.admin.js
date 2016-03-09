@@ -90,8 +90,12 @@ $.monstra.events = {
                     dialog.find('input[name="category_title"]').val(category.title);
                     dialog.find('input[name="category_color"]').val(category.color);
                     dialog.find('input[name="category_hidden_in_archive"]').attr('checked', category.hidden_in_archive ? 'checked' : false);
+                        dialog.find('input[name="category_hidden_in_archive"]').parent().attr('aria-checked', false);
+                        dialog.find('input[name="category_hidden_in_archive"]').parent().removeClass('checked');
+                    if (category.hidden_in_archive==1) {
                         dialog.find('input[name="category_hidden_in_archive"]').parent().attr('aria-checked', true);
                         dialog.find('input[name="category_hidden_in_archive"]').parent().addClass('checked');
+                    }
                     dialog.find('#add-edit-submit-category').val(category.id).attr('name', 'edit_category').text($('#output_update').val());
                     $.monstra.events.setColor('category', false);
                 }

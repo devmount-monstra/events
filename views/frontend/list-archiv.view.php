@@ -5,14 +5,14 @@
             foreach ($yearevents as $event) { ?>
                 <div class="row">
                     <div class="col-md-12 event archiv">
-                        <div class="event-content" style="background: #<?php echo $event['color'] ? $event['color'] : $categories['color'][$event['category']]; ?>;">
+                        <div class="event-content" style="background: #<?php echo $event['color'] ? $event['color'] : $categories[$event['category']]['color']; ?>;">
                             <div
                                 class="event-image section-<?php echo $event['imagesection']; ?>"
                                 style="background-image: url(<?php echo $event['image']; ?>"
                             >
                             </div>
                             <div class="description">
-                                <?php echo Html::heading($categories['title'][$event['category']], 3); ?>
+                                <?php echo Html::heading($categories[$event['category']]['title'], 3); ?>
                                 <div class="text">
                                     <?php echo $event['title'] == '' ? $event['short'] : '<span class="title">' . $event['title'] . '</span>'; ?><br />
                                     <?php echo date('j.n.y', $event['timestamp']); ?>

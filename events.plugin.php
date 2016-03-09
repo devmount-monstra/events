@@ -125,13 +125,8 @@ class Events
         }
 
         return View::factory('events/views/frontend/' . $template)
-            // TODO: archiv events: check categorie archiv flag
             ->assign('eventlist', Events::_getEvents($time, $count, $order, $groupby, $is_archive))
-            // TODO: _getCategoryAttributes -> _getCategories
-            ->assign('categories', array(
-                'color' => Events::_getCategoryAttributes('color'),
-                'title' => Events::_getCategoryAttributes('title'),
-            ))
+            ->assign('categories', Events::_getCategories())
             ->assign('locations', Events::_getLocations())
             ->render();
     }
@@ -147,23 +142,23 @@ class Events
 
 
     /**
-     * get list of category attributes
+     * get list of categories
      *
      * @return array
      *
      */
-    private static function _getCategoryAttributes($field)
+    private static function _getCategories()
     {
         // get db table object
         $categories = new Table('categories');
         // get all categories
         $allcategories = $categories->select(Null, 'all');
         // build array with category id => category attribute
-        $categories_attribute = array();
+        $category_objects = array();
         foreach ($allcategories as $c) {
-            $categories_attribute[$c['id']] = $c[$field];
+            $category_objects[$c['id']] = $c;
         }
-        return $categories_attribute;
+        return $category_objects;
     }
 
 
