@@ -93,8 +93,17 @@
                                                 <?php echo Html::heading($event['title'], 4); ?>
                                             </td>
                                             <td class="visible-lg hidden-xs">
-                                                <?php echo $event['date'] ? $event['date'] . ' ' . $event['time'] . Html::br() : ''; ?>
-                                                <?php echo $event['short']; ?>
+                                                <?php
+                                                    echo date('d.m.Y H:i', $event['timestamp']);
+                                                    if ($event['timestamp_end']) {
+                                                        if (date('d.m.Y', $event['timestamp']) == date('d.m.Y', $event['timestamp_end'])) {
+                                                            echo ' – ' . date('H:i', $event['timestamp_end']);
+                                                        } else {
+                                                            echo ' – ' . date('d.m.Y H:i', $event['timestamp_end']);
+                                                        }
+                                                    }
+                                                    echo Html::br() . $event['short'];
+                                                ?>
                                             </td>
                                             <td class="visible-lg hidden-xs">
                                                 <div
@@ -198,8 +207,17 @@
                                                 <?php echo Html::heading($event['title'], 4); ?>
                                             </td>
                                             <td class="visible-lg hidden-xs">
-                                                <?php echo $event['date'] ? $event['date'] . ' ' . $event['time'] . Html::br() : ''; ?>
-                                                <?php echo $event['short']; ?>
+                                                <?php
+                                                    echo date('d.m.Y H:i', $event['timestamp']);
+                                                    if ($event['timestamp_end']) {
+                                                        if (date('d.m.Y', $event['timestamp']) == date('d.m.Y', $event['timestamp_end'])) {
+                                                            echo ' – ' . date('H:i', $event['timestamp_end']);
+                                                        } else {
+                                                            echo ' – ' . date('d.m.Y H:i', $event['timestamp_end']);
+                                                        }
+                                                    }
+                                                    echo Html::br() . $event['short'];
+                                                ?>
                                             </td>
                                             <td class="visible-lg hidden-xs">
                                                 <div
@@ -304,8 +322,17 @@
                                                 <?php echo Html::heading($event['title'], 4); ?>
                                             </td>
                                             <td class="visible-lg hidden-xs">
-                                                <?php echo $event['date'] ? $event['date'] . ' ' . $event['time'] . Html::br() : ''; ?>
-                                                <?php echo $event['short']; ?>
+                                                <?php
+                                                    echo date('d.m.Y H:i', $event['timestamp']);
+                                                    if ($event['timestamp_end']) {
+                                                        if (date('d.m.Y', $event['timestamp']) == date('d.m.Y', $event['timestamp_end'])) {
+                                                            echo ' – ' . date('H:i', $event['timestamp_end']);
+                                                        } else {
+                                                            echo ' – ' . date('d.m.Y H:i', $event['timestamp_end']);
+                                                        }
+                                                    }
+                                                    echo Html::br() . $event['short'];
+                                                ?>
                                             </td>
                                             <td class="visible-lg hidden-xs">
                                                 <div
@@ -619,8 +646,17 @@
                                             <?php echo Html::heading($event['title'], 4); ?>
                                         </td>
                                         <td class="visible-lg hidden-xs">
-                                            <?php echo $event['date'] ? $event['date'] . ' ' . $event['time'] . Html::br() : ''; ?>
-                                            <?php echo $event['short']; ?>
+                                            <?php
+                                                echo date('d.m.Y H:i', $event['timestamp']);
+                                                if ($event['timestamp_end']) {
+                                                    if (date('d.m.Y', $event['timestamp']) == date('d.m.Y', $event['timestamp_end'])) {
+                                                        echo ' – ' . date('H:i', $event['timestamp_end']);
+                                                    } else {
+                                                        echo ' – ' . date('d.m.Y H:i', $event['timestamp_end']);
+                                                    }
+                                                }
+                                                echo Html::br() . $event['short'];
+                                            ?>
                                         </td>
                                         <td class="visible-lg hidden-xs">
                                             <div
