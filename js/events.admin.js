@@ -155,8 +155,9 @@ $.monstra.events = {
                 success: function(event){
                     dialog.find('.modal-title').text($('#output_editevent').val() + ' »' + event.title + '«');
                     dialog.find('input[name="event_title"]').val(event.title);
-                    var tzoffset = (new Date()).getTimezoneOffset() * 60 - 3600;
+                    var tzoffset = (new Date()).getTimezoneOffset() * 60;
                     dialog.find('input[name="event_timestamp"]').val(event.timestamp ? new Date((event.timestamp-tzoffset) * 1000).toISOString().slice(0, -1) : '');
+                    dialog.find('input[name="event_timestamp_end"]').val(event.timestamp_end ? new Date((event.timestamp_end-tzoffset) * 1000).toISOString().slice(0, -1) : '');
                     dialog.find('select[name="event_category"]').val(event.category);
                     dialog.find('input[name="event_date"]').val(event.date);
                     dialog.find('input[name="event_openat"]').val(event.openat);

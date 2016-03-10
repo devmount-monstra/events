@@ -907,7 +907,7 @@
                     <div class="col-sm-6">
                         <?php echo Form::label('category-color', __('Color', 'events'), array('data-toggle' => 'tooltip', 'data-placement' => 'top', 'title' => __('Category specific color, sets color for each assigned event, that has no color set', 'events'))); ?>
                         <div class="input-group">
-                            <span class="input-group-addon" id="category-color-addon">#</span>
+                            <span class="input-group-addon code" id="category-color-addon">#</span>
                             <?php echo Form::input('category_color', '', array('class' => 'form-control clear', 'id' => 'category-color', 'aria-describedby' => 'category-color-addon')); ?>
                         </div>
                     </div>
@@ -1037,7 +1037,7 @@
                 <div class="row">
                     <div class="col-sm-6">
                         <?php echo
-                            Form::label('event_timestamp', __('Timestamp', 'events'), array('data-toggle' => 'tooltip', 'data-placement' => 'top', 'title' => __('Local datetime timestamp in format "2015-04-18T19:00:00.000", used to specify event date and put events in chronological order', 'events'))) .
+                            Form::label('event_timestamp', __('Start', 'events'), array('data-toggle' => 'tooltip', 'data-placement' => 'top', 'title' => __('Local datetime timestamp in format "2015-04-18T19:00:00.000", used to specify event date beginning and put events in chronological order', 'events'))) .
                             Form::input('event_timestamp', '', array('class' => 'form-control clear', 'type' => 'datetime-local'));
                         ?>
                     </div>
@@ -1057,27 +1057,35 @@
                 <div class="row">
                     <div class="col-sm-6">
                         <?php echo
-                            Form::label('event_category', __('Category', 'events'), array('data-toggle' => 'tooltip', 'data-placement' => 'top', 'title' => __('Event category, used to group similar events', 'events'))) .
-                            Form::select('event_category', $categories_select, Null, array('class' => 'form-control clear', 'required' => 'required'));
+                            Form::label('event_timestamp_end', __('End', 'events'), array('data-toggle' => 'tooltip', 'data-placement' => 'top', 'title' => __('Local datetime timestamp in format "2015-04-18T19:00:00.000", used to specify event end, calculate date ranges and classify events "upcoming" or "past"', 'events'))) .
+                            Form::input('event_timestamp_end', '', array('class' => 'form-control clear', 'type' => 'datetime-local'));
                         ?>
                     </div>
                     <div class="col-sm-6">
                         <?php echo Form::label('event-color', __('Color', 'events'), array('data-toggle' => 'tooltip', 'data-placement' => 'top', 'title' => __('Event specific color in hex format (without #), inherits color of category if not set', 'events'))); ?>
                         <div class="input-group">
-                            <span class="input-group-addon" id="event-color-addon">#</span>
+                            <span class="input-group-addon code" id="event-color-addon">#</span>
                             <?php echo Form::input('event_color', Null, array('class' => 'form-control clear', 'id' => 'event-color', 'aria-describedby' => 'event-color-addon')); ?>
                         </div>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-sm-6">
+                        <?php echo
+                            Form::label('event_category', __('Category', 'events'), array('data-toggle' => 'tooltip', 'data-placement' => 'top', 'title' => __('Event category, used to group similar events', 'events'))) .
+                            Form::select('event_category', $categories_select, Null, array('class' => 'form-control clear', 'required' => 'required'));
+                        ?>
+                    </div>
+                    <div class="col-sm-6">
                         <?php echo Form::label('event_location', __('Location', 'events'), array('data-toggle' => 'tooltip', 'data-placement' => 'top', 'title' => __('Event location object', 'events'))); ?>
                         <div class="input-group">
-                            <span class="input-group-addon" id="event-location-addon">@</span>
+                            <span class="input-group-addon code" id="event-location-addon">@</span>
                             <?php echo Form::select('event_location', $locations_select, Null, array('class' => 'form-control clear', 'aria-describedby' => 'event-location-addon')); ?>
                         </div>
                     </div>
-                    <div class="col-sm-6">
+                </div>
+                <div class="row">
+                    <div class="col-sm-12">
                         <?php echo
                             Form::label('event_short', __('Short description', 'events'), array('data-toggle' => 'tooltip', 'data-placement' => 'top', 'title' => __('Event description in one line', 'events'))) .
                             Form::input('event_short', Null, array('class' => 'form-control clear'));
@@ -1104,7 +1112,7 @@
                     <div class="col-sm-6">
                         <?php echo Form::label('event_hashtag', __('Hashtag', 'events'), array('data-toggle' => 'tooltip', 'data-placement' => 'top', 'title' => __('Event specific hashtag in social nets', 'events'))); ?>
                         <div class="input-group">
-                            <span class="input-group-addon" id="event-hashtag-addon">#</span>
+                            <span class="input-group-addon code" id="event-hashtag-addon">#</span>
                             <?php echo Form::input('event_hashtag', Null, array('class' => 'form-control clear', 'aria-describedby' => 'event-hashtag-addon')); ?>
                         </div>
                     </div>

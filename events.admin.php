@@ -74,6 +74,7 @@ class EventsAdmin extends Backend
                     array(
                         'title' => (string) htmlspecialchars(Request::post('event_title')),
                         'timestamp' => strtotime(Request::post('event_timestamp')),
+                        'timestamp_end' => strtotime(Request::post('event_timestamp_end')),
                         'deleted' => 0,
                         'category' => (int) Request::post('event_category'),
                         'date' => (string) Request::post('event_date'),
@@ -112,6 +113,7 @@ class EventsAdmin extends Backend
                     array(
                         'title' => (string) htmlspecialchars(Request::post('event_title')),
                         'timestamp' => strtotime(Request::post('event_timestamp')),
+                        'timestamp_end' => strtotime(Request::post('event_timestamp_end')),
                         'deleted' => 0,
                         'category' => (int) Request::post('event_category'),
                         'date' => (string) Request::post('event_date'),
