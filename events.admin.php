@@ -442,6 +442,7 @@ class EventsAdmin extends Backend
         }
 
         // get all existing events from db
+        $events_active   = $events->select('[deleted=0]', 'all', null, null, 'timestamp', 'ASC');
         $events_upcoming = $events->select('[timestamp>=' . $now . ' and deleted=0]', 'all', null, null, 'timestamp', 'ASC');
         $events_past     = $events->select('[timestamp<' . $now . ' and deleted=0]', 'all', null, null, 'timestamp', 'DESC');
         $events_draft    = $events->select('[timestamp="" and deleted=0]', 'all', null, null, 'timestamp', 'ASC');
@@ -481,6 +482,7 @@ class EventsAdmin extends Backend
             ->assign('locations_active', $locations_active)
             ->assign('locations_select', $locations_select)
             ->assign('locations_deleted', $locations_deleted)
+            ->assign('events_active', $events_active)
             ->assign('events_upcoming', $events_upcoming)
             ->assign('events_past', $events_past)
             ->assign('events_draft', $events_draft)

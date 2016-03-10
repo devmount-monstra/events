@@ -33,9 +33,9 @@
 
     <!-- Main tab navigation -->
     <ul class="nav nav-tabs">
-        <li class="active"><?php echo Html::anchor(__('Events', 'events'), '#events', array('data-toggle' => 'tab')); ?></li>
-        <li><?php echo Html::anchor(__('Categories', 'events'), '#categories', array('data-toggle' => 'tab')); ?></li>
-        <li><?php echo Html::anchor(__('Locations', 'events'), '#locations', array('data-toggle' => 'tab')); ?></li>
+        <li class="active"><?php echo Html::anchor(__('Events', 'events') . ' (' . sizeof($events_active) . ')', '#events', array('data-toggle' => 'tab')); ?></li>
+        <li><?php echo Html::anchor(__('Categories', 'events') . ' (' . sizeof($categories_active) . ')', '#categories', array('data-toggle' => 'tab')); ?></li>
+        <li><?php echo Html::anchor(__('Locations', 'events') . ' (' . sizeof($locations_active) . ')', '#locations', array('data-toggle' => 'tab')); ?></li>
         <li><?php echo Html::anchor(__('Configuration', 'events'), '#configuration', array('data-toggle' => 'tab')); ?></li>
         <li><?php echo Html::anchor(__('Trash', 'events'), '#trash', array('data-toggle' => 'tab')); ?></li>
     </ul>
@@ -48,9 +48,9 @@
 
             <!-- Secondary pill navigation -->
             <ul class="nav nav-pills">
-                <li class="active"><?php echo Html::anchor(__('Upcoming', 'events'), '#upcoming-events', array('data-toggle' => 'tab')); ?></li>
-                <li><?php echo Html::anchor(__('Past', 'events'), '#past-events', array('data-toggle' => 'tab')); ?></li>
-                <li><?php echo Html::anchor(__('Draft', 'events'), '#draft-events', array('data-toggle' => 'tab')); ?></li>
+                <li class="active"><?php echo Html::anchor(__('Upcoming', 'events') . ' (' . sizeof($events_upcoming) . ')', '#upcoming-events', array('data-toggle' => 'tab')); ?></li>
+                <li><?php echo Html::anchor(__('Past', 'events') . ' (' . sizeof($events_past) . ')', '#past-events', array('data-toggle' => 'tab')); ?></li>
+                <li><?php echo Html::anchor(__('Draft', 'events') . ' (' . sizeof($events_draft) . ')', '#draft-events', array('data-toggle' => 'tab')); ?></li>
             </ul>
 
             <!-- Secondary tab content -->
@@ -575,9 +575,9 @@
 
             <!-- Secondary pill navigation -->
             <ul class="nav nav-pills">
-                <li class="active"><?php echo Html::anchor(__('Events', 'events'), '#trash-events', array('data-toggle' => 'tab')); ?></li>
-                <li><?php echo Html::anchor(__('Categories', 'events'), '#trash-categories', array('data-toggle' => 'tab')); ?></li>
-                <li><?php echo Html::anchor(__('Locations', 'events'), '#trash-locations', array('data-toggle' => 'tab')); ?></li>
+                <li class="active"><?php echo Html::anchor(__('Events', 'events') . ' (' . sizeof($events_deleted) . ')', '#trash-events', array('data-toggle' => 'tab')); ?></li>
+                <li><?php echo Html::anchor(__('Categories', 'events') . ' (' . sizeof($categories_deleted) . ')', '#trash-categories', array('data-toggle' => 'tab')); ?></li>
+                <li><?php echo Html::anchor(__('Locations', 'events') . ' (' . sizeof($locations_deleted) . ')', '#trash-locations', array('data-toggle' => 'tab')); ?></li>
             </ul>
 
             <!-- Secondary tab content -->
