@@ -89,7 +89,7 @@ $.monstra.events = {
                     dialog.find('.modal-title').text($('#output_editcategory').val() + ' »' + category.title + '«');
                     dialog.find('input[name="category_title"]').val(category.title);
                     dialog.find('input[name="category_color"]').val(category.color);
-                    dialog.find('input[name="category_hidden_in_archive"]').attr('checked', category.hidden_in_archive ? 'checked' : false);
+                    dialog.find('input[name="category_hidden_in_archive"]').attr('checked', category.hidden_in_archive==1 ? 'checked' : false);
                         dialog.find('input[name="category_hidden_in_archive"]').parent().attr('aria-checked', false);
                         dialog.find('input[name="category_hidden_in_archive"]').parent().removeClass('checked');
                     if (category.hidden_in_archive==1) {

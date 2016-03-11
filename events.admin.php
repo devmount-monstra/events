@@ -70,30 +70,7 @@ class EventsAdmin extends Backend
         // Request: add event
         if (Request::post('add_event')) {
             if (Security::check(Request::post('csrf'))) {
-                $success = $events->insert(
-                    array(
-                        'title' => (string) htmlspecialchars(Request::post('event_title')),
-                        'timestamp' => strtotime(Request::post('event_timestamp')),
-                        'timestamp_end' => strtotime(Request::post('event_timestamp_end')),
-                        'deleted' => 0,
-                        'category' => (int) Request::post('event_category'),
-                        'date' => (string) Request::post('event_date'),
-                        'openat' => (string) Request::post('event_openat'),
-                        'time' => (string) Request::post('event_time'),
-                        'location' => (int) Request::post('event_location'),
-                        'short' => (string) htmlspecialchars(Request::post('event_short')),
-                        'description' => (string) htmlspecialchars(Request::post('event_description')),
-                        'archiv' => (string) htmlspecialchars(Request::post('event_archiv')),
-                        'hashtag' => (string) Request::post('event_hashtag'),
-                        'facebook' => (string) Request::post('event_facebook'),
-                        'image' => (string) Request::post('event_image'),
-                        'imagesection' => (string) Request::post('event_imagesection'),
-                        'gallery' => (string) Request::post('event_gallery'),
-                        'audio' => (string) Request::post('event_audio'),
-                        'color' => (string) Request::post('event_color'),
-                    )
-                );
-                if ($success) {
+                if ($events->insert(EventsAdmin::_getEventData())) {
                     Notification::set('success', __('Event was added with success!', 'events'));
                 } else {
                     Notification::set('error', __('Table->insert() returned an error. Event could not be saved.', 'events'));
@@ -108,31 +85,8 @@ class EventsAdmin extends Backend
         // Request: edit event
         if (Request::post('edit_event')) {
             if (Security::check(Request::post('csrf'))) {
-                $success = $events->update(
-                    (int) Request::post('edit_event'),
-                    array(
-                        'title' => (string) htmlspecialchars(Request::post('event_title')),
-                        'timestamp' => strtotime(Request::post('event_timestamp')),
-                        'timestamp_end' => strtotime(Request::post('event_timestamp_end')),
-                        'deleted' => 0,
-                        'category' => (int) Request::post('event_category'),
-                        'date' => (string) Request::post('event_date'),
-                        'openat' => (string) Request::post('event_openat'),
-                        'time' => (string) Request::post('event_time'),
-                        'location' => (int) Request::post('event_location'),
-                        'short' => (string) htmlspecialchars(Request::post('event_short')),
-                        'description' => (string) htmlspecialchars(Request::post('event_description')),
-                        'archiv' => (string) htmlspecialchars(Request::post('event_archiv')),
-                        'hashtag' => (string) Request::post('event_hashtag'),
-                        'facebook' => (string) Request::post('event_facebook'),
-                        'image' => (string) Request::post('event_image'),
-                        'imagesection' => (string) Request::post('event_imagesection'),
-                        'gallery' => (string) Request::post('event_gallery'),
-                        'audio' => (string) Request::post('event_audio'),
-                        'color' => (string) Request::post('event_color'),
-                    )
-                );
-                if ($success) {
+                $id = (int) Request::post('edit_event');
+                if ($events->update($id, EventsAdmin::_getEventData())) {
                     Notification::set('success', __('Event was updated with success!', 'events'));
                 } else {
                     Notification::set('error', __('Table->update() returned an error. Event could not be saved.', 'events'));
@@ -148,8 +102,7 @@ class EventsAdmin extends Backend
         if (Request::post('restore_trash_event')) {
             if (Security::check(Request::post('csrf'))) {
                 $id = (int) Request::post('restore_trash_event');
-                $success = $events->update($id, array('deleted' => 0));
-                if ($success) {
+                if ($events->update($id, array('deleted' => 0))) {
                     Notification::set('success', __('Event has been restored from trash with success!', 'events'));
                 } else {
                     Notification::set('error', __('Table->update() returned an error. Event could not be restored.', 'events'));
@@ -165,8 +118,7 @@ class EventsAdmin extends Backend
         if (Request::post('delete_event')) {
             if (Security::check(Request::post('csrf'))) {
                 $id = (int) Request::post('delete_event');
-                $success = $events->update($id, array('deleted' => 1));
-                if ($success) {
+                if ($events->update($id, array('deleted' => 1))) {
                     Notification::set('success', __('Event has been moved to trash with success!', 'events'));
                 } else {
                     Notification::set('error', __('Table->update() returned an error. Event could not be deleted.', 'events'));
@@ -182,8 +134,8 @@ class EventsAdmin extends Backend
         // Request: delete trash event
         if (Request::post('delete_trash_event')) {
             if (Security::check(Request::post('csrf'))) {
-                $success = $events->delete((int) Request::post('delete_trash_event'));
-                if ($success) {
+                $id = (int) Request::post('delete_trash_event');
+                if ($events->delete($id)) {
                     Notification::set('success', __('Event has been deleted permanently with success!', 'events'));
                 } else {
                     Notification::set('error', __('Table->delete() returned an error. Event could not be deleted.', 'events'));
@@ -199,15 +151,7 @@ class EventsAdmin extends Backend
         // Request: add category
         if (Request::post('add_category')) {
             if (Security::check(Request::post('csrf'))) {
-                $success = $categories->insert(
-                    array(
-                        'title' => (string) htmlspecialchars(Request::post('category_title')),
-                        'deleted' => 0,
-                        'color' => (string) Request::post('category_color'),
-                        'hidden_in_archive' => (int) Request::post('category_hidden_in_archive'),
-                    )
-                );
-                if ($success) {
+                if ($categories->insert(EventsAdmin::_getCategoryData())) {
                     Notification::set('success', __('Category was added with success!', 'events'));
                 } else {
                     Notification::set('error', __('Table->insert() returned an error. Category could not be saved.', 'events'));
@@ -222,16 +166,8 @@ class EventsAdmin extends Backend
         // Request: edit category
         if (Request::post('edit_category')) {
             if (Security::check(Request::post('csrf'))) {
-                $success = $categories->update(
-                    (int) Request::post('edit_category'),
-                    array(
-                        'title' => (string) htmlspecialchars(Request::post('category_title')),
-                        'deleted' => 0,
-                        'color' => (string) Request::post('category_color'),
-                        'hidden_in_archive' => (int) Request::post('category_hidden_in_archive'),
-                    )
-                );
-                if ($success) {
+                $id = (int) Request::post('edit_category');
+                if ($categories->update($id, EventsAdmin::_getCategoryData())) {
                     Notification::set('success', __('Category was updated with success!', 'events'));
                 } else {
                     Notification::set('error', __('Table->update() returned an error. Category could not be saved.', 'events'));
@@ -246,8 +182,8 @@ class EventsAdmin extends Backend
         // Request: restore category
         if (Request::post('restore_trash_category')) {
             if (Security::check(Request::post('csrf'))) {
-                $success = $categories->update((int) Request::post('restore_trash_category'), array('deleted' => 0));
-                if ($success) {
+                $id = (int) Request::post('restore_trash_category');
+                if ($categories->update($id, array('deleted' => 0))) {
                     Notification::set('success', __('Category has been restored from trash with success!', 'events'));
                 } else {
                     Notification::set('error', __('Table->update() returned an error. Category could not be restored.', 'events'));
@@ -264,8 +200,7 @@ class EventsAdmin extends Backend
             if (Security::check(Request::post('csrf'))) {
                 $id = (int) Request::post('delete_category');
                 if (!EventsAdmin::_hasEvents('category', $id)) {
-                    $success = $categories->update($id, array('deleted' => 1));
-                    if ($success) {
+                    if ($categories->update($id, array('deleted' => 1))) {
                         Notification::set('success', __('Category has been moved to trash with success!', 'events'));
                     } else {
                         Notification::set('error', __('Table->update() returned an error. Category could not be deleted.', 'events'));
@@ -283,8 +218,8 @@ class EventsAdmin extends Backend
         // Request: delete trash category
         if (Request::post('delete_trash_category')) {
             if (Security::check(Request::post('csrf'))) {
-                $success = $categories->delete(Request::post('delete_trash_category'));
-                if ($success) {
+                $id = (int) Request::post('delete_trash_category');
+                if ($categories->delete($id)) {
                     Notification::set('success', __('Category has been deleted permanently with success!', 'events'));
                 } else {
                     Notification::set('error', __('Table->delete() returned an error. Category could not be deleted.', 'events'));
@@ -300,15 +235,7 @@ class EventsAdmin extends Backend
         // Request: add location
         if (Request::post('add_location')) {
             if (Security::check(Request::post('csrf'))) {
-                $success = $locations->insert(
-                    array(
-                        'title' => (string) htmlspecialchars(Request::post('location_title')),
-                        'website' => (string) Request::post('location_website'),
-                        'address' => (string) Request::post('location_address'),
-                        'deleted' => 0,
-                    )
-                );
-                if ($success) {
+                if ($locations->insert(EventsAdmin::_getLocationData())) {
                     Notification::set('success', __('Location was added with success!', 'events'));
                 } else {
                     Notification::set('error', __('Table->insert() returned an error. Location could not be saved.', 'events'));
@@ -323,16 +250,8 @@ class EventsAdmin extends Backend
         // Request: edit location
         if (Request::post('edit_location')) {
             if (Security::check(Request::post('csrf'))) {
-                $success = $locations->update(
-                    (int) Request::post('edit_location'),
-                    array(
-                        'title' => (string) htmlspecialchars(Request::post('location_title')),
-                        'website' => (string) Request::post('location_website'),
-                        'address' => (string) Request::post('location_address'),
-                        'deleted' => 0,
-                    )
-                );
-                if ($success) {
+                $id = (int) Request::post('edit_location');
+                if ($locations->update($id, EventsAdmin::_getLocationData())) {
                     Notification::set('success', __('Location was updated with success!', 'events'));
                 } else {
                     Notification::set('error', __('Table->update() returned an error. Location could not be saved.', 'events'));
@@ -347,7 +266,8 @@ class EventsAdmin extends Backend
         // Request: restore location
         if (Request::post('restore_trash_location')) {
             if (Security::check(Request::post('csrf'))) {
-                $success = $locations->update((int) Request::post('restore_trash_location'), array('deleted' => 0));
+                $id = (int) Request::post('restore_trash_location');
+                $success = $locations->update($id, array('deleted' => 0));
                 if ($success) {
                     Notification::set('success', __('Location has been restored from trash with success!', 'events'));
                 } else {
@@ -365,8 +285,7 @@ class EventsAdmin extends Backend
             if (Security::check(Request::post('csrf'))) {
                 $id = (int) Request::post('delete_location');
                 if (!EventsAdmin::_hasEvents('location', $id)) {
-                    $success = $locations->update($id, array('deleted' => 1));
-                    if ($success) {
+                    if ($locations->update($id, array('deleted' => 1))) {
                         Notification::set('success', __('Location has been moved to trash with success!', 'events'));
                     } else {
                         Notification::set('error', __('Table->update() returned an error. Location could not be deleted.', 'events'));
@@ -384,8 +303,8 @@ class EventsAdmin extends Backend
         // Request: delete trash location
         if (Request::post('delete_trash_location')) {
             if (Security::check(Request::post('csrf'))) {
-                $success = $locations->delete(Request::post('delete_trash_location'));
-                if ($success) {
+                $id = (int) Request::post('delete_trash_location');
+                if ($locations->delete($id)) {
                     Notification::set('success', __('Location has been deleted permanently with success!', 'events'));
                 } else {
                     Notification::set('error', __('Table->delete() returned an error. Location could not be deleted.', 'events'));
@@ -496,9 +415,12 @@ class EventsAdmin extends Backend
     }
 
     /**
-     * returns status for a given timestamp: 'upcoming', 'past', 'draft'
+     * returns status for a given timestamp
      *
-     * @param: $timestamp   int     event time
+     * @param  int     $timestamp  event time
+     *
+     * @return string  'upcoming', 'past' or 'draft'
+     *
      */
     private static function _eventStatus($timestamp)
     {
@@ -514,10 +436,76 @@ class EventsAdmin extends Backend
     }
 
     /**
-     * returns true if object has events assigned
+     * _getEventData
      *
-     * @param: $attribute   string  attribute of events where event is assigned to (e.g. category or location)
-     * @param: $id          int     id of object to check
+     * @return array  with event data from Request::post
+     *
+     */
+    private static function _getEventData()
+    {
+        return array(
+            'deleted' => 0,
+            'title' => (string) htmlspecialchars(Request::post('event_title')),
+            'timestamp' => strtotime(Request::post('event_timestamp')),
+            'timestamp_end' => strtotime(Request::post('event_timestamp_end')),
+            'category' => (int) Request::post('event_category'),
+            'date' => (string) Request::post('event_date'),
+            'openat' => (string) Request::post('event_openat'),
+            'time' => (string) Request::post('event_time'),
+            'location' => (int) Request::post('event_location'),
+            'short' => (string) htmlspecialchars(Request::post('event_short')),
+            'description' => (string) htmlspecialchars(Request::post('event_description')),
+            'archiv' => (string) htmlspecialchars(Request::post('event_archiv')),
+            'hashtag' => (string) Request::post('event_hashtag'),
+            'facebook' => (string) Request::post('event_facebook'),
+            'image' => (string) Request::post('event_image'),
+            'imagesection' => (string) Request::post('event_imagesection'),
+            'gallery' => (string) Request::post('event_gallery'),
+            'audio' => (string) Request::post('event_audio'),
+            'color' => (string) Request::post('event_color'),
+        );
+    }
+
+    /**
+     * _getCategoryData
+     *
+     * @return array  with category data from Request::post
+     *
+     */
+    private static function _getCategoryData()
+    {
+        return array(
+            'deleted' => 0,
+            'title' => (string) htmlspecialchars(Request::post('category_title')),
+            'color' => (string) Request::post('category_color'),
+            'hidden_in_archive' => (int) Request::post('category_hidden_in_archive'),
+        );
+    }
+
+    /**
+     * _getLocationData
+     *
+     * @return array  with location data from Request::post
+     *
+     */
+    private static function _getLocationData()
+    {
+        return array(
+            'deleted' => 0,
+            'title' => (string) htmlspecialchars(Request::post('location_title')),
+            'website' => (string) Request::post('location_website'),
+            'address' => (string) Request::post('location_address'),
+        );
+    }
+
+    /**
+     * returns true if attribute object has events assigned
+     *
+     * @param  string  $attribute  attribute of events that are objects assigned to this event (e.g. category or location)
+     * @param  int     $id         id of object to check
+     *
+     * @return bool
+     *
      */
     private static function _hasEvents($attribute, $id)
     {
@@ -526,9 +514,14 @@ class EventsAdmin extends Backend
     }
 
     /**
-     * Get directories and files in current path
+     * Get directories and files in given path
+     *
+     * @param  string  $dir  path
+     *
+     * @return array   of files and directories in given path
+     *
      */
-    private static function _fdir($dir, $type = null)
+    private static function _fdir($dir)
     {
         $files = array();
         $c = 0;
