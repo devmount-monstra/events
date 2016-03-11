@@ -15,7 +15,20 @@
                                 <?php echo Html::heading($categories[$event['category']]['title'], 3); ?>
                                 <div class="text">
                                     <?php echo $event['title'] == '' ? $event['short'] : '<span class="title">' . $event['title'] . '</span>'; ?><br />
-                                    <?php echo date('j.n.y', $event['timestamp']); ?>
+                                    <?php 
+                                        if ($event['timestamp_end']) {
+                                            if (date('j.n.Y', $event['timestamp']) == date('j.n.Y', $event['timestamp_end'])) {
+                                                // same day
+                                                echo date('j.n.y', $event['timestamp']);
+                                            } else {
+                                                // day range
+                                                echo date('j.n.', $event['timestamp']) . '–' . date('j.n.y', $event['timestamp_end']);
+                                            }
+                                        } else {
+                                            // only start date
+                                            echo date('j.n.y', $event['timestamp']);
+                                        }
+                                    ?>
                                     <?php echo $event['location'] ? ' | @' . $locations[$event['location']]['title'] : ''; ?>
                                     <div style="white-space: pre-wrap;"><?php echo $event['archiv']; ?></div>
                                 </div>
