@@ -40,19 +40,19 @@ class EventsAdmin extends Backend
         // Ajax Request: add event
         if (Request::post('edit_event_id')) {
             $events = new Table('events');
-            echo json_encode($events->select('[id=' . Request::post('edit_event_id') . ']')[0]);
+            echo json_encode($events->select('[id=' . (int) Request::post('edit_event_id') . ']')[0]);
             Request::shutdown();
         }
         // Ajax Request: add category
         if (Request::post('edit_category_id')) {
             $categories = new Table('categories');
-            echo json_encode($categories->select('[id=' . Request::post('edit_category_id') . ']')[0]);
+            echo json_encode($categories->select('[id=' . (int) Request::post('edit_category_id') . ']')[0]);
             Request::shutdown();
         }
         // Ajax Request: add location
         if (Request::post('edit_location_id')) {
             $locations = new Table('locations');
-            echo json_encode($locations->select('[id=' . Request::post('edit_location_id') . ']')[0]);
+            echo json_encode($locations->select('[id=' . (int) Request::post('edit_location_id') . ']')[0]);
             Request::shutdown();
         }
     }

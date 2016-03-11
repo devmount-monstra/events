@@ -319,7 +319,7 @@
                                                 ?>
                                             </td>
                                             <td>
-                                                <?php echo Html::heading($event['title'], 4); ?>
+                                                <?php echo Html::heading($event['title'], 4) . $event['imagesection']; ?>
                                             </td>
                                             <td class="visible-lg hidden-xs">
                                                 <?php
@@ -1185,7 +1185,7 @@
                         <label class="image-section-label" title="Clip to top"><?php echo Form::radio('event_imagesection', 't'); ?>
                             <span class="image-section section-portrait section-top"></span>
                         </label>
-                        <label class="image-section-label" title="Clip to middle"><?php echo Form::radio('event_imagesection', 'm', True); ?>
+                        <label class="image-section-label" title="Clip to middle"><?php echo Form::radio('event_imagesection', 'm'); ?>
                             <span class="image-section section-portrait section-middle"></span>
                         </label>
                         <label class="image-section-label" title="Clip to bottom"><?php echo Form::radio('event_imagesection', 'b'); ?>

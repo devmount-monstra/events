@@ -153,6 +153,7 @@ $.monstra.events = {
                 dataType: 'json',
                 // on success: modify formula to edit
                 success: function(event){
+                    console.log(event);
                     dialog.find('.modal-title').text($('#output_editevent').val() + (event.title ? ' »' + event.title + '«' : ''));
                     dialog.find('input[name="event_title"]').val(event.title);
                     var tzoffset = (new Date()).getTimezoneOffset() * 60;
@@ -171,12 +172,12 @@ $.monstra.events = {
                     dialog.find('input[name="event_facebook"]').val(event.facebook);
                     dialog.find('input[name="event_gallery"]').val(event.gallery);
                     dialog.find('select[name="event_image"]').val(event.image);
-                    if (!event.imagesection) event.imagesection = 'm';
+                    var section = event.imagesection ? event.imagesection : 'm';
                     dialog.find('input[name="event_imagesection"]').attr('checked', false);
                         dialog.find('.image-section-label>div.checked').removeClass('checked');
-                        dialog.find('input[name="event_imagesection"][value="' + event.imagesection + '"]').attr('checked', 'checked');
-                        dialog.find('input[name="event_imagesection"][value="' + event.imagesection + '"]').parent().attr('aria-checked', true);
-                        dialog.find('input[name="event_imagesection"][value="' + event.imagesection + '"]').parent().addClass('checked');
+                        dialog.find('input[name="event_imagesection"][value="' + section + '"]').attr('checked', 'checked');
+                        dialog.find('input[name="event_imagesection"][value="' + section + '"]').parent().attr('aria-checked', true);
+                        dialog.find('input[name="event_imagesection"][value="' + section + '"]').parent().addClass('checked');
                     dialog.find('input[name="event_audio"]').val(event.audio);
                     dialog.find('input[name="event_color"]').val(event.color);
 
@@ -192,9 +193,9 @@ $.monstra.events = {
             dialog.find('textarea.clear').each(function(){ $(this).val(''); });
             dialog.find('input[name="event_imagesection"]').attr('checked', false);
             dialog.find('.image-section-label>div.checked').removeClass('checked');
-            dialog.find('input[name="event_imagesection"][value="m"]').attr('checked', 'checked');
-            dialog.find('input[name="event_imagesection"][value="m"]').parent().attr('aria-checked', true);
-            dialog.find('input[name="event_imagesection"][value="m"]').parent().addClass('checked');
+            // dialog.find('input[name="event_imagesection"][value="m"]').attr('checked', 'checked');
+            // dialog.find('input[name="event_imagesection"][value="m"]').parent().attr('aria-checked', true);
+            // dialog.find('input[name="event_imagesection"][value="m"]').parent().addClass('checked');
             dialog.find('#add-edit-submit-event').val(1).attr('name', 'add_event').text($('#output_add').val());
             $.monstra.events.setColor('event', true);
         }
