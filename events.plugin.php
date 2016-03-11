@@ -109,11 +109,19 @@ class Events
 
 
     /**
-     * Assign to view
+     * list events
+     * 
+     * @param string $style     ['extended', 'minimal', 'archiv']
+     * @param string $time      ['future', 'past', 'all']
+     * @param string $count     number of records to show [number or 'all']
+     * @param string $order     ['ASC', 'DESC']
+     *
+     * @return array
+     *
      */
     public function listEvents($style, $time = 'all', $count = 'all', $order = 'ASC')
     {
-        // handle style
+        // load template according to given style
         $template = '';
         $style = trim($style);
         if (in_array($style, array('extended', 'minimal', 'archiv'))) {
@@ -213,7 +221,7 @@ class Events
 
         switch ($time) {
             case 'future':
-                $eventlist = $events->select('[timestamp>=' . $now . ' and deleted=0]', 'all', null, null, 'timestamp', $roworder);
+                $eventlist = $events->select('[timestamp_end>=' . $now . ' and deleted=0]', 'all', null, null, 'timestamp', $roworder);
                 break;
             case 'past':
                 $eventlist = $events->select('[timestamp<' . $now . ' and deleted=0]', 'all', null, null, 'timestamp', $roworder);
