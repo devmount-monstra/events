@@ -153,7 +153,7 @@ $.monstra.events = {
                 dataType: 'json',
                 // on success: modify formula to edit
                 success: function(event){
-                    dialog.find('.modal-title').text($('#output_editevent').val() + ' »' + event.title + '«');
+                    dialog.find('.modal-title').text($('#output_editevent').val() + (event.title ? ' »' + event.title + '«' : ''));
                     dialog.find('input[name="event_title"]').val(event.title);
                     var tzoffset = (new Date()).getTimezoneOffset() * 60;
                     dialog.find('input[name="event_timestamp"]').val(event.timestamp ? new Date((event.timestamp-tzoffset) * 1000).toISOString().slice(0, -1) : '');
@@ -171,7 +171,7 @@ $.monstra.events = {
                     dialog.find('input[name="event_facebook"]').val(event.facebook);
                     dialog.find('input[name="event_gallery"]').val(event.gallery);
                     dialog.find('select[name="event_image"]').val(event.image);
-                    if (event.imagesection === '' || event.imagesection === null) event.imagesection = 'm';
+                    if (!event.imagesection) event.imagesection = 'm';
                     dialog.find('input[name="event_imagesection"]').attr('checked', false);
                         dialog.find('.image-section-label>div.checked').removeClass('checked');
                         dialog.find('input[name="event_imagesection"][value="' + event.imagesection + '"]').attr('checked', 'checked');
