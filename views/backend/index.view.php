@@ -319,7 +319,7 @@
                                                 ?>
                                             </td>
                                             <td>
-                                                <?php echo Html::heading($event['title'], 4) . $event['imagesection']; ?>
+                                                <?php echo Html::heading($event['title'], 4); ?>
                                             </td>
                                             <td class="visible-lg hidden-xs">
                                                 <?php
