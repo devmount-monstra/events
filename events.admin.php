@@ -26,6 +26,9 @@ Navigation::add(__('Events', 'events'), 'content', 'events', 10);
 // Add action on admin_pre_render hook
 Action::add('admin_pre_render','EventsAdmin::_getAjaxData');
 
+// register repository classes
+require_once 'repositories/repository.locations.php';
+
 /**
  * Events class
  *
@@ -51,8 +54,7 @@ class EventsAdmin extends Backend
         }
         // Ajax Request: add location
         if (Request::post('edit_location_id')) {
-            $locations = new Table('locations');
-            echo json_encode($locations->select('[id=' . (int) Request::post('edit_location_id') . ']')[0]);
+            echo json_encode(LocationsRepository::getById((int) Request::post('edit_location_id')));
             Request::shutdown();
         }
     }
@@ -65,7 +67,6 @@ class EventsAdmin extends Backend
         // get db table objects
         $events = new Table('events');
         $categories = new Table('categories');
-        $locations = new Table('locations');
         
         // Request: add event
         if (Request::post('add_event')) {
@@ -91,6 +92,8 @@ class EventsAdmin extends Backend
                 } else {
                     Notification::set('error', __('Table->update() returned an error. Event could not be saved.', 'events'));
                 }
+                // $test = (string) Request::post('event_timestamp_end');
+                // Notification::set('error', $test);
                 Request::redirect('index.php?id=events#events/' . EventsAdmin::_eventStatus(strtotime(Request::post('event_timestamp'))) . '-events');
             }
             else {
@@ -235,7 +238,7 @@ class EventsAdmin extends Backend
         // Request: add location
         if (Request::post('add_location')) {
             if (Security::check(Request::post('csrf'))) {
-                if ($locations->insert(EventsAdmin::_getLocationData())) {
+                if (LocationsRepository::insert(EventsAdmin::_getLocationData())) {
                     Notification::set('success', __('Location was added with success!', 'events'));
                 } else {
                     Notification::set('error', __('Table->insert() returned an error. Location could not be saved.', 'events'));
@@ -251,7 +254,7 @@ class EventsAdmin extends Backend
         if (Request::post('edit_location')) {
             if (Security::check(Request::post('csrf'))) {
                 $id = (int) Request::post('edit_location');
-                if ($locations->update($id, EventsAdmin::_getLocationData())) {
+                if (LocationsRepository::update($id, EventsAdmin::_getLocationData())) {
                     Notification::set('success', __('Location was updated with success!', 'events'));
                 } else {
                     Notification::set('error', __('Table->update() returned an error. Location could not be saved.', 'events'));
@@ -267,8 +270,7 @@ class EventsAdmin extends Backend
         if (Request::post('restore_trash_location')) {
             if (Security::check(Request::post('csrf'))) {
                 $id = (int) Request::post('restore_trash_location');
-                $success = $locations->update($id, array('deleted' => 0));
-                if ($success) {
+                if (LocationsRepository::update($id, array('deleted' => 0))) {
                     Notification::set('success', __('Location has been restored from trash with success!', 'events'));
                 } else {
                     Notification::set('error', __('Table->update() returned an error. Location could not be restored.', 'events'));
@@ -285,7 +287,7 @@ class EventsAdmin extends Backend
             if (Security::check(Request::post('csrf'))) {
                 $id = (int) Request::post('delete_location');
                 if (!EventsAdmin::_hasEvents('location', $id)) {
-                    if ($locations->update($id, array('deleted' => 1))) {
+                    if (LocationsRepository::update($id, array('deleted' => 1))) {
                         Notification::set('success', __('Location has been moved to trash with success!', 'events'));
                     } else {
                         Notification::set('error', __('Table->update() returned an error. Location could not be deleted.', 'events'));
@@ -304,7 +306,7 @@ class EventsAdmin extends Backend
         if (Request::post('delete_trash_location')) {
             if (Security::check(Request::post('csrf'))) {
                 $id = (int) Request::post('delete_trash_location');
-                if ($locations->delete($id)) {
+                if (LocationsRepository::delete($id)) {
                     Notification::set('success', __('Location has been deleted permanently with success!', 'events'));
                 } else {
                     Notification::set('error', __('Table->delete() returned an error. Location could not be deleted.', 'events'));
@@ -348,20 +350,6 @@ class EventsAdmin extends Backend
             $categories_select[$c['id']] = $c['title'];
         }
 
-        // get all existing locations from db
-        $locations_all     = $locations->select(Null, 'all');
-        $locations_active  = $locations->select('[deleted=0]', 'all', null, null, 'title', 'ASC');
-        $locations_deleted = $locations->select('[deleted=1]', 'all', null, null, 'title', 'ASC');
-        $locations_objects = array();
-        $locations_select  = array(0 => '');
-        foreach ($locations_all as $l) {
-            $l['count'] = sizeof($events->select('[location=' . $l['id'] . ' and deleted=0]'));
-            $locations_objects[$l['id']] = $l;
-        }
-        foreach ($locations_active as $l) {
-            $locations_select[$l['id']] = $l['title'];
-        }
-
         // get all existing events from db
         $events_active   = $events->select('[deleted=0]', 'all', null, null, 'timestamp', 'ASC');
         $events_upcoming = $events->select('[timestamp>=' . $now . ' and deleted=0]', 'all', null, null, 'timestamp', 'ASC');
@@ -399,10 +387,10 @@ class EventsAdmin extends Backend
             ->assign('categories_active', $categories_active)
             ->assign('categories_select', $categories_select)
             ->assign('categories_deleted', $categories_deleted)
-            ->assign('locations', $locations_objects)
-            ->assign('locations_active', $locations_active)
-            ->assign('locations_select', $locations_select)
-            ->assign('locations_deleted', $locations_deleted)
+            ->assign('locations', LocationsRepository::getAll())
+            ->assign('locations_active', LocationsRepository::getActive())
+            ->assign('locations_select', LocationsRepository::getActiveForSelect())
+            ->assign('locations_deleted', LocationsRepository::getDeleted())
             ->assign('events_active', $events_active)
             ->assign('events_upcoming', $events_upcoming)
             ->assign('events_past', $events_past)

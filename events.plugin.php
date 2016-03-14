@@ -17,7 +17,6 @@ defined('MONSTRA_ACCESS') or die('No direct script access.');
  *
  */
 
-
 // Register plugin
 Plugin::register(
     __FILE__,
@@ -33,12 +32,10 @@ if (Session::exists('user_role') && in_array(Session::get('user_role'), array('a
     Plugin::Admin('events');
 }
 
-
 /**
  * Add shortcode
  */
 Shortcode::add('events', 'Events::_shortcode');
-
 
 /**
  * Add CSS and JavaScript
@@ -46,6 +43,8 @@ Shortcode::add('events', 'Events::_shortcode');
 Action::add('theme_footer', 'Events::_insertJS');
 Action::add('theme_header', 'Events::_insertCSS');
 
+// register repository classes
+require_once 'repositories/repository.locations.php';
 
 /**
  * Events class
@@ -135,7 +134,7 @@ class Events
         return View::factory('events/views/frontend/' . $template)
             ->assign('eventlist', Events::_getEvents($time, $count, $order, $groupby, $is_archive))
             ->assign('categories', Events::_getCategories())
-            ->assign('locations', Events::_getLocations())
+            ->assign('locations', LocationsRepository::getAll())
             ->render();
     }
 
@@ -167,27 +166,6 @@ class Events
             $category_objects[$c['id']] = $c;
         }
         return $category_objects;
-    }
-
-
-    /**
-     * get list of locations
-     *
-     * @return array
-     *
-     */
-    private static function _getLocations()
-    {
-        // get db table object
-        $locations = new Table('locations');
-        // get all locations
-        $alllocations = $locations->select(Null, 'all');
-        // build array with category id => location object
-        $locations_objects = array();
-        foreach ($alllocations as $l) {
-            $locations_objects[$l['id']] = $l;
-        }
-        return $locations_objects;
     }
 
 
