@@ -93,7 +93,6 @@ class EventsRepository
     public static function getAll()
     {
         $objects = self::getTable();
-        $events = new Table('events');
         $objects_all = $objects->select(Null, 'all');
         $objects_objects = array();
         foreach ($objects_all as $o) {
@@ -125,7 +124,7 @@ class EventsRepository
     public static function getUpcoming()
     {
         $objects = self::getTable();
-        return $objects->select('[timestamp>=' . self::_getTime() . ' and deleted=0]', 'all', null, null, 'timestamp', 'ASC');
+        return $objects->select('[timestamp_end>=' . self::_getTime() . ' and deleted=0]', 'all', null, null, 'timestamp', 'ASC');
     }
 
 
@@ -203,6 +202,87 @@ class EventsRepository
         } else {
             return 'past';
         }
+    }
+
+
+    /**
+     * Get configured list of events
+     *
+     * @param string  $time
+     * @param string  $count
+     * @param string  $order
+     * @param string  $groupby
+     * @param bool    $is_archive
+     *
+     * @return array
+     *
+     */
+    public static function getList($time, $count, $order, $groupby = '', $is_archive = false)
+    {
+        // get db table object
+        $objects = self::getTable();
+
+        // handle order
+        $roworder = '';
+        if (in_array(trim($order), array('ASC', 'DESC'))) {
+            $roworder = trim($order);
+        } else {
+            $roworder = 'ASC';
+        }
+
+        // handle time
+        $now = self::_getTime();
+
+        switch ($time) {
+            case 'future':
+                $eventlist = $objects->select('[timestamp_end>=' . $now . ' and deleted=0]', 'all', null, null, 'timestamp', $roworder);
+                break;
+            case 'past':
+                $eventlist = $objects->select('[timestamp<' . $now . ' and deleted=0]', 'all', null, null, 'timestamp', $roworder);
+                break;
+            case 'all':
+            default:
+                $eventlist = $objects->select('[deleted=0 and timestamp>0]', 'all', null, null, 'timestamp', $roworder);
+                break;
+        }
+
+        // handle count
+        if (trim($count) != 'all') {
+            if($roworder == 'ASC') {
+                $eventlist = array_slice($eventlist, 0, (int) $count);
+            } else {
+                $offset = count($eventlist)-((int) $count);
+                $offset = $offset < 0 ? : $offset;
+                $eventlist = array_slice($eventlist, $offset);
+            }
+        }
+        
+        // handle archive (remove events of category with flag (hidden_in_archive))
+        if ($is_archive) {
+            $categories = new Table('categories');
+            $category_ids = array();
+            foreach ($categories->select('[hidden_in_archive=1]', 'all', null, array('id')) as $category) {
+                $category_ids[] = $category['id'];
+            }
+            foreach ($eventlist as $key => $event) {
+                if (in_array($event['category'], $category_ids)) {
+                    unset($eventlist[$key]);
+                }
+            }
+        }
+
+        // handle group by
+        if ($groupby == 'year') {
+            $eventlistyears = array();
+            foreach ($eventlist as $event) {
+                $date = getdate($event['timestamp']);
+                $eventlistyears[$date['year']][] = $event;
+            }
+            return $eventlistyears;
+        }
+        
+
+        return $eventlist;
     }
 
 

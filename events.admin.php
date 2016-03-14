@@ -27,9 +27,9 @@ Navigation::add(__('Events', 'events'), 'content', 'events', 10);
 Action::add('admin_pre_render','EventsAdmin::_getAjaxData');
 
 // register repository classes
-require_once 'repositories/repository.locations.php';
-require_once 'repositories/repository.categories.php';
 require_once 'repositories/repository.events.php';
+require_once 'repositories/repository.categories.php';
+require_once 'repositories/repository.locations.php';
 
 /**
  * Events class

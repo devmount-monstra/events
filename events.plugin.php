@@ -44,8 +44,9 @@ Action::add('theme_footer', 'Events::_insertJS');
 Action::add('theme_header', 'Events::_insertCSS');
 
 // register repository classes
-require_once 'repositories/repository.locations.php';
+require_once 'repositories/repository.events.php';
 require_once 'repositories/repository.categories.php';
+require_once 'repositories/repository.locations.php';
 
 /**
  * Events class
@@ -73,7 +74,6 @@ class Events
         switch ($attributes['type']) {
             case 'list':
                 return Events::listEvents($attributes['style'], $attributes['time'], $attributes['count'], $attributes['order']);
-                // return 'test';
                 break;
 
             default:
@@ -133,7 +133,7 @@ class Events
         }
 
         return View::factory('events/views/frontend/' . $template)
-            ->assign('eventlist', Events::_getEvents($time, $count, $order, $groupby, $is_archive))
+            ->assign('eventlist', EventsRepository::getList($time, $count, $order, $groupby, $is_archive))
             ->assign('categories', CategoriesRepository::getAll())
             ->assign('locations', LocationsRepository::getAll())
             ->render();
@@ -148,85 +148,5 @@ class Events
         return 'error occured';
     }
 
-
-    /**
-     * get list of events
-     *
-     * @param string time
-     * @param string count
-     * @param string order
-     * @param string groupby
-     * @param bool   is_archive
-     *
-     * @return array
-     *
-     */
-    private static function _getEvents($time, $count, $order, $groupby = '', $is_archive = false)
-    {
-        // get db table object
-        $events = new Table('events');
-
-        // handle order
-        $roworder = '';
-        if (in_array(trim($order), array('ASC', 'DESC'))) {
-            $roworder = trim($order);
-        } else {
-            $roworder = 'ASC';
-        }
-
-        // handle time
-        $now = time();
-
-        switch ($time) {
-            case 'future':
-                $eventlist = $events->select('[timestamp_end>=' . $now . ' and deleted=0]', 'all', null, null, 'timestamp', $roworder);
-                break;
-            case 'past':
-                $eventlist = $events->select('[timestamp<' . $now . ' and deleted=0]', 'all', null, null, 'timestamp', $roworder);
-                break;
-            case 'all':
-            default:
-                $eventlist = $events->select('[deleted=0 and timestamp>0]', 'all', null, null, 'timestamp', $roworder);
-                break;
-        }
-
-        // handle count
-        if (trim($count) != 'all') {
-            if($roworder == 'ASC') {
-                $eventlist = array_slice($eventlist, 0, (int) $count);
-            } else {
-                $offset = count($eventlist)-((int) $count);
-                $offset = $offset < 0 ? : $offset;
-                $eventlist = array_slice($eventlist, $offset);
-            }
-        }
-        
-        // handle archive (remove events of category with flag (hidden_in_archive))
-        if ($is_archive) {
-            $categories = new Table('categories');
-            $category_ids = array();
-            foreach ($categories->select('[hidden_in_archive=1]', 'all', null, array('id')) as $category) {
-                $category_ids[] = $category['id'];
-            }
-            foreach ($eventlist as $key => $event) {
-                if (in_array($event['category'], $category_ids)) {
-                    unset($eventlist[$key]);
-                }
-            }
-        }
-
-        // handle group by
-        if ($groupby == 'year') {
-            $eventlistyears = array();
-            foreach ($eventlist as $event) {
-                $date = getdate($event['timestamp']);
-                $eventlistyears[$date['year']][] = $event;
-            }
-            return $eventlistyears;
-        }
-        
-
-        return $eventlist;
-    }
 
 }
