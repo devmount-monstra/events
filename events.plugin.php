@@ -45,6 +45,7 @@ Action::add('theme_header', 'Events::_insertCSS');
 
 // register repository classes
 require_once 'repositories/repository.locations.php';
+require_once 'repositories/repository.categories.php';
 
 /**
  * Events class
@@ -133,7 +134,7 @@ class Events
 
         return View::factory('events/views/frontend/' . $template)
             ->assign('eventlist', Events::_getEvents($time, $count, $order, $groupby, $is_archive))
-            ->assign('categories', Events::_getCategories())
+            ->assign('categories', CategoriesRepository::getAll())
             ->assign('locations', LocationsRepository::getAll())
             ->render();
     }
@@ -145,27 +146,6 @@ class Events
     public function error()
     {
         return 'error occured';
-    }
-
-
-    /**
-     * get list of categories
-     *
-     * @return array
-     *
-     */
-    private static function _getCategories()
-    {
-        // get db table object
-        $categories = new Table('categories');
-        // get all categories
-        $allcategories = $categories->select(Null, 'all');
-        // build array with category id => category attribute
-        $category_objects = array();
-        foreach ($allcategories as $c) {
-            $category_objects[$c['id']] = $c;
-        }
-        return $category_objects;
     }
 
 

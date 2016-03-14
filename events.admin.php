@@ -28,6 +28,7 @@ Action::add('admin_pre_render','EventsAdmin::_getAjaxData');
 
 // register repository classes
 require_once 'repositories/repository.locations.php';
+require_once 'repositories/repository.categories.php';
 
 /**
  * Events class
@@ -48,8 +49,7 @@ class EventsAdmin extends Backend
         }
         // Ajax Request: add category
         if (Request::post('edit_category_id')) {
-            $categories = new Table('categories');
-            echo json_encode($categories->select('[id=' . (int) Request::post('edit_category_id') . ']')[0]);
+            echo json_encode(CategoriesRepository::getById((int) Request::post('edit_category_id')));
             Request::shutdown();
         }
         // Ajax Request: add location
@@ -66,7 +66,6 @@ class EventsAdmin extends Backend
     {
         // get db table objects
         $events = new Table('events');
-        $categories = new Table('categories');
         
         // Request: add event
         if (Request::post('add_event')) {
@@ -154,7 +153,7 @@ class EventsAdmin extends Backend
         // Request: add category
         if (Request::post('add_category')) {
             if (Security::check(Request::post('csrf'))) {
-                if ($categories->insert(EventsAdmin::_getCategoryData())) {
+                if (CategoriesRepository::insert(EventsAdmin::_getCategoryData())) {
                     Notification::set('success', __('Category was added with success!', 'events'));
                 } else {
                     Notification::set('error', __('Table->insert() returned an error. Category could not be saved.', 'events'));
@@ -170,7 +169,7 @@ class EventsAdmin extends Backend
         if (Request::post('edit_category')) {
             if (Security::check(Request::post('csrf'))) {
                 $id = (int) Request::post('edit_category');
-                if ($categories->update($id, EventsAdmin::_getCategoryData())) {
+                if (CategoriesRepository::update($id, EventsAdmin::_getCategoryData())) {
                     Notification::set('success', __('Category was updated with success!', 'events'));
                 } else {
                     Notification::set('error', __('Table->update() returned an error. Category could not be saved.', 'events'));
@@ -186,7 +185,7 @@ class EventsAdmin extends Backend
         if (Request::post('restore_trash_category')) {
             if (Security::check(Request::post('csrf'))) {
                 $id = (int) Request::post('restore_trash_category');
-                if ($categories->update($id, array('deleted' => 0))) {
+                if (CategoriesRepository::update($id, array('deleted' => 0))) {
                     Notification::set('success', __('Category has been restored from trash with success!', 'events'));
                 } else {
                     Notification::set('error', __('Table->update() returned an error. Category could not be restored.', 'events'));
@@ -203,7 +202,7 @@ class EventsAdmin extends Backend
             if (Security::check(Request::post('csrf'))) {
                 $id = (int) Request::post('delete_category');
                 if (!EventsAdmin::_hasEvents('category', $id)) {
-                    if ($categories->update($id, array('deleted' => 1))) {
+                    if (CategoriesRepository::update($id, array('deleted' => 1))) {
                         Notification::set('success', __('Category has been moved to trash with success!', 'events'));
                     } else {
                         Notification::set('error', __('Table->update() returned an error. Category could not be deleted.', 'events'));
@@ -222,7 +221,7 @@ class EventsAdmin extends Backend
         if (Request::post('delete_trash_category')) {
             if (Security::check(Request::post('csrf'))) {
                 $id = (int) Request::post('delete_trash_category');
-                if ($categories->delete($id)) {
+                if (CategoriesRepository::delete($id)) {
                     Notification::set('success', __('Category has been deleted permanently with success!', 'events'));
                 } else {
                     Notification::set('error', __('Table->delete() returned an error. Category could not be deleted.', 'events'));
@@ -335,20 +334,6 @@ class EventsAdmin extends Backend
 
         // get current time
         $now = time();
-        
-        // get all existing categories from db
-        $categories_all     = $categories->select(Null, 'all', null, null, 'title', 'ASC');
-        $categories_active  = $categories->select('[deleted=0]', 'all', null, null, 'title', 'ASC');
-        $categories_deleted = $categories->select('[deleted=1]');
-        $categories_objects = array();
-        $categories_select  = array();
-        foreach ($categories_all as $c) {
-            $c['count'] = sizeof($events->select('[category=' . $c['id'] . ' and deleted=0]'));
-            $categories_objects[$c['id']] = $c;
-        }
-        foreach ($categories_active as $c) {
-            $categories_select[$c['id']] = $c['title'];
-        }
 
         // get all existing events from db
         $events_active   = $events->select('[deleted=0]', 'all', null, null, 'timestamp', 'ASC');
@@ -383,10 +368,10 @@ class EventsAdmin extends Backend
 
         // Display view
         View::factory('events/views/backend/index')
-            ->assign('categories', $categories_objects)
-            ->assign('categories_active', $categories_active)
-            ->assign('categories_select', $categories_select)
-            ->assign('categories_deleted', $categories_deleted)
+            ->assign('categories', CategoriesRepository::getAll())
+            ->assign('categories_active', CategoriesRepository::getActive())
+            ->assign('categories_select', CategoriesRepository::getActiveForSelect())
+            ->assign('categories_deleted', CategoriesRepository::getDeleted())
             ->assign('locations', LocationsRepository::getAll())
             ->assign('locations_active', LocationsRepository::getActive())
             ->assign('locations_select', LocationsRepository::getActiveForSelect())
