@@ -12,7 +12,10 @@ defined('MONSTRA_ACCESS') or die('No direct script access.');
 class LocationsRepository
 {
     /**
-     * return locations table
+     * Get locations table object
+     * 
+     * @return object
+     * 
      */
     public static function getTable()
     {
@@ -21,7 +24,12 @@ class LocationsRepository
 
 
     /**
-     * getById
+     * Get location by ID
+     * 
+     * @param  int  $id  Location ID to return
+     * 
+     * @return object
+     * 
      */
     public static function getById($id)
     {
@@ -31,7 +39,12 @@ class LocationsRepository
 
 
     /**
-     * insert
+     * Insert new location
+     * 
+     * @param  array  $data  Data of location to insert
+     * 
+     * @return bool
+     * 
      */
     public static function insert($data)
     {
@@ -41,7 +54,13 @@ class LocationsRepository
 
 
     /**
-     * update
+     * Update existing location
+     * 
+     * @param  int    $id    Location ID to update
+     * @param  array  $data  Data of location to insert
+     * 
+     * @return bool
+     * 
      */
     public static function update($id, $data)
     {
@@ -51,7 +70,12 @@ class LocationsRepository
 
 
     /**
-     * update
+     * Delete location
+     * 
+     * @param  int  $id  Location ID to delete
+     * 
+     * @return bool
+     * 
      */
     public static function delete($id)
     {
@@ -61,7 +85,7 @@ class LocationsRepository
 
 
     /**
-     * get list of all locations
+     * Get all location objects
      *
      * @return array
      *
@@ -81,7 +105,10 @@ class LocationsRepository
 
 
     /**
-     * getAll
+     * Get all active (not deleted) location objects
+     *
+     * @return array
+     *
      */
     public static function getActive()
     {
@@ -91,7 +118,10 @@ class LocationsRepository
 
 
     /**
-     * getAll
+     * Get all active location objects ready to use with HTML::select()
+     *
+     * @return array
+     *
      */
     public static function getActiveForSelect()
     {
@@ -105,13 +135,15 @@ class LocationsRepository
 
 
     /**
-     * getDeleted
+     * Get all deleted location objects
+     *
+     * @return array
+     *
      */
     public static function getDeleted()
     {
         $objects = self::getTable();
         return $objects->select('[deleted=1]', 'all', null, null, 'title', 'ASC');
     }
-
 
 }
