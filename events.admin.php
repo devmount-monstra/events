@@ -72,7 +72,7 @@ class EventsAdmin extends Backend
                 } else {
                     Notification::set('error', __('Table->insert() returned an error. Event could not be saved.', 'events'));
                 }
-                Request::redirect('index.php?id=events#events/' . EventsAdmin::_eventStatus(strtotime(Request::post('event_timestamp'))) . '-events');
+                Request::redirect('index.php?id=events#events/' . EventsRepository::getStatus(strtotime(Request::post('event_timestamp'))) . '-events');
             }
             else {
                 Notification::set('error', __('Request was denied. Invalid security token. Please refresh the page and try again.', 'events'));
@@ -90,7 +90,7 @@ class EventsAdmin extends Backend
                 }
                 // $test = (string) Request::post('event_timestamp_end');
                 // Notification::set('error', $test);
-                Request::redirect('index.php?id=events#events/' . EventsAdmin::_eventStatus(strtotime(Request::post('event_timestamp'))) . '-events');
+                Request::redirect('index.php?id=events#events/' . EventsRepository::getStatus(strtotime(Request::post('event_timestamp'))) . '-events');
             }
             else {
                 Notification::set('error', __('Request was denied. Invalid security token. Please refresh the page and try again.', 'events'));
@@ -123,7 +123,7 @@ class EventsAdmin extends Backend
                     Notification::set('error', __('Table->update() returned an error. Event could not be deleted.', 'events'));
                 }
                 $record = EventsRepository::getById($id);
-                Request::redirect('index.php?id=events#events/' . EventsAdmin::_eventStatus($record['timestamp']) . '-events');
+                Request::redirect('index.php?id=events#events/' . EventsRepository::getStatus($record['timestamp']) . '-events');
             }
             else {
                 Notification::set('error', __('Request was denied. Invalid security token. Please refresh the page and try again.', 'events'));
@@ -372,28 +372,6 @@ class EventsAdmin extends Backend
             ->assign('files', $files)
             ->assign('path', $path)
             ->display();
-    }
-
-
-    /**
-     * returns status for a given timestamp
-     *
-     * @param  int     $timestamp  event time
-     *
-     * @return string  'upcoming', 'past' or 'draft'
-     *
-     */
-    private static function _eventStatus($timestamp)
-    {
-        $now = time();
-        if ($timestamp == 0) {
-            return 'draft';
-        } else
-        if ($timestamp >= $now) {
-            return 'upcoming';
-        } else {
-            return 'past';
-        }
     }
 
 

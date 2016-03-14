@@ -186,6 +186,27 @@ class EventsRepository
 
 
     /**
+     * Returns status for a given timestamp
+     *
+     * @param  int  $timestamp  Starting time of event
+     *
+     * @return string  ['upcoming', 'past', 'draft']
+     *
+     */
+    public static function getStatus($timestamp)
+    {
+        if ($timestamp == 0) {
+            return 'draft';
+        } else
+        if ($timestamp >= self::_getTime()) {
+            return 'upcoming';
+        } else {
+            return 'past';
+        }
+    }
+
+
+    /**
      * Get current timestamp
      *
      * @return int  timestamp
