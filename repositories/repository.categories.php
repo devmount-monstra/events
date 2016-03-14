@@ -146,4 +146,19 @@ class CategoriesRepository
         return $objects->select('[deleted=1]', 'all', null, null, 'title', 'ASC');
     }
 
+
+    /**
+     * Returns true if category has events assigned
+     *
+     * @param  int  $id  Category ID to check
+     *
+     * @return bool
+     *
+     */
+    public static function hasEvents($id)
+    {
+        $events = new Table('events');
+        return sizeof($events->select('[category=' . $id . ' and deleted=0]', 'all'))>0;
+    }
+
 }

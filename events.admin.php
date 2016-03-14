@@ -29,6 +29,7 @@ Action::add('admin_pre_render','EventsAdmin::_getAjaxData');
 // register repository classes
 require_once 'repositories/repository.locations.php';
 require_once 'repositories/repository.categories.php';
+require_once 'repositories/repository.events.php';
 
 /**
  * Events class
@@ -43,8 +44,7 @@ class EventsAdmin extends Backend
     {
         // Ajax Request: add event
         if (Request::post('edit_event_id')) {
-            $events = new Table('events');
-            echo json_encode($events->select('[id=' . (int) Request::post('edit_event_id') . ']')[0]);
+            echo json_encode(EventsRepository::getById((int) Request::post('edit_event_id')));
             Request::shutdown();
         }
         // Ajax Request: add category
@@ -64,13 +64,10 @@ class EventsAdmin extends Backend
      */
     public static function main()
     {
-        // get db table objects
-        $events = new Table('events');
-        
         // Request: add event
         if (Request::post('add_event')) {
             if (Security::check(Request::post('csrf'))) {
-                if ($events->insert(EventsAdmin::_getEventData())) {
+                if (EventsRepository::insert(EventsAdmin::_getEventData())) {
                     Notification::set('success', __('Event was added with success!', 'events'));
                 } else {
                     Notification::set('error', __('Table->insert() returned an error. Event could not be saved.', 'events'));
@@ -86,7 +83,7 @@ class EventsAdmin extends Backend
         if (Request::post('edit_event')) {
             if (Security::check(Request::post('csrf'))) {
                 $id = (int) Request::post('edit_event');
-                if ($events->update($id, EventsAdmin::_getEventData())) {
+                if (EventsRepository::update($id, EventsAdmin::_getEventData())) {
                     Notification::set('success', __('Event was updated with success!', 'events'));
                 } else {
                     Notification::set('error', __('Table->update() returned an error. Event could not be saved.', 'events'));
@@ -104,7 +101,7 @@ class EventsAdmin extends Backend
         if (Request::post('restore_trash_event')) {
             if (Security::check(Request::post('csrf'))) {
                 $id = (int) Request::post('restore_trash_event');
-                if ($events->update($id, array('deleted' => 0))) {
+                if (EventsRepository::update($id, array('deleted' => 0))) {
                     Notification::set('success', __('Event has been restored from trash with success!', 'events'));
                 } else {
                     Notification::set('error', __('Table->update() returned an error. Event could not be restored.', 'events'));
@@ -120,13 +117,13 @@ class EventsAdmin extends Backend
         if (Request::post('delete_event')) {
             if (Security::check(Request::post('csrf'))) {
                 $id = (int) Request::post('delete_event');
-                if ($events->update($id, array('deleted' => 1))) {
+                if (EventsRepository::update($id, array('deleted' => 1))) {
                     Notification::set('success', __('Event has been moved to trash with success!', 'events'));
                 } else {
                     Notification::set('error', __('Table->update() returned an error. Event could not be deleted.', 'events'));
                 }
-                $record = $events->select('[id=' . $id . ']');
-                Request::redirect('index.php?id=events#events/' . EventsAdmin::_eventStatus($record[0]['timestamp']) . '-events');
+                $record = EventsRepository::getById($id);
+                Request::redirect('index.php?id=events#events/' . EventsAdmin::_eventStatus($record['timestamp']) . '-events');
             }
             else {
                 Notification::set('error', __('Request was denied. Invalid security token. Please refresh the page and try again.', 'events'));
@@ -137,7 +134,7 @@ class EventsAdmin extends Backend
         if (Request::post('delete_trash_event')) {
             if (Security::check(Request::post('csrf'))) {
                 $id = (int) Request::post('delete_trash_event');
-                if ($events->delete($id)) {
+                if (EventsRepository::delete($id)) {
                     Notification::set('success', __('Event has been deleted permanently with success!', 'events'));
                 } else {
                     Notification::set('error', __('Table->delete() returned an error. Event could not be deleted.', 'events'));
@@ -201,7 +198,7 @@ class EventsAdmin extends Backend
         if (Request::post('delete_category')) {
             if (Security::check(Request::post('csrf'))) {
                 $id = (int) Request::post('delete_category');
-                if (!EventsAdmin::_hasEvents('category', $id)) {
+                if (!CategoriesRepository::hasEvents($id)) {
                     if (CategoriesRepository::update($id, array('deleted' => 1))) {
                         Notification::set('success', __('Category has been moved to trash with success!', 'events'));
                     } else {
@@ -285,7 +282,7 @@ class EventsAdmin extends Backend
         if (Request::post('delete_location')) {
             if (Security::check(Request::post('csrf'))) {
                 $id = (int) Request::post('delete_location');
-                if (!EventsAdmin::_hasEvents('location', $id)) {
+                if (!LocationsRepository::hasEvents($id)) {
                     if (LocationsRepository::update($id, array('deleted' => 1))) {
                         Notification::set('success', __('Location has been moved to trash with success!', 'events'));
                     } else {
@@ -332,16 +329,6 @@ class EventsAdmin extends Backend
             }
         }
 
-        // get current time
-        $now = time();
-
-        // get all existing events from db
-        $events_active   = $events->select('[deleted=0]', 'all', null, null, 'timestamp', 'ASC');
-        $events_upcoming = $events->select('[timestamp>=' . $now . ' and deleted=0]', 'all', null, null, 'timestamp', 'ASC');
-        $events_past     = $events->select('[timestamp<' . $now . ' and deleted=0]', 'all', null, null, 'timestamp', 'DESC');
-        $events_draft    = $events->select('[timestamp="" and deleted=0]', 'all', null, null, 'timestamp', 'ASC');
-        $events_deleted  = $events->select('[deleted=1]');
-
         // get upload directories
         $path = ROOT . DS . 'public' . DS . 'uploads/';
         $_list = EventsAdmin::_fdir($path);
@@ -376,16 +363,17 @@ class EventsAdmin extends Backend
             ->assign('locations_active', LocationsRepository::getActive())
             ->assign('locations_select', LocationsRepository::getActiveForSelect())
             ->assign('locations_deleted', LocationsRepository::getDeleted())
-            ->assign('events_active', $events_active)
-            ->assign('events_upcoming', $events_upcoming)
-            ->assign('events_past', $events_past)
-            ->assign('events_draft', $events_draft)
-            ->assign('events_deleted', $events_deleted)
+            ->assign('events_active', EventsRepository::getActive())
+            ->assign('events_upcoming', EventsRepository::getUpcoming())
+            ->assign('events_past', EventsRepository::getPast())
+            ->assign('events_draft', EventsRepository::getDraft())
+            ->assign('events_deleted', EventsRepository::getDeleted())
             ->assign('directories', $directories)
             ->assign('files', $files)
             ->assign('path', $path)
             ->display();
     }
+
 
     /**
      * returns status for a given timestamp
@@ -407,6 +395,7 @@ class EventsAdmin extends Backend
             return 'past';
         }
     }
+
 
     /**
      * _getEventData
@@ -439,6 +428,7 @@ class EventsAdmin extends Backend
         );
     }
 
+
     /**
      * _getCategoryData
      *
@@ -454,6 +444,7 @@ class EventsAdmin extends Backend
             'hidden_in_archive' => (int) Request::post('category_hidden_in_archive'),
         );
     }
+
 
     /**
      * _getLocationData
@@ -471,20 +462,6 @@ class EventsAdmin extends Backend
         );
     }
 
-    /**
-     * returns true if attribute object has events assigned
-     *
-     * @param  string  $attribute  attribute of events that are objects assigned to this event (e.g. category or location)
-     * @param  int     $id         id of object to check
-     *
-     * @return bool
-     *
-     */
-    private static function _hasEvents($attribute, $id)
-    {
-        $events = new Table('events');
-        return sizeof($events->select('[' . $attribute . '=' . $id . ' and deleted=0]', 'all'))>0;
-    }
 
     /**
      * Get directories and files in given path
