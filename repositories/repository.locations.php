@@ -25,8 +25,8 @@ class LocationsRepository
      */
     public static function getById($id)
     {
-        $locations = self::getTable();
-        return reset($locations->select('[id=' . $id . ']'));
+        $objects = self::getTable();
+        return reset($objects->select('[id=' . $id . ']'));
     }
 
 
@@ -35,8 +35,8 @@ class LocationsRepository
      */
     public static function insert($data)
     {
-        $locations = self::getTable();
-        return $locations->insert($data);
+        $objects = self::getTable();
+        return $objects->insert($data);
     }
 
 
@@ -45,8 +45,8 @@ class LocationsRepository
      */
     public static function update($id, $data)
     {
-        $locations = self::getTable();
-        return $locations->update($id, $data);
+        $objects = self::getTable();
+        return $objects->update($id, $data);
     }
 
 
@@ -55,8 +55,8 @@ class LocationsRepository
      */
     public static function delete($id)
     {
-        $locations = self::getTable();
-        return $locations->delete($id);
+        $objects = self::getTable();
+        return $objects->delete($id);
     }
 
 
@@ -68,15 +68,15 @@ class LocationsRepository
      */
     public static function getAll()
     {
-        $locations = self::getTable();
+        $objects = self::getTable();
         $events = new Table('events');
-        $locations_all = $locations->select(Null, 'all');
-        $locations_objects = array();
-        foreach ($locations_all as $l) {
+        $objects_all = $objects->select(Null, 'all');
+        $objects_objects = array();
+        foreach ($objects_all as $l) {
             $l['count'] = sizeof($events->select('[location=' . $l['id'] . ' and deleted=0]'));
-            $locations_objects[$l['id']] = $l;
+            $objects_objects[$l['id']] = $l;
         }
-        return $locations_objects;
+        return $objects_objects;
     }
 
 
@@ -85,8 +85,8 @@ class LocationsRepository
      */
     public static function getActive()
     {
-        $locations = self::getTable();
-        return $locations->select('[deleted=0]', 'all', null, null, 'title', 'ASC');
+        $objects = self::getTable();
+        return $objects->select('[deleted=0]', 'all', null, null, 'title', 'ASC');
     }
 
 
@@ -95,12 +95,12 @@ class LocationsRepository
      */
     public static function getActiveForSelect()
     {
-        $locations_active = self::getActive();
-        $locations_select  = array(0 => '');
-        foreach ($locations_active as $l) {
-            $locations_select[$l['id']] = $l['title'];
+        $objects_active = self::getActive();
+        $objects_select  = array(0 => '');
+        foreach ($objects_active as $l) {
+            $objects_select[$l['id']] = $l['title'];
         }
-        return $locations_select;
+        return $objects_select;
     }
 
 
@@ -109,8 +109,8 @@ class LocationsRepository
      */
     public static function getDeleted()
     {
-        $locations = self::getTable();
-        return $locations->select('[deleted=1]', 'all', null, null, 'title', 'ASC');
+        $objects = self::getTable();
+        return $objects->select('[deleted=1]', 'all', null, null, 'title', 'ASC');
     }
 
 
