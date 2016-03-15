@@ -186,6 +186,8 @@ $.monstra.events = {
                         dialog.find('input[name="event_imagesection"][value="' + section + '"]').parent().addClass('checked');
                     dialog.find('input[name="event_audio"]').val(event.audio);
                     dialog.find('input[name="event_color"]').val(event.color);
+                    dialog.find('input[name="event_number_staff"]').val(event.number_staff);
+                    dialog.find('input[name="event_number_visitors"]').val(event.number_visitors);
 
                     dialog.find('#add-edit-submit-event').val(event.id).attr('name', 'edit_event').text($('#output_update').val());
                     $.monstra.events.setColor('event', false);

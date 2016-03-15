@@ -1227,6 +1227,22 @@
                         ?>
                     </div>
                 </div>
+                <div class="row">
+                    <div class="col-sm-3">
+                        <?php echo
+                            Form::label('event_number_staff', __('Staff members', 'events'), array('data-toggle' => 'tooltip', 'data-placement' => 'top', 'title' => __('Number of all staff members, used for statistics', 'events'))) .
+                            Form::input('event_number_staff', Null, array('class' => 'form-control clear', 'type' => 'number'));
+                        ?>
+                    </div>
+                    <div class="col-sm-3">
+                        <?php echo
+                            Form::label('event_number_visitors', __('Visitors', 'events'), array('data-toggle' => 'tooltip', 'data-placement' => 'top', 'title' => __('Number of all visitors, used for statistics', 'events'))) .
+                            Form::input('event_number_visitors', Null, array('class' => 'form-control clear', 'type' => 'number'));
+                        ?>
+                    </div>
+                    <div class="col-sm-6">
+                    </div>
+                </div>
             </div>
             <div class="modal-footer">
                 <button

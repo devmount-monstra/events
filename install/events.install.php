@@ -16,7 +16,7 @@ $e->addField('time');
 $e->addField('location');
 $e->addField('short');
 $e->addField('description');
-$e->addField('archiv');
+$e->addField('archive');
 $e->addField('hashtag');
 $e->addField('facebook');
 $e->addField('image');
@@ -24,6 +24,8 @@ $e->addField('imagesection');
 $e->addField('gallery');
 $e->addField('audio');
 $e->addField('color');
+$e->addField('number_staff');
+$e->addField('number_visitors');
 
 Table::create('categories', array('title'));
 $c = new Table('categories');

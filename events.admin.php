@@ -402,6 +402,8 @@ class EventsAdmin extends Backend
             'gallery' => (string) Request::post('event_gallery'),
             'audio' => (string) Request::post('event_audio'),
             'color' => (string) Request::post('event_color'),
+            'number_staff' => (string) Request::post('event_number_staff'),
+            'number_visitors' => (string) Request::post('event_number_visitors'),
         );
     }
 
