@@ -574,10 +574,10 @@
                     ?>
                 </div>
                 <div class="col-md-6">
-                    <!-- config archiv description placeholder -->
+                    <!-- config archive description placeholder -->
                     <?php echo
-                        Form::label('events_placeholder_archiv', __('Placeholder for archive description field', 'events'), array('data-toggle' => 'tooltip', 'data-placement' => 'top', 'title' => __('Custom placeholder text for "Archive description" textarea in the events add/edit form', 'events'))) .
-                        Form::input('events_placeholder_archiv', Option::get('events_placeholder_archiv'), array('class' => 'form-control'));
+                        Form::label('events_placeholder_archive', __('Placeholder for archive description field', 'events'), array('data-toggle' => 'tooltip', 'data-placement' => 'top', 'title' => __('Custom placeholder text for "Archive description" textarea in the events add/edit form', 'events'))) .
+                        Form::input('events_placeholder_archive', Option::get('events_placeholder_archive'), array('class' => 'form-control'));
                     ?>
                 </div>
             </div>
@@ -1222,8 +1222,8 @@
                 <div class="row">
                     <div class="col-sm-12">
                         <?php echo
-                            Form::label('event_archiv', __('Archive description', 'events'), array('data-toggle' => 'tooltip', 'data-placement' => 'top', 'title' => __('Event description used for archive view, line breaks are preserved', 'events'))) .
-                            Form::textarea('event_archiv', Null, array('class' => 'form-control clear', 'placeholder' => Option::get('events_placeholder_archiv')));
+                            Form::label('event_archive', __('Archive description', 'events'), array('data-toggle' => 'tooltip', 'data-placement' => 'top', 'title' => __('Event description used for archive view, line breaks are preserved', 'events'))) .
+                            Form::textarea('event_archive', Null, array('class' => 'form-control clear', 'placeholder' => Option::get('events_placeholder_archive')));
                         ?>
                     </div>
                 </div>

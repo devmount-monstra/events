@@ -5,7 +5,7 @@
     overflow-y: hidden;
 }
 
-.events-plugin .heading-archiv {
+.events-plugin .heading-archive {
     margin: 2em 0 .8em 0;
     text-align: center;
 }
@@ -16,14 +16,14 @@
     position: relative;
     overflow: hidden;
 }
-.events-plugin .event.archiv {
+.events-plugin .event.archive {
     margin: 2px 0;
 }
 .events-plugin .extended .event-content {
     height: 9em;
     position: relative;
 }
-.events-plugin .archiv .event-content {
+.events-plugin .archive .event-content {
     height: auto;
     position: relative;
 }
@@ -38,7 +38,7 @@
     padding: 6px 10px;
     width: calc(100% - 9em);
 }
-.events-plugin .archiv .event-content .description {
+.events-plugin .archive .event-content .description {
     position: relative;
     padding: .6em 0;
     margin-left: 6em;
@@ -57,7 +57,7 @@
     min-height: 3.5em;
     line-height: 1.6em;
 }
-.events-plugin .archiv .event-content .text {
+.events-plugin .archive .event-content .text {
     font-size: .8em;
 }
 .events-plugin .event-content .date {
@@ -103,7 +103,7 @@
     z-index: 10;
     top: 0;
 }
-.events-plugin .archiv .event-image {
+.events-plugin .archive .event-image {
     height: 4em;
     width: 4em;
     position: absolute;
@@ -122,14 +122,14 @@
 .events-plugin .event-image.section-r {
     background-size: auto 9em;
 }
-.events-plugin .archiv .event-image.section-b,
-.events-plugin .archiv .event-image.section-m,
-.events-plugin .archiv .event-image.section-t {
+.events-plugin .archive .event-image.section-b,
+.events-plugin .archive .event-image.section-m,
+.events-plugin .archive .event-image.section-t {
     background-size: 4em auto;
 }
-.events-plugin .archiv .event-image.section-l,
-.events-plugin .archiv .event-image.section-c,
-.events-plugin .archiv .event-image.section-r {
+.events-plugin .archive .event-image.section-l,
+.events-plugin .archive .event-image.section-c,
+.events-plugin .archive .event-image.section-r {
     background-size: auto 4em;
 }
 .events-plugin .event-image.section-t {

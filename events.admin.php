@@ -317,7 +317,7 @@ class EventsAdmin extends Backend
         if (Request::post('events_options')) {
             if (Security::check(Request::post('csrf'))) {
                 Option::update('events_image_directory', Request::post('events_image_directory'));
-                Option::update('events_placeholder_archiv', Request::post('events_placeholder_archiv'));
+                Option::update('events_placeholder_archive', Request::post('events_placeholder_archive'));
                 Notification::set('success', __('Configuration has been saved with success!', 'events'));
                 Request::redirect('index.php?id=events#configuration');
             }
@@ -394,7 +394,7 @@ class EventsAdmin extends Backend
             'location' => (int) Request::post('event_location'),
             'short' => htmlspecialchars((string) Request::post('event_short')),
             'description' => htmlspecialchars((string) Request::post('event_description')),
-            'archiv' => htmlspecialchars((string) Request::post('event_archiv')),
+            'archive' => htmlspecialchars((string) Request::post('event_archive')),
             'hashtag' => (string) Request::post('event_hashtag'),
             'facebook' => (string) Request::post('event_facebook'),
             'image' => (string) Request::post('event_image'),

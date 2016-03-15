@@ -1,10 +1,10 @@
 <div class="events-plugin">
 	<?php if (sizeof($eventlist) > 0) {
         foreach ($eventlist as $year => $yearevents) {
-            echo Html::heading($year, 3, array('class' => 'heading-archiv'));
+            echo Html::heading($year, 3, array('class' => 'heading-archive'));
             foreach ($yearevents as $event) { ?>
                 <div class="row">
-                    <div class="col-md-12 event archiv">
+                    <div class="col-md-12 event archive">
                         <div class="event-content" style="background: #<?php echo $event['color'] ? $event['color'] : $categories[$event['category']]['color']; ?>;">
                             <div
                                 class="event-image section-<?php echo $event['imagesection']; ?>"
@@ -30,7 +30,7 @@
                                         }
                                     ?>
                                     <?php echo $event['location'] ? ' | @' . $locations[$event['location']]['title'] : ''; ?>
-                                    <div style="white-space: pre-wrap;"><?php echo $event['archiv']; ?></div>
+                                    <div style="white-space: pre-wrap;"><?php echo $event['archive']; ?></div>
                                 </div>
                             </div>
                         </div>

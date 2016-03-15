@@ -111,7 +111,7 @@ class Events
     /**
      * list events
      * 
-     * @param string $style     ['extended', 'minimal', 'archiv']
+     * @param string $style     ['extended', 'minimal', 'archive']
      * @param string $time      ['future', 'past', 'all']
      * @param string $count     number of records to show [number or 'all']
      * @param string $order     ['ASC', 'DESC']
@@ -124,10 +124,10 @@ class Events
         // load template according to given style
         $template = '';
         $style = trim($style);
-        if (in_array($style, array('extended', 'minimal', 'archiv'))) {
+        if (in_array($style, array('extended', 'minimal', 'archive'))) {
             $template = 'list-' . $style;
-            $groupby = $style == 'archiv' ? 'year' : '';
-            $is_archive = $style == 'archiv';
+            $groupby = $style == 'archive' ? 'year' : '';
+            $is_archive = $style == 'archive';
         } else {
             $template = 'list-minimal';
         }
