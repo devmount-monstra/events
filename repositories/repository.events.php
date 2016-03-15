@@ -195,10 +195,10 @@ class EventsRepository
      */
     public static function getStatus($date, $time)
     {
-        $timestamp = str_replace(array('-', ' ', ':'), '', $date . $time . ':00');
-        if ($timestamp == '') {
+        if ($date == '') {
             return 'draft';
-        } else
+        }
+        $timestamp = str_replace(array('-', ' ', ':'), '', $date . $time . ':00');
         if ($timestamp >= self::_getTime()) {
             return 'upcoming';
         } else {
