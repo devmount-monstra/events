@@ -94,12 +94,12 @@
                                             </td>
                                             <td class="visible-lg hidden-xs">
                                                 <?php
-                                                    echo date('d.m.Y H:i', $event['timestamp']);
+                                                    echo date('d.m.Y H:i', strtotime($event['timestamp']));
                                                     if ($event['timestamp_end']) {
-                                                        if (date('d.m.Y', $event['timestamp']) == date('d.m.Y', $event['timestamp_end'])) {
-                                                            echo ' – ' . date('H:i', $event['timestamp_end']);
+                                                        if (date('d.m.Y', strtotime($event['timestamp'])) == date('d.m.Y', strtotime($event['timestamp_end']))) {
+                                                            echo ' – ' . date('H:i', strtotime($event['timestamp_end']));
                                                         } else {
-                                                            echo ' – ' . date('d.m.Y H:i', $event['timestamp_end']);
+                                                            echo ' – ' . date('d.m.Y H:i', strtotime($event['timestamp_end']));
                                                         }
                                                     }
                                                     echo Html::br() . $event['short'];
@@ -208,12 +208,12 @@
                                             </td>
                                             <td class="visible-lg hidden-xs">
                                                 <?php
-                                                    echo date('d.m.Y H:i', $event['timestamp']);
+                                                    echo date('d.m.Y H:i', strtotime($event['timestamp']));
                                                     if ($event['timestamp_end']) {
-                                                        if (date('d.m.Y', $event['timestamp']) == date('d.m.Y', $event['timestamp_end'])) {
-                                                            echo ' – ' . date('H:i', $event['timestamp_end']);
+                                                        if (date('d.m.Y', strtotime($event['timestamp'])) == date('d.m.Y', strtotime($event['timestamp_end']))) {
+                                                            echo ' – ' . date('H:i', strtotime($event['timestamp_end']));
                                                         } else {
-                                                            echo ' – ' . date('d.m.Y H:i', $event['timestamp_end']);
+                                                            echo ' – ' . date('d.m.Y H:i', strtotime($event['timestamp_end']));
                                                         }
                                                     }
                                                     echo Html::br() . $event['short'];
@@ -323,12 +323,12 @@
                                             </td>
                                             <td class="visible-lg hidden-xs">
                                                 <?php
-                                                    echo date('d.m.Y H:i', $event['timestamp']);
+                                                    echo date('d.m.Y H:i', strtotime($event['timestamp']));
                                                     if ($event['timestamp_end']) {
-                                                        if (date('d.m.Y', $event['timestamp']) == date('d.m.Y', $event['timestamp_end'])) {
-                                                            echo ' – ' . date('H:i', $event['timestamp_end']);
+                                                        if (date('d.m.Y', strtotime($event['timestamp'])) == date('d.m.Y', strtotime($event['timestamp_end']))) {
+                                                            echo ' – ' . date('H:i', strtotime($event['timestamp_end']));
                                                         } else {
-                                                            echo ' – ' . date('d.m.Y H:i', $event['timestamp_end']);
+                                                            echo ' – ' . date('d.m.Y H:i', strtotime($event['timestamp_end']));
                                                         }
                                                     }
                                                     echo Html::br() . $event['short'];
@@ -647,12 +647,12 @@
                                         </td>
                                         <td class="visible-lg hidden-xs">
                                             <?php
-                                                echo date('d.m.Y H:i', $event['timestamp']);
+                                                echo date('d.m.Y H:i', strtotime($event['timestamp']));
                                                 if ($event['timestamp_end']) {
-                                                    if (date('d.m.Y', $event['timestamp']) == date('d.m.Y', $event['timestamp_end'])) {
-                                                        echo ' – ' . date('H:i', $event['timestamp_end']);
+                                                    if (date('d.m.Y', strtotime($event['timestamp'])) == date('d.m.Y', strtotime($event['timestamp_end']))) {
+                                                        echo ' – ' . date('H:i', strtotime($event['timestamp_end']));
                                                     } else {
-                                                        echo ' – ' . date('d.m.Y H:i', $event['timestamp_end']);
+                                                        echo ' – ' . date('d.m.Y H:i', strtotime($event['timestamp_end']));
                                                     }
                                                 }
                                                 echo Html::br() . $event['short'];
@@ -1072,10 +1072,17 @@
                 </div>
                 <div class="row">
                     <div class="col-sm-6">
-                        <?php echo
-                            Form::label('event_timestamp', __('Start', 'events'), array('data-toggle' => 'tooltip', 'data-placement' => 'top', 'title' => __('Local datetime timestamp in format "2015-04-18T19:00:00.000", used to specify event date beginning and put events in chronological order', 'events'))) .
-                            Form::input('event_timestamp', '', array('class' => 'form-control clear', 'type' => 'datetime-local'));
-                        ?>
+                        <div class="input-group">
+                            <?php echo
+                                Form::label('event_timestamp_date', __('Start', 'events'), array('data-toggle' => 'tooltip', 'data-placement' => 'top', 'title' => __('Local datetime timestamp in format "2015-04-18", "19:00". Used to specify event date beginning and put events in chronological order', 'events'))) .
+                                Form::input('event_timestamp_date', '', array('class' => 'form-control clear', 'placeholder' => 'yyyy-mm-dd'));
+                            ?>
+                            <span class="input-group-btn" style="width:0px;"></span>
+                            <?php echo
+                                Form::label('event_timestamp_time', Html::nbsp()) .
+                                Form::input('event_timestamp_time', '', array('class' => 'form-control clear', 'placeholder' => 'hh:mm'));
+                            ?>
+                        </div>
                     </div>
                     <div class="col-sm-3">
                         <?php echo
@@ -1092,10 +1099,18 @@
                 </div>
                 <div class="row">
                     <div class="col-sm-6">
-                        <?php echo
-                            Form::label('event_timestamp_end', __('End', 'events'), array('data-toggle' => 'tooltip', 'data-placement' => 'top', 'title' => __('Local datetime timestamp in format "2015-04-18T19:00:00.000", used to specify event end, calculate date ranges and classify events "upcoming" or "past"', 'events'))) .
-                            Form::input('event_timestamp_end', '', array('class' => 'form-control clear', 'type' => 'datetime-local'));
-                        ?>
+                        <div class="input-group">
+                            <?php echo
+                                Form::label('event_timestamp_end_date', __('End', 'events'), array('data-toggle' => 'tooltip', 'data-placement' => 'top', 'title' => __('Local datetime timestamp in format "2015-04-18", "19:00". Used to specify event end, calculate date ranges and classify events "upcoming" or "past"', 'events'))) .
+                                ' <a id="copy">copy</a>' .
+                                Form::input('event_timestamp_end_date', '', array('class' => 'form-control clear', 'placeholder' => 'yyyy-mm-dd'));
+                            ?>
+                            <span class="input-group-btn" style="width:0px;"></span>
+                            <?php echo
+                                Form::label('event_timestamp_end_time', Html::nbsp()) .
+                                Form::input('event_timestamp_end_time', '', array('class' => 'form-control clear', 'placeholder' => 'hh:mm'));
+                            ?>
+                        </div>
                     </div>
                     <div class="col-sm-6">
                         <?php echo Form::label('event-color', __('Color', 'events'), array('data-toggle' => 'tooltip', 'data-placement' => 'top', 'title' => __('Event specific color in hex format (without #), inherits color of category if not set', 'events'))); ?>

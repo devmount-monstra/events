@@ -17,16 +17,16 @@
                                     <?php echo $event['title'] == '' ? $event['short'] : '<span class="title">' . $event['title'] . '</span>'; ?><br />
                                     <?php 
                                         if ($event['timestamp_end']) {
-                                            if (date('j.n.Y', $event['timestamp']) == date('j.n.Y', $event['timestamp_end'])) {
+                                            if (date('j.n.Y', strtotime($event['timestamp'])) == date('j.n.Y', strtotime($event['timestamp_end']))) {
                                                 // same day
-                                                echo date('j.n.y', $event['timestamp']);
+                                                echo date('j.n.y', strtotime($event['timestamp']));
                                             } else {
                                                 // day range
-                                                echo date('j.n.', $event['timestamp']) . '–' . date('j.n.y', $event['timestamp_end']);
+                                                echo date('j.n.', strtotime($event['timestamp'])) . '–' . date('j.n.y', strtotime($event['timestamp_end']));
                                             }
                                         } else {
                                             // only start date
-                                            echo date('j.n.y', $event['timestamp']);
+                                            echo date('j.n.y', strtotime($event['timestamp']));
                                         }
                                     ?>
                                     <?php echo $event['location'] ? ' | @' . $locations[$event['location']]['title'] : ''; ?>

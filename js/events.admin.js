@@ -57,8 +57,13 @@ $.monstra.events = {
         // enable tooltips
         $(function () {
             $('[data-toggle="tooltip"]').tooltip()
-        })
-
+        });
+        
+        // timestamp helper
+        $('#copy').click(function() {
+            $('input[name="event_timestamp_end_date"]').val($('input[name="event_timestamp_date"]').val());
+            $('input[name="event_timestamp_end_time"]').val($('input[name="event_timestamp_time"]').val());
+        });
     },
 
     /* set color of input field
@@ -156,9 +161,12 @@ $.monstra.events = {
                     console.log(event);
                     dialog.find('.modal-title').text($('#output_editevent').val() + (event.title ? ' »' + event.title + '«' : ''));
                     dialog.find('input[name="event_title"]').val(event.title);
-                    var tzoffset = (new Date()).getTimezoneOffset() * 60;
-                    dialog.find('input[name="event_timestamp"]').val(event.timestamp ? new Date((event.timestamp-tzoffset) * 1000).toISOString().slice(0, -1) : '');
-                    dialog.find('input[name="event_timestamp_end"]').val(event.timestamp_end ? new Date((event.timestamp_end-tzoffset) * 1000).toISOString().slice(0, -1) : '');
+                    // var tzoffset = (new Date()).getTimezoneOffset() * 60;
+                    // dialog.find('input[name="event_timestamp"]').val(event.timestamp ? new Date((event.timestamp-tzoffset) * 1000).toISOString().slice(0, -1) : '');
+                    dialog.find('input[name="event_timestamp_date"]').val(event.timestamp ? event.timestamp.slice(0,10) : '');
+                    dialog.find('input[name="event_timestamp_time"]').val(event.timestamp ? event.timestamp.slice(11,16) : '');
+                    dialog.find('input[name="event_timestamp_end_date"]').val(event.timestamp_end ? event.timestamp_end.slice(0,10) : '');
+                    dialog.find('input[name="event_timestamp_end_time"]').val(event.timestamp_end ? event.timestamp_end.slice(11,16) : '');
                     dialog.find('select[name="event_category"]').val(event.category);
                     dialog.find('input[name="event_date"]').val(event.date);
                     dialog.find('input[name="event_openat"]').val(event.openat);

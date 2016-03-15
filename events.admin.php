@@ -72,7 +72,7 @@ class EventsAdmin extends Backend
                 } else {
                     Notification::set('error', __('Table->insert() returned an error. Event could not be saved.', 'events'));
                 }
-                Request::redirect('index.php?id=events#events/' . EventsRepository::getStatus(strtotime(Request::post('event_timestamp'))) . '-events');
+                Request::redirect('index.php?id=events#events/' . EventsRepository::getStatus(Request::post('event_timestamp_date'), Request::post('event_timestamp_time')) . '-events');
             }
             else {
                 Notification::set('error', __('Request was denied. Invalid security token. Please refresh the page and try again.', 'events'));
@@ -88,9 +88,7 @@ class EventsAdmin extends Backend
                 } else {
                     Notification::set('error', __('Table->update() returned an error. Event could not be saved.', 'events'));
                 }
-                // $test = (string) Request::post('event_timestamp_end');
-                // Notification::set('error', $test);
-                Request::redirect('index.php?id=events#events/' . EventsRepository::getStatus(strtotime(Request::post('event_timestamp'))) . '-events');
+                Request::redirect('index.php?id=events#events/' . EventsRepository::getStatus(Request::post('event_timestamp_date'), Request::post('event_timestamp_time')) . '-events');
             }
             else {
                 Notification::set('error', __('Request was denied. Invalid security token. Please refresh the page and try again.', 'events'));
@@ -123,7 +121,7 @@ class EventsAdmin extends Backend
                     Notification::set('error', __('Table->update() returned an error. Event could not be deleted.', 'events'));
                 }
                 $record = EventsRepository::getById($id);
-                Request::redirect('index.php?id=events#events/' . EventsRepository::getStatus($record['timestamp']) . '-events');
+                Request::redirect('index.php?id=events#events/' . EventsRepository::getStatus(Request::post('event_timestamp_date'), Request::post('event_timestamp_time')) . '-events');
             }
             else {
                 Notification::set('error', __('Request was denied. Invalid security token. Please refresh the page and try again.', 'events'));
@@ -386,8 +384,9 @@ class EventsAdmin extends Backend
         return array(
             'deleted' => 0,
             'title' => htmlspecialchars((string) Request::post('event_title')),
-            'timestamp' => strtotime((string) Request::post('event_timestamp')),
-            'timestamp_end' => strtotime((string) Request::post('event_timestamp_end')),
+            // 'timestamp' => strtotime((string) Request::post('event_timestamp')),
+            'timestamp' => Request::post('event_timestamp_date') ? (string) Request::post('event_timestamp_date') . ' ' . (string) Request::post('event_timestamp_time') . ':00' : '', // format: YY-MM-DD HH:II:SS
+            'timestamp_end' => Request::post('event_timestamp_end_date') ? (string) Request::post('event_timestamp_end_date') . ' ' . (string) Request::post('event_timestamp_end_time') . ':00' : '', // format: YY-MM-DD HH:II:SS
             'category' => (int) Request::post('event_category'),
             'date' => (string) Request::post('event_date'),
             'openat' => (string) Request::post('event_openat'),

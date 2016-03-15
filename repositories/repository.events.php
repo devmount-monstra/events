@@ -124,7 +124,7 @@ class EventsRepository
     public static function getUpcoming()
     {
         $objects = self::getTable();
-        return $objects->select('[timestamp_end>=' . self::_getTime() . ' and deleted=0]', 'all', null, null, 'timestamp', 'ASC');
+        return $objects->select('[number(translate(timestamp,"-: ",""))>=' . self::_getTime() . ' and deleted=0]', 'all', null, null, 'timestamp', 'ASC');
     }
 
 
@@ -137,7 +137,7 @@ class EventsRepository
     public static function getPast()
     {
         $objects = self::getTable();
-        return $objects->select('[timestamp<' . self::_getTime() . ' and deleted=0]', 'all', null, null, 'timestamp', 'DESC');
+        return $objects->select('[number(translate(timestamp,"-: ",""))<' . self::_getTime() . ' and deleted=0]', 'all', null, null, 'timestamp', 'DESC');
     }
 
 
@@ -185,16 +185,18 @@ class EventsRepository
 
 
     /**
-     * Returns status for a given timestamp
+     * Returns status for a given date
      *
-     * @param  int  $timestamp  Starting time of event
+     * @param  string  $date  Starting date of event
+     * @param  string  $time  Starting time of event
      *
      * @return string  ['upcoming', 'past', 'draft']
      *
      */
-    public static function getStatus($timestamp)
+    public static function getStatus($date, $time)
     {
-        if ($timestamp == 0) {
+        $timestamp = str_replace(array('-', ' ', ':'), '', $date . $time);
+        if ($timestamp == '') {
             return 'draft';
         } else
         if ($timestamp >= self::_getTime()) {
@@ -235,14 +237,14 @@ class EventsRepository
 
         switch ($time) {
             case 'future':
-                $eventlist = $objects->select('[timestamp_end>=' . $now . ' and deleted=0]', 'all', null, null, 'timestamp', $roworder);
+                $eventlist = $objects->select('[number(translate(timestamp_end,"-: ",""))>=' . $now . ' and deleted=0]', 'all', null, null, 'timestamp', $roworder);
                 break;
             case 'past':
-                $eventlist = $objects->select('[timestamp<' . $now . ' and deleted=0]', 'all', null, null, 'timestamp', $roworder);
+                $eventlist = $objects->select('[number(translate(timestamp,"-: ",""))<' . $now . ' and deleted=0]', 'all', null, null, 'timestamp', $roworder);
                 break;
             case 'all':
             default:
-                $eventlist = $objects->select('[deleted=0 and timestamp>0]', 'all', null, null, 'timestamp', $roworder);
+                $eventlist = $objects->select('[deleted=0 and timestamp!=""]', 'all', null, null, 'timestamp', $roworder);
                 break;
         }
 
@@ -275,8 +277,8 @@ class EventsRepository
         if ($groupby == 'year') {
             $eventlistyears = array();
             foreach ($eventlist as $event) {
-                $date = getdate($event['timestamp']);
-                $eventlistyears[$date['year']][] = $event;
+                $year = date('Y', strtotime($event['timestamp']));
+                $eventlistyears[$year][] = $event;
             }
             return $eventlistyears;
         }
@@ -294,7 +296,8 @@ class EventsRepository
      */
     private static function _getTime()
     {
-        return time();
+        // return datetime in xpath compareable format
+        return date('YmdHis');
     }
 
 }
