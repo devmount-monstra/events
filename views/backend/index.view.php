@@ -576,7 +576,7 @@
                 <div class="col-md-6">
                     <!-- config archiv description placeholder -->
                     <?php echo
-                        Form::label('events_placeholder_archiv', __('Placeholder for archiv description field', 'events'), array('data-toggle' => 'tooltip', 'data-placement' => 'top', 'title' => __('Custom placeholder text for "Archiv description" textarea in the events add/edit form', 'events'))) .
+                        Form::label('events_placeholder_archiv', __('Placeholder for archive description field', 'events'), array('data-toggle' => 'tooltip', 'data-placement' => 'top', 'title' => __('Custom placeholder text for "Archive description" textarea in the events add/edit form', 'events'))) .
                         Form::input('events_placeholder_archiv', Option::get('events_placeholder_archiv'), array('class' => 'form-control'));
                     ?>
                 </div>
@@ -1135,17 +1135,17 @@
                 </div>
                 <div class="row">
                     <div class="col-sm-6">
+                        <?php echo
+                            Form::label('event_facebook', __('Facebook URL', 'events'), array('data-toggle' => 'tooltip', 'data-placement' => 'top', 'title' => __('URL to facebook event', 'events'))) .
+                            Form::input('event_facebook', Null, array('class' => 'form-control clear'));
+                        ?>
+                    </div>
+                    <div class="col-sm-6">
                         <?php echo Form::label('event_hashtag', __('Hashtag', 'events'), array('data-toggle' => 'tooltip', 'data-placement' => 'top', 'title' => __('Event specific hashtag in social nets', 'events'))); ?>
                         <div class="input-group">
                             <span class="input-group-addon code" id="event-hashtag-addon">#</span>
                             <?php echo Form::input('event_hashtag', Null, array('class' => 'form-control clear', 'aria-describedby' => 'event-hashtag-addon')); ?>
                         </div>
-                    </div>
-                    <div class="col-sm-6">
-                        <?php echo
-                            Form::label('event_facebook', __('Facebook URL', 'events'), array('data-toggle' => 'tooltip', 'data-placement' => 'top', 'title' => __('URL to facebook event', 'events'))) .
-                            Form::input('event_facebook', Null, array('class' => 'form-control clear'));
-                        ?>
                     </div>
                 </div>
                 <div class="row">
@@ -1222,7 +1222,7 @@
                 <div class="row">
                     <div class="col-sm-12">
                         <?php echo
-                            Form::label('event_archiv', __('Archive description', 'events'), array('data-toggle' => 'tooltip', 'data-placement' => 'top', 'title' => __('Event description used for archiv view, line breaks are preserved', 'events'))) .
+                            Form::label('event_archiv', __('Archive description', 'events'), array('data-toggle' => 'tooltip', 'data-placement' => 'top', 'title' => __('Event description used for archive view, line breaks are preserved', 'events'))) .
                             Form::textarea('event_archiv', Null, array('class' => 'form-control clear', 'placeholder' => Option::get('events_placeholder_archiv')));
                         ?>
                     </div>
