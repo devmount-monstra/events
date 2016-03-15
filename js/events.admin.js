@@ -55,12 +55,10 @@ $.monstra.events = {
         });
 
         // enable tooltips
-        $(function () {
-            $('[data-toggle="tooltip"]').tooltip()
-        });
+        $('[data-toggle="tooltip"]').tooltip()
         
         // timestamp helper
-        $('#copy').click(function() {
+        $('#copy-timestamp').click(function() {
             $('input[name="event_timestamp_end_date"]').val($('input[name="event_timestamp_date"]').val());
             $('input[name="event_timestamp_end_time"]').val($('input[name="event_timestamp_time"]').val());
         });

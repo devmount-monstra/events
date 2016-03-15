@@ -1100,11 +1100,9 @@
                 <div class="row">
                     <div class="col-sm-6">
                         <div class="input-group">
-                            <?php echo
-                                Form::label('event_timestamp_end_date', __('End', 'events'), array('data-toggle' => 'tooltip', 'data-placement' => 'top', 'title' => __('Local datetime timestamp in format "2015-04-18", "19:00". Used to specify event end, calculate date ranges and classify events "upcoming" or "past"', 'events'))) .
-                                ' <a id="copy">copy</a>' .
-                                Form::input('event_timestamp_end_date', '', array('class' => 'form-control clear', 'placeholder' => 'yyyy-mm-dd'));
-                            ?>
+                            <?php echo Form::label('event_timestamp_end_date', __('End', 'events'), array('data-toggle' => 'tooltip', 'data-placement' => 'top', 'title' => __('Local datetime timestamp in format "2015-04-18", "19:00". Used to specify event end, calculate date ranges and classify events "upcoming" or "past"', 'events'))) . Html::nbsp(); ?>
+                            <span id="copy-timestamp" class="glyphicon glyphicon-chevron-down helper" aria-hidden="true" data-toggle="tooltip" data-placement="right" title="<?php echo __('Copy field data from »Start«', 'events'); ?>"></span>
+                            <?php echo Form::input('event_timestamp_end_date', '', array('class' => 'form-control clear', 'placeholder' => 'yyyy-mm-dd')); ?>
                             <span class="input-group-btn" style="width:0px;"></span>
                             <?php echo
                                 Form::label('event_timestamp_end_time', Html::nbsp()) .

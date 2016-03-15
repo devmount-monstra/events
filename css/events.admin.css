@@ -106,3 +106,8 @@
 .modal .image-section.section-right {
     background: linear-gradient(to left, #ccc, #ccc 20px, #fff 20px);
 }
+
+/* handle helper */
+.helper {
+    cursor: pointer;
+}
