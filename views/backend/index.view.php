@@ -1134,6 +1134,21 @@
                     </div>
                 </div>
                 <div class="row">
+                    <div class="col-sm-6">
+                        <?php echo Form::label('event_hashtag', __('Hashtag', 'events'), array('data-toggle' => 'tooltip', 'data-placement' => 'top', 'title' => __('Event specific hashtag in social nets', 'events'))); ?>
+                        <div class="input-group">
+                            <span class="input-group-addon code" id="event-hashtag-addon">#</span>
+                            <?php echo Form::input('event_hashtag', Null, array('class' => 'form-control clear', 'aria-describedby' => 'event-hashtag-addon')); ?>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <?php echo
+                            Form::label('event_facebook', __('Facebook URL', 'events'), array('data-toggle' => 'tooltip', 'data-placement' => 'top', 'title' => __('URL to facebook event', 'events'))) .
+                            Form::input('event_facebook', Null, array('class' => 'form-control clear'));
+                        ?>
+                    </div>
+                </div>
+                <div class="row">
                     <div class="col-sm-12">
                         <?php echo
                             Form::label('event_short', __('Short description', 'events'), array('data-toggle' => 'tooltip', 'data-placement' => 'top', 'title' => __('Event description in one line', 'events'))) .
@@ -1150,29 +1165,6 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-sm-12">
-                        <?php echo
-                            Form::label('event_archiv', __('Archiv description', 'events'), array('data-toggle' => 'tooltip', 'data-placement' => 'top', 'title' => __('Event description used for archiv view, line breaks are preserved', 'events'))) .
-                            Form::textarea('event_archiv', Null, array('class' => 'form-control clear', 'placeholder' => Option::get('events_placeholder_archiv')));
-                        ?>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-sm-6">
-                        <?php echo Form::label('event_hashtag', __('Hashtag', 'events'), array('data-toggle' => 'tooltip', 'data-placement' => 'top', 'title' => __('Event specific hashtag in social nets', 'events'))); ?>
-                        <div class="input-group">
-                            <span class="input-group-addon code" id="event-hashtag-addon">#</span>
-                            <?php echo Form::input('event_hashtag', Null, array('class' => 'form-control clear', 'aria-describedby' => 'event-hashtag-addon')); ?>
-                        </div>
-                    </div>
-                    <div class="col-sm-6">
-                        <?php echo
-                            Form::label('event_facebook', __('Facebook URL', 'events'), array('data-toggle' => 'tooltip', 'data-placement' => 'top', 'title' => __('URL to facebook event', 'events'))) .
-                            Form::input('event_facebook', Null, array('class' => 'form-control clear'));
-                        ?>
-                    </div>
-                </div>
-                <div class="row">
                     <div class="col-sm-6">
                         <?php
                             echo Form::label('event_image', __('Image file', 'events'), array('data-toggle' => 'tooltip', 'data-placement' => 'top', 'title' => __('Event title image from preconfigured image directory', 'events')));
@@ -1183,14 +1175,6 @@
                             }
                         ?>
                     </div>
-                    <div class="col-sm-6">
-                        <?php echo
-                            Form::label('event_gallery', __('Gallery URL', 'events'), array('data-toggle' => 'tooltip', 'data-placement' => 'top', 'title' => __('URL to gallery (e.g. facebook gallery)', 'events'))) .
-                            Form::input('event_gallery', Null, array('class' => 'form-control clear'));
-                        ?>
-                    </div>
-                </div>
-                <div class="row">
                     <div class="col-sm-6">
                         <?php echo
                             Form::label('event_imagesection', __('Clip image', 'events'), array('data-toggle' => 'tooltip', 'data-placement' => 'top', 'title' => __('Specifies how to clip image to square', 'events'))) . Html::br();
@@ -1214,10 +1198,32 @@
                             <span class="image-section section-landscape section-right"></span>
                         </label>
                     </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <?php //echo Html::heading('Archive', 4); ?>
+                    </div>
+                </div>
+                <hr />
+                <div class="row">
+                    <div class="col-sm-6">
+                        <?php echo
+                            Form::label('event_gallery', __('Gallery URL', 'events'), array('data-toggle' => 'tooltip', 'data-placement' => 'top', 'title' => __('URL to gallery (e.g. facebook gallery)', 'events'))) .
+                            Form::input('event_gallery', Null, array('class' => 'form-control clear'));
+                        ?>
+                    </div>
                     <div class="col-sm-6">
                         <?php echo
                             Form::label('event_audio', __('Audio file', 'events'), array('data-toggle' => 'tooltip', 'data-placement' => 'top', 'title' => __('URL to audio file', 'events'))) .
                             Form::input('event_audio', Null, array('class' => 'form-control clear'));
+                        ?>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <?php echo
+                            Form::label('event_archiv', __('Archive description', 'events'), array('data-toggle' => 'tooltip', 'data-placement' => 'top', 'title' => __('Event description used for archiv view, line breaks are preserved', 'events'))) .
+                            Form::textarea('event_archiv', Null, array('class' => 'form-control clear', 'placeholder' => Option::get('events_placeholder_archiv')));
                         ?>
                     </div>
                 </div>
