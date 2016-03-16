@@ -32,14 +32,10 @@ if (Session::exists('user_role') && in_array(Session::get('user_role'), array('a
     Plugin::Admin('events');
 }
 
-/**
- * Add shortcode
- */
+// Add shortcode
 Shortcode::add('events', 'Events::_shortcode');
 
-/**
- * Add CSS and JavaScript
- */
+// Add CSS and JavaScript
 Action::add('theme_footer', 'Events::_insertJS');
 Action::add('theme_header', 'Events::_insertCSS');
 
@@ -105,6 +101,7 @@ class Events
     public static function _insertCSS()
     {
         echo '<link rel="stylesheet" type="text/css" href="' . Option::get('siteurl') . '/plugins/events/css/events.plugin.css" />';
+        echo '<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">';
     }
 
 

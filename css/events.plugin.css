@@ -96,6 +96,18 @@
 .events-plugin .event.extended:hover .event-content-extend {
     opacity: 1;
 }
+.events-plugin .archive .icon-links {
+    margin-top: 5px;
+}
+.events-plugin .archive .icon-links a {
+    color: #fff;
+    text-decoration: none;
+    border: none;
+}
+.events-plugin .archive .icon-links a:hover {
+    color: #000 !important;
+}
+
 .events-plugin .event-image {
     height: 9em;
     width: 9em;

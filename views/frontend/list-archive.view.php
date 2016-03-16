@@ -29,8 +29,12 @@
                                             echo date('j.n.y', strtotime($event['timestamp']));
                                         }
                                     ?>
-                                    <?php echo $event['location'] ? ' | @' . $locations[$event['location']]['title'] : ''; ?>
+                                    <?php echo $event['location'] ? ' @' . $locations[$event['location']]['title'] : ''; ?>
                                     <div style="white-space: pre-wrap;"><?php echo $event['archive']; ?></div>
+                                    <div class="icon-links">
+                                        <?php echo $event['gallery'] ? Html::anchor('<i class="fa fa-camera-retro fa-fw fa-2x"></i>', $event['gallery'], array('target' => '_blank')) . Html::nbsp() : ''; ?>
+                                        <?php echo $event['audio'] ? Html::anchor('<i class="fa fa-volume-up fa-fw fa-2x"></i>', $event['audio'], array('target' => '_blank')) : ''; ?>
+                                    </div>
                                 </div>
                             </div>
                         </div>
