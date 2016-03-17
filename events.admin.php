@@ -312,12 +312,12 @@ class EventsAdmin extends Backend
                 die();
             }
         }
-
+        
         // Request: options
         if (Request::post('events_options')) {
             if (Security::check(Request::post('csrf'))) {
-                Option::update('events_image_directory', Request::post('events_image_directory'));
-                Option::update('events_placeholder_archive', Request::post('events_placeholder_archive'));
+                Option::update('events_image_directory', (string) Request::post('events_image_directory'));
+                Option::update('events_placeholder_archive', (string) Request::post('events_placeholder_archive'));
                 Notification::set('success', __('Configuration has been saved with success!', 'events'));
                 Request::redirect('index.php?id=events#configuration');
             }
