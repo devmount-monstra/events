@@ -329,25 +329,23 @@ class EventsAdmin extends Backend
 
         // get upload directories
         $path = ROOT . DS . 'public' . DS . 'uploads/';
-        $_list = EventsAdmin::_fdir($path);
+        $directory_list = Dir::scan($path);
         $directories = array(DS => DS);
-        if (isset($_list['dirs'])) {
-            foreach ($_list['dirs'] as $dirs) {
-                if (strpos($dirs, '.') === false && strpos($dirs, '..') === false){
-                    $directories[$dirs] = DS . $dirs;
-                }
+        if (!empty($directory_list)) {
+            foreach ($directory_list as $directory_name) {
+                $directories[$directory_name] = DS . $directory_name;
             }
+            ksort($directories);
         }
 
-        // Get information about current path
-        $_list = EventsAdmin::_fdir($path . Option::get('events_image_directory'));
-        $files = array('' => '');
         // Get files
-        if (isset($_list['files'])) {
-            foreach ($_list['files'] as $fls) {
-                $files[$fls] = $fls;
-                ksort($files);
+        $file_list = File::scan($path . Option::get('events_image_directory'));
+        $files = array('' => '');
+        if (!empty($file_list)) {
+            foreach ($file_list as $file_name) {
+                $files[$file_name] = $file_name;
             }
+            ksort($files);
         }
 
 
@@ -369,7 +367,6 @@ class EventsAdmin extends Backend
             ->assign('imagepath', Site::url() . '/public/uploads/' . Option::get('events_image_directory') . '/')
             ->assign('directories', $directories)
             ->assign('files', $files)
-            ->assign('path', $path)
             ->display();
     }
 
@@ -385,7 +382,6 @@ class EventsAdmin extends Backend
         return array(
             'deleted' => 0,
             'title' => htmlspecialchars((string) Request::post('event_title')),
-            // 'timestamp' => strtotime((string) Request::post('event_timestamp')),
             'timestamp' => Request::post('event_timestamp_date') ? (string) Request::post('event_timestamp_date') . ' ' . (string) Request::post('event_timestamp_time') . ':00' : '', // format: YY-MM-DD HH:II:SS
             'timestamp_end' => Request::post('event_timestamp_end_date') ? (string) Request::post('event_timestamp_end_date') . ' ' . (string) Request::post('event_timestamp_end_time') . ':00' : '', // format: YY-MM-DD HH:II:SS
             'category' => (int) Request::post('event_category'),
@@ -440,39 +436,6 @@ class EventsAdmin extends Backend
             'website' => (string) Request::post('location_website'),
             'address' => (string) Request::post('location_address'),
         );
-    }
-
-
-    /**
-     * Get directories and files in given path
-     *
-     * @param  string  $dir  path
-     *
-     * @return array   of files and directories in given path
-     *
-     */
-    private static function _fdir($dir)
-    {
-        $files = array();
-        $c = 0;
-        $_dir = $dir;
-        if (is_dir($dir)) {
-        $dir = opendir ($dir);
-            while (false !== ($file = readdir($dir))) {
-                if (($file !=".") && ($file !="..")) {
-                    $c++;
-                    if (is_dir($_dir.$file)) {
-                        $files['dirs'][$c] = $file;
-                    } else {
-                        $files['files'][$c] = $file;
-                    }
-                }
-            }
-            closedir($dir);
-            return $files;
-        } else {
-            return false;
-        }
     }
 
 
