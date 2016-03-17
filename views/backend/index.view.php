@@ -79,12 +79,12 @@
                                                 <?php if ($event['image'])
                                                     echo Html::anchor(
                                                         '',
-                                                        $event['image'],
+                                                        $imagepath . $event['image'],
                                                         array(
-                                                            'rel' => $event['image'],
+                                                            'rel' => $imagepath . $event['image'],
                                                             'class' => 'chocolat pull-left event-image section-' . $event['imagesection'],
                                                             'data-toggle' => 'lightbox',
-                                                            'style' => 'background-image: url(' . $event['image'] . ')'
+                                                            'style' => 'background-image: url(' . $imagepath . $event['image'] . ');'
                                                         )
                                                     );
                                                 ?>
@@ -192,15 +192,17 @@
                                     foreach ($events_past as $event) { ?>
                                         <tr>
                                             <td>
-                                                <?php if ($event['image']) echo Html::anchor(
-                                                    '',
-                                                    $event['image'],
-                                                    array(
-                                                        'rel' => $event['image'],
-                                                        'class' => 'chocolat pull-left event-image section-' . $event['imagesection'],
-                                                        'data-toggle' => 'lightbox',
-                                                        'style' => 'background-image: url(' . $event['image'] . ')'
-                                                    ));
+                                                <?php if ($event['image'])
+                                                    echo Html::anchor(
+                                                        '',
+                                                        $imagepath . $event['image'],
+                                                        array(
+                                                            'rel' => $imagepath . $event['image'],
+                                                            'class' => 'chocolat pull-left event-image section-' . $event['imagesection'],
+                                                            'data-toggle' => 'lightbox',
+                                                            'style' => 'background-image: url(' . $imagepath . $event['image'] . ');'
+                                                        )
+                                                    );
                                                 ?>
                                             </td>
                                             <td>
@@ -307,15 +309,17 @@
                                     foreach ($events_draft as $event) { ?>
                                         <tr>
                                             <td>
-                                                <?php if ($event['image']) echo Html::anchor(
-                                                    '',
-                                                    $event['image'],
-                                                    array(
-                                                        'rel' => $event['image'],
-                                                        'class' => 'chocolat pull-left event-image section-' . $event['imagesection'],
-                                                        'data-toggle' => 'lightbox',
-                                                        'style' => 'background-image: url(' . $event['image'] . ')'
-                                                    ));
+                                                <?php if ($event['image'])
+                                                    echo Html::anchor(
+                                                        '',
+                                                        $imagepath . $event['image'],
+                                                        array(
+                                                            'rel' => $imagepath . $event['image'],
+                                                            'class' => 'chocolat pull-left event-image section-' . $event['imagesection'],
+                                                            'data-toggle' => 'lightbox',
+                                                            'style' => 'background-image: url(' . $imagepath . $event['image'] . ');'
+                                                        )
+                                                    );
                                                 ?>
                                             </td>
                                             <td>
@@ -631,15 +635,17 @@
                                 foreach ($events_deleted as $event) { ?>
                                     <tr>
                                         <td>
-                                            <?php if ($event['image']) echo Html::anchor(
-                                                '',
-                                                $event['image'],
-                                                array(
-                                                    'rel' => $event['image'],
-                                                    'class' => 'chocolat pull-left event-image section-' . $event['imagesection'],
-                                                    'data-toggle' => 'lightbox',
-                                                    'style' => 'background-image: url(' . $event['image'] . ')'
-                                                ));
+                                            <?php if ($event['image'])
+                                                echo Html::anchor(
+                                                    '',
+                                                    $imagepath . $event['image'],
+                                                    array(
+                                                        'rel' => $imagepath . $event['image'],
+                                                        'class' => 'chocolat pull-left event-image section-' . $event['imagesection'],
+                                                        'data-toggle' => 'lightbox',
+                                                        'style' => 'background-image: url(' . $imagepath . $event['image'] . ');'
+                                                    )
+                                                );
                                             ?>
                                         </td>
                                         <td>

@@ -133,6 +133,7 @@ class Events
             ->assign('eventlist', EventsRepository::getList($time, $count, $order, $groupby, $is_archive))
             ->assign('categories', CategoriesRepository::getAll())
             ->assign('locations', LocationsRepository::getAll())
+            ->assign('imagepath', 'public/uploads/' . Option::get('events_image_directory') . '/')
             ->render();
     }
 

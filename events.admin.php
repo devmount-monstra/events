@@ -345,7 +345,7 @@ class EventsAdmin extends Backend
         // Get files
         if (isset($_list['files'])) {
             foreach ($_list['files'] as $fls) {
-                $files[Site::url() . DS . 'public' . DS . 'uploads' . DS . Option::get('events_image_directory') . DS . $fls] = $fls;
+                $files[$fls] = $fls;
                 ksort($files);
             }
         }
@@ -366,6 +366,7 @@ class EventsAdmin extends Backend
             ->assign('events_past', EventsRepository::getPast())
             ->assign('events_draft', EventsRepository::getDraft())
             ->assign('events_deleted', EventsRepository::getDeleted())
+            ->assign('imagepath', Site::url() . '/public/uploads/' . Option::get('events_image_directory') . '/')
             ->assign('directories', $directories)
             ->assign('files', $files)
             ->assign('path', $path)
