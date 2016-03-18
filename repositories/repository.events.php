@@ -124,7 +124,7 @@ class EventsRepository
     public static function getUpcoming()
     {
         $objects = self::getTable();
-        return $objects->select('[number(translate(timestamp,"-: ",""))>=' . self::_getTime() . ' and deleted=0]', 'all', null, null, 'timestamp', 'ASC');
+        return $objects->select('[number(translate(timestamp,"-: ",""))>=' . self::_getTime() . ' and status="published" and deleted=0]', 'all', null, null, 'timestamp', 'ASC');
     }
 
 
@@ -137,7 +137,7 @@ class EventsRepository
     public static function getPast()
     {
         $objects = self::getTable();
-        return $objects->select('[number(translate(timestamp,"-: ",""))<' . self::_getTime() . ' and deleted=0]', 'all', null, null, 'timestamp', 'DESC');
+        return $objects->select('[number(translate(timestamp,"-: ",""))<' . self::_getTime() . ' and status="published" and deleted=0]', 'all', null, null, 'timestamp', 'DESC');
     }
 
 
@@ -150,7 +150,7 @@ class EventsRepository
     public static function getDraft()
     {
         $objects = self::getTable();
-        return $objects->select('[timestamp="" and deleted=0]', 'all', null, null, 'timestamp', 'ASC');
+        return $objects->select('[status="draft" and deleted=0]', 'all', null, null, 'timestamp', 'ASC');
     }
 
 
@@ -237,14 +237,14 @@ class EventsRepository
 
         switch ($time) {
             case 'future':
-                $eventlist = $objects->select('[number(translate(timestamp_end,"-: ",""))>=' . $now . ' and deleted=0]', 'all', null, null, 'timestamp', $roworder);
+                $eventlist = $objects->select('[number(translate(timestamp_end,"-: ",""))>=' . $now . ' and status="published" and deleted=0]', 'all', null, null, 'timestamp', $roworder);
                 break;
             case 'past':
-                $eventlist = $objects->select('[number(translate(timestamp,"-: ",""))<' . $now . ' and deleted=0]', 'all', null, null, 'timestamp', $roworder);
+                $eventlist = $objects->select('[number(translate(timestamp,"-: ",""))<' . $now . ' and status="published" and deleted=0]', 'all', null, null, 'timestamp', $roworder);
                 break;
             case 'all':
             default:
-                $eventlist = $objects->select('[deleted=0 and timestamp!=""]', 'all', null, null, 'timestamp', $roworder);
+                $eventlist = $objects->select('[status="published" and deleted=0]', 'all', null, null, 'timestamp', $roworder);
                 break;
         }
 
