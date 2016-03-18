@@ -193,17 +193,33 @@ class EventsRepository
      * @return string  ['upcoming', 'past', 'draft']
      *
      */
-    public static function getStatus($date, $time)
+    public static function getStatus($id)
     {
-        if ($date == '') {
+        $objects = self::getTable();
+        $event = reset($objects->select('[id=' . $id . ']'));
+        if ($event['status'] == 'published') {
+            $timestamp = str_replace(array('-', ' ', ':'), '', $event['timestamp']);
+            if ($timestamp >= self::_getTime()) {
+                return 'upcoming';
+            } else {
+                return 'past';
+            }
+        } else {
             return 'draft';
         }
-        $timestamp = str_replace(array('-', ' ', ':'), '', $date . $time . ':00');
-        if ($timestamp >= self::_getTime()) {
-            return 'upcoming';
-        } else {
-            return 'past';
-        }
+    }
+
+
+    /**
+     * Returns last record id
+     *
+     * @return int id
+     *
+     */
+    public static function getLastId()
+    {
+        $objects = self::getTable();
+        return $objects->lastId();
     }
 
 

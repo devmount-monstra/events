@@ -72,7 +72,7 @@ class EventsAdmin extends Backend
                 } else {
                     Notification::set('error', __('Table->insert() returned an error. Event could not be saved.', 'events'));
                 }
-                Request::redirect('index.php?id=events#events/' . EventsRepository::getStatus(Request::post('event_timestamp_date'), Request::post('event_timestamp_time')) . '-events');
+                Request::redirect('index.php?id=events#events/' . EventsRepository::getStatus(EventsRepository::getLastId()) . '-events');
             }
             else {
                 Notification::set('error', __('Request was denied. Invalid security token. Please refresh the page and try again.', 'events'));
@@ -88,7 +88,7 @@ class EventsAdmin extends Backend
                 } else {
                     Notification::set('error', __('Table->update() returned an error. Event could not be saved.', 'events'));
                 }
-                Request::redirect('index.php?id=events#events/' . EventsRepository::getStatus(Request::post('event_timestamp_date'), Request::post('event_timestamp_time')) . '-events');
+                Request::redirect('index.php?id=events#events/' . EventsRepository::getStatus($id) . '-events');
             }
             else {
                 Notification::set('error', __('Request was denied. Invalid security token. Please refresh the page and try again.', 'events'));
@@ -121,7 +121,7 @@ class EventsAdmin extends Backend
                     Notification::set('error', __('Table->update() returned an error. Event could not be deleted.', 'events'));
                 }
                 $record = EventsRepository::getById($id);
-                Request::redirect('index.php?id=events#events/' . EventsRepository::getStatus(Request::post('event_timestamp_date'), Request::post('event_timestamp_time')) . '-events');
+                Request::redirect('index.php?id=events#events/' . EventsRepository::getStatus($id) . '-events');
             }
             else {
                 Notification::set('error', __('Request was denied. Invalid security token. Please refresh the page and try again.', 'events'));
