@@ -74,13 +74,37 @@
                                         FB
                                     </a>
                                 <?php } ?>
-                                <button
-                                    class="btn btn-primary edit-event"
-                                    value="<?php echo $event['id'] ?>"
-                                    title="<?php echo __('Edit', 'events'); ?>"
-                                >
-                                    <?php echo __('Edit', 'events'); ?>
-                                </button>
+                                <div class="btn-group">
+                                    <button
+                                        class="btn btn-primary edit-event"
+                                        value="<?php echo $event['id'] ?>"
+                                        title="<?php echo __('Edit', 'events'); ?>"
+                                    >
+                                        <?php echo __('Edit', 'events'); ?>
+                                    </button>
+                                    <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+                                        <span class="caret"></span>
+                                        <span class="sr-only">Toggle Dropdown</span>
+                                    </button>
+                                    <ul class="dropdown-menu" role="menu">
+                                        <li><a href="#" class="new-event" title="<?php echo __('New Event', 'events'); ?>"><?php echo __('Add', 'events'); ?></a></li>
+                                        <!--<li><a href="#" class="clone-event" title="<?php echo __('Clone Event', 'events'); ?>"><?php echo __('Clone', 'events'); ?></a></li>-->
+                                        <li class="divider"></li>
+                                        <li class="dropdown-header"><?php echo __('Status', 'events'); ?></li>
+                                        <li>
+                                            <a href="index.php?id=events&action=update_status&event_id=<?php echo $event['id']; ?>&status=published&token=<?php echo Security::token(); ?>">
+                                                <?php echo __('Published', 'events'); ?>
+                                                <?php if ($event['status'] == 'published') { ?><i class="glyphicon glyphicon-ok"></i><?php } ?>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="index.php?id=events&action=update_status&event_id=<?php echo $event['id']; ?>&status=draft&token=<?php echo Security::token(); ?>">
+                                                <?php echo __('Draft', 'events'); ?>
+                                                <?php if ($event['status'] == 'draft') { ?><i class="glyphicon glyphicon-ok"></i><?php } ?>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
                                 <?php echo
                                     Form::open() .
                                     Form::hidden('csrf', Security::token()) .

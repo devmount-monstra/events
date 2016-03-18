@@ -6,6 +6,7 @@ defined('MONSTRA_ACCESS') or die('No direct script access.');
 // Initialize Database
 Table::create('events', array('title'));
 $e = new Table('events');
+$e->addField('status');
 $e->addField('timestamp');
 $e->addField('timestamp_end');
 $e->addField('deleted');

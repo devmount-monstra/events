@@ -144,6 +144,22 @@ class EventsAdmin extends Backend
                 die();
             }
         }
+        // Request: update event status ['published','draft']
+        if (Request::get('action') and Request::get('action') == 'update_status') {
+            if (Security::check(Request::get('token'))) {
+                $id = (int) Request::get('event_id');
+                if (EventsRepository::update($id, array('status' => Request::get('status')))) {
+                    Notification::set('success', __('Event status has been updated with success!', 'events'));
+                } else {
+                    Notification::set('error', __('Table->update() returned an error. Event status could not be updated.', 'events'));
+                }
+                Request::redirect('index.php?id=events#events/' . EventsRepository::getStatus($id) . '-events');
+            }
+            else {
+                Notification::set('error', __('Request was denied. Invalid security token. Please refresh the page and try again.', 'events'));
+                die();
+            }
+        }
 
         // Request: add category
         if (Request::post('add_category')) {
@@ -382,6 +398,7 @@ class EventsAdmin extends Backend
         return array(
             'deleted' => 0,
             'title' => htmlspecialchars((string) Request::post('event_title')),
+            'status' => (string) Request::post('event_status'),
             'timestamp' => Request::post('event_timestamp_date') ? (string) Request::post('event_timestamp_date') . ' ' . (string) Request::post('event_timestamp_time') . ':00' : '', // format: YY-MM-DD HH:II:SS
             'timestamp_end' => Request::post('event_timestamp_end_date') ? (string) Request::post('event_timestamp_end_date') . ' ' . (string) Request::post('event_timestamp_end_time') . ':00' : '', // format: YY-MM-DD HH:II:SS
             'category' => (int) Request::post('event_category'),

@@ -350,6 +350,15 @@
             ?>
             <div class="modal-body">
                 <div class="row">
+                    <div class="col-sm-12">
+                        <?php echo
+                            Form::label('event_status', __('Status', 'events'), array('data-toggle' => 'tooltip', 'data-placement' => 'top', 'title' => __('Event status: "published" or "draft"', 'events'))) .
+                            Form::select('event_status', array('published' => __('Published', 'events'), 'draft' => __('Draft', 'events')), Null, array('class' => 'form-control clear', 'required' => 'required'));
+                        ?>
+                    </div>
+                </div>
+                <hr />
+                <div class="row">
                     <div class="col-sm-9">
                         <?php echo
                             Form::label('event_title', __('Title', 'events'), array('data-toggle' => 'tooltip', 'data-placement' => 'top', 'title' => __('Event header, should be unique', 'events'))) .
