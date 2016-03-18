@@ -170,6 +170,7 @@
                             ->assign('events', $events_deleted)
                             ->assign('categories', $categories)
                             ->assign('imagepath', $imagepath)
+                            ->assign('is_trash', true)
                             ->display();
                     ?>
                 </div>
@@ -180,6 +181,7 @@
                         View::factory('events/views/backend/table.categories')
                             ->assign('categories_list', $categories_deleted)
                             ->assign('categories', $categories)
+                            ->assign('is_trash', true)
                             ->display();
                     ?>
                 </div>
@@ -190,6 +192,7 @@
                         View::factory('events/views/backend/table.locations')
                             ->assign('locations_list', $locations_deleted)
                             ->assign('locations', $locations)
+                            ->assign('is_trash', true)
                             ->display();
                     ?>
                 </div>

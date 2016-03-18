@@ -174,7 +174,7 @@ class EventsRepository
     /**
      * Get all deleted event objects
      *
-     * @return array
+     * @return array 
      *
      */
     public static function getDeleted()
@@ -187,8 +187,7 @@ class EventsRepository
     /**
      * Returns status for a given date
      *
-     * @param  string  $date  Starting date of event
-     * @param  string  $time  Starting time of event
+     * @param  int  $id  Event to get status from 
      *
      * @return string  ['upcoming', 'past', 'draft']
      *
