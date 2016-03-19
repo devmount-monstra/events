@@ -4,9 +4,9 @@
             <tr>
                 <th><?php echo __('Image', 'events'); ?></th>
                 <th><?php echo __('Title', 'events'); ?></th>
-                <th class="visible-lg hidden-xs"><?php echo __('Description', 'events'); ?></th>
-                <th class="visible-lg hidden-xs"><?php echo __('Color', 'events'); ?></th>
-                <th class="visible-lg hidden-xs"><?php echo __('Category', 'events'); ?></th>
+                <th class="hidden-xs"><?php echo __('Description', 'events'); ?></th>
+                <th class="hidden-xs hidden-sm"><?php echo __('Color', 'events'); ?></th>
+                <th class="hidden-xs hidden-sm hidden-md"><?php echo __('Category', 'events'); ?></th>
                 <th></th>
             </tr>
         </thead>
@@ -31,7 +31,7 @@
                         <td>
                             <?php echo Html::heading($event['title'], 4); ?>
                         </td>
-                        <td class="visible-lg hidden-xs">
+                        <td class="hidden-xs">
                             <?php
                                 echo date('d.m.Y H:i', strtotime($event['timestamp']));
                                 if ($event['timestamp_end']) {
@@ -44,7 +44,7 @@
                                 echo Html::br() . $event['short'];
                             ?>
                         </td>
-                        <td class="visible-lg hidden-xs">
+                        <td class="hidden-xs hidden-sm">
                             <div
                                 class="color-text-box"
                                 title="#<?php echo $event['color'] ? $event['color'] : $categories[$event['category']]['color']; ?>"
@@ -59,15 +59,19 @@
                                 <?php } ?>
                             </div>
                         </td>
-                        <td class="visible-lg hidden-xs">
+                        <td class="hidden-xs hidden-sm hidden-md">
                             <?php echo $categories[$event['category']]['title']; ?>
                         </td>
                         <td>
+                            <!-- dummy elements to set min-width of column depending on breaking point -->
+                            <div class="visible-xs visible-sm" style="height:0; width:125px;"></div>
+                            <div class="hidden-xs hidden-sm" style="height:0; width:210px;"></div>
+                            <!-- action buttons -->
                             <div class="pull-right">
                                 <?php if(!$is_trash) { ?>
                                     <?php if($event['facebook']) { ?>
                                         <a
-                                            class="btn btn-info"
+                                            class="btn btn-info hidden-xs hidden-sm"
                                             href="<?php echo $event['facebook'] ?>"
                                             title="<?php echo __('Facebook URL', 'events'); ?>"
                                             target="_blank"
@@ -81,7 +85,8 @@
                                             value="<?php echo $event['id'] ?>"
                                             title="<?php echo __('Edit', 'events'); ?>"
                                         >
-                                            <?php echo __('Edit', 'events'); ?>
+                                            <span class="hidden-sm hidden-xs"><?php echo __('Edit', 'events'); ?></span>
+                                            <span class="glyphicon glyphicon-pencil visible-sm visible-xs" aria-hidden="true"></span>
                                         </button>
                                         <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
                                             <span class="caret"></span>
@@ -117,7 +122,8 @@
                                             onclick="return confirmDelete('<?php echo __('Delete event »:title«', 'events', array(':title' => $event['title'])); ?>')"
                                             title="<?php echo __('Delete', 'events'); ?>"
                                         >
-                                            <?php echo __('Delete', 'events'); ?>
+                                            <span class="hidden-sm hidden-xs"><?php echo __('Delete', 'events'); ?></span>
+                                            <span class="glyphicon glyphicon-trash visible-sm visible-xs" aria-hidden="true"></span>
                                         </button>
                                     <?php echo Form::close(); ?>
                                 <?php } else { ?>
@@ -131,7 +137,8 @@
                                             value="<?php echo $event['id'] ?>"
                                             title="<?php echo __('Restore', 'events'); ?>"
                                         >
-                                            <?php echo __('Restore', 'events'); ?>
+                                            <span class="hidden-sm hidden-xs"><?php echo __('Restore', 'events'); ?></span>
+                                            <span class="glyphicon glyphicon-arrow-left visible-sm visible-xs" aria-hidden="true"></span>
                                         </button>
                                     <?php echo Form::close(); ?>
                                     <?php echo
@@ -145,7 +152,8 @@
                                             onclick="return confirmDelete('<?php echo __('Delete event »:title« permanently (can not be undone)', 'events', array(':title' => $event['title'])); ?>')"
                                             title="<?php echo __('Delete permanently', 'events'); ?>"
                                         >
-                                            <?php echo __('Delete', 'events'); ?>
+                                            <span class="hidden-sm hidden-xs"><?php echo __('Delete', 'events'); ?></span>
+                                            <span class="glyphicon glyphicon-remove visible-sm visible-xs" aria-hidden="true"></span>
                                         </button>
                                     <?php echo Form::close(); ?>
                                 <?php } ?>

@@ -40,7 +40,9 @@
 .events-admin .event-image {
     height: 50px;
     width: 50px;
-    /*margin: -10px 12px 0 -12px;*/
+}
+.events-admin .btn .glyphicon {
+    line-height: inherit;
 }
 
 /* handle event list images */

@@ -3,8 +3,8 @@
         <thead>
             <tr>
                 <th><?php echo __('Title', 'events'); ?></th>
-                <th><?php echo __('Address', 'events'); ?></th>
-                <th><?php echo __('Assigned', 'events'); ?></th>
+                <th class="hidden-xs"><?php echo __('Address', 'events'); ?></th>
+                <th class="hidden-xs hidden-sm"><?php echo __('Assigned', 'events'); ?></th>
                 <th></th>
             </tr>
         </thead>
@@ -15,10 +15,10 @@
                         <td>
                             <?php echo Html::heading($location['title'], 4); ?>
                         </td>
-                        <td>
+                        <td class="hidden-xs">
                             <?php echo $location['address']; ?>
                         </td>
-                        <td>
+                        <td class="hidden-xs hidden-sm">
                             <!-- number of events for each location -->
                             <?php echo $locations[$location['id']]['count'] . ' ' . __('events', 'events'); ?>
                         </td>
@@ -26,7 +26,7 @@
                             <div class="pull-right">
                                 <?php if($location['website']) { ?>
                                     <a
-                                        class="btn btn-info"
+                                        class="btn btn-info hidden-sm hidden-xs"
                                         href="<?php echo $location['website'] ?>"
                                         title="<?php echo __('Website URL', 'events'); ?>"
                                         target="_blank"
@@ -36,7 +36,7 @@
                                 <?php } ?>
                                 <?php if($location['address']) { ?>
                                     <a
-                                        class="btn btn-info"
+                                        class="btn btn-info hidden-sm hidden-xs"
                                         href="http://nominatim.openstreetmap.org/search?q=<?php echo $location['address'] ?>"
                                         title="<?php echo __('Show map', 'events'); ?>"
                                         target="_blank"
@@ -50,7 +50,8 @@
                                         value="<?php echo $location['id'] ?>"
                                         title="<?php echo __('Edit', 'events'); ?>"
                                     >
-                                        <?php echo __('Edit', 'events'); ?>
+                                        <span class="hidden-sm hidden-xs"><?php echo __('Edit', 'events'); ?></span>
+                                        <span class="glyphicon glyphicon-pencil visible-sm visible-xs" aria-hidden="true"></span>
                                     </button>
                                     <?php echo
                                         Form::open() .
@@ -63,7 +64,8 @@
                                             onclick="return confirmDelete('<?php echo __('Delete location »:title«', 'events', array(':title' => $location['title'])); ?>')"
                                             title="<?php echo __('Delete', 'events'); ?>"
                                         >
-                                            <?php echo __('Delete', 'events'); ?>
+                                            <span class="hidden-sm hidden-xs"><?php echo __('Delete', 'events'); ?></span>
+                                            <span class="glyphicon glyphicon-trash visible-sm visible-xs" aria-hidden="true"></span>
                                         </button>
                                     <?php echo Form::close(); ?>
                                 <?php } else { ?>
@@ -77,7 +79,8 @@
                                             value="<?php echo $location['id'] ?>"
                                             title="<?php echo __('Restore', 'events'); ?>"
                                         >
-                                            <?php echo __('Restore', 'events'); ?>
+                                            <span class="hidden-sm hidden-xs"><?php echo __('Restore', 'events'); ?></span>
+                                            <span class="glyphicon glyphicon-arrow-left visible-sm visible-xs" aria-hidden="true"></span>
                                         </button>
                                     <?php echo Form::close(); ?>
                                     <?php echo
@@ -91,7 +94,8 @@
                                             onclick="return confirmDelete('<?php echo __('Delete location »:title« permanently (can not be undone)', 'events', array(':title' => $location['title'])); ?>')"
                                             title="<?php echo __('Delete permanently', 'events'); ?>"
                                         >
-                                            <?php echo __('Delete', 'events'); ?>
+                                            <span class="hidden-sm hidden-xs"><?php echo __('Delete', 'events'); ?></span>
+                                            <span class="glyphicon glyphicon-remove visible-sm visible-xs" aria-hidden="true"></span>
                                         </button>
                                     <?php echo Form::close(); ?>
                                 <?php } ?>
