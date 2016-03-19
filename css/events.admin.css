@@ -28,6 +28,9 @@
     border-right: 1px solid #ddd;
     border-bottom: 1px solid #ddd;
 }
+.events-admin .table-responsive {
+    border-top: none;
+}
 .events-admin .tab-pane table {
     border-top: none;
     border-left: none;

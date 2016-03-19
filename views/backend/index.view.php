@@ -22,22 +22,57 @@
             <?php echo Html::heading(__('Events', 'events'), 2); ?>
         </div>
         <div class="text-right row-phone">
-            <?php echo
-                Html::anchor(__('New Event', 'events'), '#', array('class' => 'btn btn-phone btn-primary new-event', 'title' => __('New Event', 'events'))) . Html::nbsp() .
-                Html::anchor(__('New Category', 'events'), '#', array('class' => 'btn btn-phone btn-primary new-category', 'title' => __('New Category', 'events'))) . Html::nbsp() .
-                Html::anchor(__('New Location', 'events'), '#', array('class' => 'btn btn-phone btn-primary new-location', 'title' => __('New Location', 'events'))) . Html::nbsp() .
-                Html::anchor(__('Documentation', 'events'), '#', array('class' => 'btn btn-phone btn-default readme-plugin', 'data-toggle' => 'modal', 'data-target' => '#modal-documentation', 'readme-plugin' => 'events'));
-            ?>
+            <a href="#" class="btn btn-primary new-event" title="<?php echo __('New Event', 'events'); ?>">
+                <span class="hidden-sm hidden-xs"><?php echo __('New Event', 'events'); ?></span>
+                <span class="visible-sm visible-xs">+ <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span></span>
+            </a>
+            <a href="#" class="btn btn-primary new-category" title="<?php echo __('New Category', 'events'); ?>">
+                <span class="hidden-sm hidden-xs"><?php echo __('New Category', 'events'); ?></span>
+                <span class="visible-sm visible-xs">+ <span class="glyphicon glyphicon-tag" aria-hidden="true"></span></span>
+            </a>
+            <a href="#" class="btn btn-primary new-location" title="<?php echo __('New Location', 'events'); ?>">
+                <span class="hidden-sm hidden-xs"><?php echo __('New Location', 'events'); ?></span>
+                <span class="visible-sm visible-xs">+ <span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span></span>
+            </a>
+            <a href="#" class="btn btn-default readme-plugin" title="<?php echo __('Documentation', 'events'); ?>" data-toggle="modal" data-target="#modal-documentation" readme-plugin="events">
+                <span class="hidden-sm hidden-xs"><?php echo __('Documentation', 'events'); ?></span>
+                <span class="visible-sm visible-xs"><span class="glyphicon glyphicon-file" aria-hidden="true"></span></span>
+            </a>
         </div>
     </div>
 
     <!-- Main tab navigation -->
     <ul class="nav nav-tabs">
-        <li class="active"><?php echo Html::anchor(__('Events', 'events') . ' (' . sizeof($events_active) . ')', '#events', array('data-toggle' => 'tab')); ?></li>
-        <li><?php echo Html::anchor(__('Categories', 'events') . ' (' . sizeof($categories_active) . ')', '#categories', array('data-toggle' => 'tab')); ?></li>
-        <li><?php echo Html::anchor(__('Locations', 'events') . ' (' . sizeof($locations_active) . ')', '#locations', array('data-toggle' => 'tab')); ?></li>
-        <li><?php echo Html::anchor(__('Configuration', 'events'), '#configuration', array('data-toggle' => 'tab')); ?></li>
-        <li><?php echo Html::anchor(__('Trash', 'events'), '#trash', array('data-toggle' => 'tab')); ?></li>
+        <li class="active">
+            <a href="#events" data-toggle="tab">
+                <span class="hidden-sm hidden-xs"><?php echo __('Events', 'events') . ' (' . sizeof($events_active) . ')'; ?></span>
+                <span class="visible-sm visible-xs"><span class="glyphicon glyphicon-calendar" aria-hidden="true"></span></span>
+            </a>
+        </li>
+        <li>
+            <a href="#categories" data-toggle="tab">
+                <span class="hidden-sm hidden-xs"><?php echo __('Categories', 'events') . ' (' . sizeof($categories_active) . ')'; ?></span>
+                <span class="visible-sm visible-xs"><span class="glyphicon glyphicon-tag" aria-hidden="true"></span></span>
+            </a>
+        </li>
+        <li>
+            <a href="#locations" data-toggle="tab">
+                <span class="hidden-sm hidden-xs"><?php echo __('Locations', 'events') . ' (' . sizeof($locations_active) . ')'; ?></span>
+                <span class="visible-sm visible-xs"><span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span></span>
+            </a>
+        </li>
+        <li>
+            <a href="#configuration" data-toggle="tab">
+                <span class="hidden-sm hidden-xs"><?php echo __('Configuration', 'events'); ?></span>
+                <span class="visible-sm visible-xs"><span class="glyphicon glyphicon-wrench" aria-hidden="true"></span></span>
+            </a>
+        </li>
+        <li>
+            <a href="#trash" data-toggle="tab">
+                <span class="hidden-sm hidden-xs"><?php echo __('Trash', 'events'); ?></span>
+                <span class="visible-sm visible-xs"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></span>
+            </a>
+        </li>
     </ul>
 
     <!-- Main tab content -->
@@ -48,9 +83,24 @@
 
             <!-- Secondary pill navigation -->
             <ul class="nav nav-pills">
-                <li class="active"><?php echo Html::anchor(__('Upcoming', 'events') . ' (' . sizeof($events_upcoming) . ')', '#upcoming-events', array('data-toggle' => 'tab')); ?></li>
-                <li><?php echo Html::anchor(__('Past', 'events') . ' (' . sizeof($events_past) . ')', '#past-events', array('data-toggle' => 'tab')); ?></li>
-                <li><?php echo Html::anchor(__('Draft', 'events') . ' (' . sizeof($events_draft) . ')', '#draft-events', array('data-toggle' => 'tab')); ?></li>
+                <li class="active">
+                    <a href="#upcoming-events" data-toggle="tab">
+                        <span class="hidden-sm hidden-xs"><?php echo __('Upcoming', 'events') . ' (' . sizeof($events_upcoming) . ')'; ?></span>
+                        <span class="visible-sm visible-xs"><span class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span></span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#past-events" data-toggle="tab">
+                        <span class="hidden-sm hidden-xs"><?php echo __('Past', 'events') . ' (' . sizeof($events_past) . ')'; ?></span>
+                        <span class="visible-sm visible-xs"><span class="glyphicon glyphicon-arrow-down" aria-hidden="true"></span></span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#draft-events" data-toggle="tab">
+                        <span class="hidden-sm hidden-xs"><?php echo __('Draft', 'events') . ' (' . sizeof($events_draft) . ')'; ?></span>
+                        <span class="visible-sm visible-xs"><span class="glyphicon glyphicon-folder-open" aria-hidden="true"></span></span>
+                    </a>
+                </li>
             </ul>
 
             <!-- Secondary tab content -->
@@ -155,9 +205,24 @@
 
             <!-- Secondary pill navigation -->
             <ul class="nav nav-pills">
-                <li class="active"><?php echo Html::anchor(__('Events', 'events') . ' (' . sizeof($events_deleted) . ')', '#trash-events', array('data-toggle' => 'tab')); ?></li>
-                <li><?php echo Html::anchor(__('Categories', 'events') . ' (' . sizeof($categories_deleted) . ')', '#trash-categories', array('data-toggle' => 'tab')); ?></li>
-                <li><?php echo Html::anchor(__('Locations', 'events') . ' (' . sizeof($locations_deleted) . ')', '#trash-locations', array('data-toggle' => 'tab')); ?></li>
+                <li class="active">
+                    <a href="#trash-events" data-toggle="tab">
+                        <span class="hidden-sm hidden-xs"><?php echo __('Events', 'events') . ' (' . sizeof($events_deleted) . ')'; ?></span>
+                        <span class="visible-sm visible-xs"><span class="glyphicon glyphicon-calendar" aria-hidden="true"></span></span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#trash-categories" data-toggle="tab">
+                        <span class="hidden-sm hidden-xs"><?php echo __('Categories', 'events') . ' (' . sizeof($categories_deleted) . ')'; ?></span>
+                        <span class="visible-sm visible-xs"><span class="glyphicon glyphicon-tag" aria-hidden="true"></span></span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#trash-locations" data-toggle="tab">
+                        <span class="hidden-sm hidden-xs"><?php echo __('Locations', 'events') . ' (' . sizeof($locations_deleted) . ')'; ?></span>
+                        <span class="visible-sm visible-xs"><span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span></span>
+                    </a>
+                </li>
             </ul>
 
             <!-- Secondary tab content -->
@@ -405,7 +470,7 @@
                 <div class="row">
                     <div class="col-sm-6">
                         <div class="input-group">
-                            <?php echo Form::label('event_timestamp_end_date', __('End', 'events'), array('data-toggle' => 'tooltip', 'data-placement' => 'top', 'title' => __('Local datetime timestamp in format "2015-04-18", "19:00". Used to specify event end, calculate date ranges and classify events "upcoming" or "past"', 'events'))) . Html::nbsp(); ?>
+                            <?php echo Form::label('event_timestamp_end_date', __('End', 'events'), array('data-toggle' => 'tooltip', 'data-placement' => 'top', 'title' => __('Local datetime timestamp in format "2015-04-18", "19:00". Used to specify event end and calculate date ranges', 'events'))) . Html::nbsp(); ?>
                             <span id="copy-timestamp" class="glyphicon glyphicon-chevron-down helper" aria-hidden="true" data-toggle="tooltip" data-placement="right" title="<?php echo __('Copy field data from »Start«', 'events'); ?>"></span>
                             <?php echo Form::input('event_timestamp_end_date', '', array('class' => 'form-control clear', 'placeholder' => 'yyyy-mm-dd')); ?>
                             <span class="input-group-btn" style="width:0px;"></span>
