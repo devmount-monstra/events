@@ -76,42 +76,6 @@
     background-position: center;
 }
 
-/* handle image positions in event formula */
-.modal .image-section {
-    display: block;
-    margin-top: 4px;
-    border: 1px solid #999;
-}
-.modal .image-section-label {
-    text-align: center;
-}
-.modal .image-section.section-landscape {
-    width: 30px;
-    height: 22px;
-}
-.modal .image-section.section-portrait {
-    width: 22px;
-    height: 30px;
-}
-.modal .image-section.section-top {
-    background: linear-gradient(to bottom, #ccc, #ccc 20px, #fff 20px);
-}
-.modal .image-section.section-bottom {
-    background: linear-gradient(to top, #ccc, #ccc 20px, #fff 20px);
-}
-.modal .image-section.section-middle {
-    background: linear-gradient(to top, #fff, #fff 4px, #ccc 4px, #ccc 24px, #fff 24px);
-}
-.modal .image-section.section-center {
-    background: linear-gradient(to left, #fff, #fff 4px, #ccc 4px, #ccc 24px, #fff 24px);
-}
-.modal .image-section.section-left {
-    background: linear-gradient(to right, #ccc, #ccc 20px, #fff 20px);
-}
-.modal .image-section.section-right {
-    background: linear-gradient(to left, #ccc, #ccc 20px, #fff 20px);
-}
-
 /* handle image picker */
 .modal ul.thumbnails.image_picker_selector li {
     margin: 0px 1px 1px 0px;

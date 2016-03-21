@@ -549,26 +549,7 @@
                         <?php echo
                             Form::label('event_imagesection', __('Clip image', 'events'), array('data-toggle' => 'tooltip', 'data-placement' => 'top', 'title' => __('Specifies how to clip rectangular image to square', 'events'))) . Html::br();
                         ?>
-                        <!--<label class="image-section-label" title="Clip to top"><?php echo Form::radio('event_imagesection', 't'); ?>
-                            <span class="image-section section-portrait section-top"></span>
-                        </label>
-                        <label class="image-section-label" title="Clip to middle"><?php echo Form::radio('event_imagesection', 'm'); ?>
-                            <span class="image-section section-portrait section-middle"></span>
-                        </label>
-                        <label class="image-section-label" title="Clip to bottom"><?php echo Form::radio('event_imagesection', 'b'); ?>
-                            <span class="image-section section-portrait section-bottom"></span>
-                        </label>
-                        <label class="image-section-label" title="Clip to left"><?php echo Form::radio('event_imagesection', 'l'); ?>
-                            <span class="image-section section-landscape section-left"></span>
-                        </label>
-                        <label class="image-section-label" title="Clip to center"><?php echo Form::radio('event_imagesection', 'c'); ?>
-                            <span class="image-section section-landscape section-center"></span>
-                        </label>
-                        <label class="image-section-label" title="Clip to right"><?php echo Form::radio('event_imagesection', 'r'); ?>
-                            <span class="image-section section-landscape section-right"></span>
-                        </label>-->
-                        
-                        <select class="image-picker clear" name="event_imagesection">
+                        <select class="image-picker" name="event_imagesection">
                             <option data-img-src="/plugins/events/images/image-section-t.png" value="t"><?php echo __('Clip to top', 'events'); ?></option>
                             <option data-img-src="/plugins/events/images/image-section-m.png" value="m"><?php echo __('Clip to middle', 'events'); ?></option>
                             <option data-img-src="/plugins/events/images/image-section-b.png" value="b"><?php echo __('Clip to bottom', 'events'); ?></option>
