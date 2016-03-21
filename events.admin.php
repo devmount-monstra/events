@@ -19,6 +19,9 @@ defined('MONSTRA_ACCESS') or die('No direct script access.');
 // Add plugin styles and scripts
 Stylesheet::add('plugins/events/css/events.admin.css', 'backend', 11);
 Javascript::add('plugins/events/js/events.admin.js', 'backend', 11);
+// lib: Image Picker http://rvera.github.io/image-picker/
+Stylesheet::add('plugins/events/lib/image-picker/image-picker.css', 'backend', 12);
+Javascript::add('plugins/events/lib/image-picker/image-picker.min.js', 'backend', 12);
 
 // Admin Navigation: add new item
 Navigation::add(__('Events', 'events'), 'content', 'events', 10);

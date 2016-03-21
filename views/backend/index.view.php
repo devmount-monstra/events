@@ -547,9 +547,9 @@
                     </div>
                     <div class="col-sm-6">
                         <?php echo
-                            Form::label('event_imagesection', __('Clip image', 'events'), array('data-toggle' => 'tooltip', 'data-placement' => 'top', 'title' => __('Specifies how to clip image to square', 'events'))) . Html::br();
+                            Form::label('event_imagesection', __('Clip image', 'events'), array('data-toggle' => 'tooltip', 'data-placement' => 'top', 'title' => __('Specifies how to clip rectangular image to square', 'events'))) . Html::br();
                         ?>
-                        <label class="image-section-label" title="Clip to top"><?php echo Form::radio('event_imagesection', 't'); ?>
+                        <!--<label class="image-section-label" title="Clip to top"><?php echo Form::radio('event_imagesection', 't'); ?>
                             <span class="image-section section-portrait section-top"></span>
                         </label>
                         <label class="image-section-label" title="Clip to middle"><?php echo Form::radio('event_imagesection', 'm'); ?>
@@ -566,7 +566,16 @@
                         </label>
                         <label class="image-section-label" title="Clip to right"><?php echo Form::radio('event_imagesection', 'r'); ?>
                             <span class="image-section section-landscape section-right"></span>
-                        </label>
+                        </label>-->
+                        
+                        <select class="image-picker clear" name="event_imagesection">
+                            <option data-img-src="/plugins/events/images/image-section-t.png" value="t"><?php echo __('Clip to top', 'events'); ?></option>
+                            <option data-img-src="/plugins/events/images/image-section-m.png" value="m"><?php echo __('Clip to middle', 'events'); ?></option>
+                            <option data-img-src="/plugins/events/images/image-section-b.png" value="b"><?php echo __('Clip to bottom', 'events'); ?></option>
+                            <option data-img-src="/plugins/events/images/image-section-l.png" value="l"><?php echo __('Clip to left', 'events'); ?></option>
+                            <option data-img-src="/plugins/events/images/image-section-c.png" value="c"><?php echo __('Clip to center', 'events'); ?></option>
+                            <option data-img-src="/plugins/events/images/image-section-r.png" value="r"><?php echo __('Clip to right', 'events'); ?></option>
+                        </select>
                     </div>
                 </div>
                 <div class="row">

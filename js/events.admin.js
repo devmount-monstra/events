@@ -57,6 +57,9 @@ $.monstra.events = {
         // enable tooltips
         $('[data-toggle="tooltip"]').tooltip()
         
+        // enable image picker
+        $('.image-picker').imagepicker();
+        
         // timestamp helper
         $('#copy-timestamp').click(function() {
             $('input[name="event_timestamp_end_date"]').val($('input[name="event_timestamp_date"]').val());
@@ -177,12 +180,8 @@ $.monstra.events = {
                     dialog.find('input[name="event_facebook"]').val(event.facebook);
                     dialog.find('input[name="event_gallery"]').val(event.gallery);
                     dialog.find('select[name="event_image"]').val(event.image);
-                    var section = event.imagesection ? event.imagesection : 'm';
-                    dialog.find('input[name="event_imagesection"]').attr('checked', false);
-                        dialog.find('.image-section-label>div.checked').removeClass('checked');
-                        dialog.find('input[name="event_imagesection"][value="' + section + '"]').attr('checked', 'checked');
-                        dialog.find('input[name="event_imagesection"][value="' + section + '"]').parent().attr('aria-checked', true);
-                        dialog.find('input[name="event_imagesection"][value="' + section + '"]').parent().addClass('checked');
+                    dialog.find('select[name="event_imagesection"]').val(event.imagesection ? event.imagesection : 'm');
+                        $('.image-picker').data('picker').sync_picker_with_select();
                     dialog.find('input[name="event_audio"]').val(event.audio);
                     dialog.find('input[name="event_color"]').val(event.color);
                     dialog.find('input[name="event_number_staff"]').val(event.number_staff);
@@ -198,11 +197,8 @@ $.monstra.events = {
             dialog.find('input.clear').each(function(){ $(this).val(''); });
             dialog.find('select.clear').each(function(){ $(this).val(''); });
             dialog.find('textarea.clear').each(function(){ $(this).val(''); });
-            dialog.find('input[name="event_imagesection"]').attr('checked', false);
-            dialog.find('.image-section-label>div.checked').removeClass('checked');
-            // dialog.find('input[name="event_imagesection"][value="m"]').attr('checked', 'checked');
-            // dialog.find('input[name="event_imagesection"][value="m"]').parent().attr('aria-checked', true);
-            // dialog.find('input[name="event_imagesection"][value="m"]').parent().addClass('checked');
+            dialog.find('select[name="event_imagesection"]').val('m');
+                $('.image-picker').data('picker').sync_picker_with_select();
             dialog.find('#add-edit-submit-event').val(1).attr('name', 'add_event').text($('#output_add').val());
             $.monstra.events.setColor('event', true);
         }

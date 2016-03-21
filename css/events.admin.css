@@ -79,7 +79,7 @@
 /* handle image positions in event formula */
 .modal .image-section {
     display: block;
-    margin-top: 5px;
+    margin-top: 4px;
     border: 1px solid #999;
 }
 .modal .image-section-label {
@@ -110,6 +110,18 @@
 }
 .modal .image-section.section-right {
     background: linear-gradient(to left, #ccc, #ccc 20px, #fff 20px);
+}
+
+/* handle image picker */
+.modal ul.thumbnails.image_picker_selector li {
+    margin: 0px 1px 1px 0px;
+    cursor: pointer;
+}
+.modal ul.thumbnails.image_picker_selector li .thumbnail {
+    padding: 4px;
+    margin: 0;
+    border-radius: 0;
+    border: none;
 }
 
 /* handle helper */
