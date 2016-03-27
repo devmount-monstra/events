@@ -15,6 +15,15 @@
   margin-left: 0;
   margin-right: 0;
 }
+.events-admin h1,
+.events-admin h2,
+.events-admin h3,
+.events-admin h4,
+.events-admin h5,
+.events-admin h6 {
+    margin: 0;
+    padding-top: .5em;
+}
 .events-admin .tab-pane .nav-pills {
     background: #fff;
     border-left: 1px solid #ddd;
