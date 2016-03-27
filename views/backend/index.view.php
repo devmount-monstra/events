@@ -310,11 +310,13 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-sm-12">
+                    <div class="col-sm-6">
                         <?php echo
-                            Form::checkbox('category_hidden_in_archive', 1) . Html::nbsp() .
-                            Form::label('category_hidden_in_archive', __('Hide in archive', 'events'), array('data-toggle' => 'tooltip', 'data-placement' => 'top', 'title' => __('If checked, events of this category will not be displayed in archive view', 'events')));
+                            Form::label('category_hidden_in_archive', __('Past events of this category', 'events'), array('data-toggle' => 'tooltip', 'data-placement' => 'top', 'title' => __('Specifies, if events of this category will be displayed in archive view or not', 'events'))) .
+                            Form::select('category_hidden_in_archive', array(0 => __('Show in archive', 'events'), 1 => __('Hide in archive', 'events')), Null, array('class' => 'form-control clear', 'required' => 'required'));
                         ?>
+                    </div>
+                    <div class="col-sm-6">
                     </div>
                 </div>
             </div>
