@@ -163,6 +163,7 @@
 
         <!-- Tab: configuration -->
         <div class="tab-pane no-table" id="configuration">
+            <?php echo Html::heading(__('Options', 'events'), 2); ?>
             <?php echo
                 Form::open() .
                 Form::hidden('csrf', Security::token()) .
@@ -194,6 +195,43 @@
                         title="<?php echo __('Save', 'events'); ?>"
                     >
                         <?php echo __('Save', 'events'); ?>
+                    </button>
+                </div>
+            </div>
+            <?php echo Form::close(); ?>
+            <hr />
+            <?php echo Html::heading(__('Actions', 'events'), 2); ?>
+            <?php echo Html::heading(__('Resize Images', 'events'), 4); ?>
+            <p><?php echo __('Use this tool to resize all images from the configured image directory. Resized images are saved into a subdirectory and automatically loaded if existing.', 'events'); ?></p>
+            <?php echo
+                Form::open() .
+                Form::hidden('csrf', Security::token()) .
+                HTML::br();
+            ?>
+            <div class="row">
+                <div class="col-md-6">
+                    <?php echo
+                        Form::label('events_action_resize_size', __('Length of the the short side', 'events'), array('data-toggle' => 'tooltip', 'data-placement' => 'top', 'title' => __('Number of pixels of the short side to resize the image to while keeping aspect ratio', 'events'))) .
+                        Form::input('events_action_resize_size', '', array('type' => 'number', 'class' => 'form-control'));
+                    ?>
+                </div>
+                <div class="col-md-6">
+                    <?php echo
+                        Form::label('events_action_resize_overwrite', __('Handle existing images', 'events'), array('data-toggle' => 'tooltip', 'data-placement' => 'top', 'title' => __('Decide to either overwrite or keep existing resized images', 'events'))) .
+                        Form::select('events_action_resize_overwrite', array(0 => __("Don't overwrite", 'events'), 1 => __('Overwrite existing', 'events')), Null, array('class' => 'form-control'));
+                    ?>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12">
+                    <button
+                        type="submit"
+                        name="events_action_resize_images"
+                        class="btn btn-primary"
+                        value="1"
+                        title="<?php echo __('Resize', 'events'); ?>"
+                    >
+                        <?php echo __('Resize', 'events'); ?>
                     </button>
                 </div>
             </div>

@@ -67,6 +67,8 @@ class EventsAdmin extends Backend
      */
     public static function main()
     {
+        $path = ROOT . DS . 'public' . DS . 'uploads' . DS;
+
         // Request: add event
         if (Request::post('add_event')) {
             if (Security::check(Request::post('csrf'))) {
@@ -345,9 +347,46 @@ class EventsAdmin extends Backend
                 die();
             }
         }
+        
+        // Request: action: resize images
+        if (Request::post('events_action_resize_images')) {
+            if (Security::check(Request::post('csrf'))) {
+                $n = 0;
+                $size = (int) Request::post('events_action_resize_size');
+                $image_dir = $path . Option::get('events_image_directory');
+                $image_dir_res = $path . Option::get('events_image_directory') . DS . 'resized';
+                $images = File::scan($image_dir);
+                if (!empty($images)) {
+                    // create 'resized' directory if not exists
+                    if (!Dir::exists($image_dir_res)) {
+                        Dir::create($image_dir_res);
+                    }
+                    foreach ($images as $file_name) {
+                        if (File::exists($image_dir_res . DS . $file_name)) {
+                            if (Request::post('events_action_resize_overwrite')) {
+                                File::delete($image_dir_res . DS . $file_name);
+                            } else {
+                                continue;
+                            }
+                        }
+                        list($width, $height) = getimagesize($image_dir . DS . $file_name);
+                        $image_orientation = $width > $height ? Image::HEIGHT : Image::WIDTH;
+                        Image::factory($image_dir . DS . $file_name)->resize($size, $size, $image_orientation)->save($image_dir_res . DS . $file_name);
+                        $n++;
+                    }
+                    Notification::set('success', __($n . ' images have been resized and saved with success!', 'events'));
+                } else {
+                    Notification::set('error', __('There are no images to resize in configured image directory.', 'events'));
+                }
+                Request::redirect('index.php?id=events#configuration');
+            }
+            else {
+                Notification::set('error', __('Request was denied. Invalid security token. Please refresh the page and try again.', 'events'));
+                die();
+            }
+        }
 
         // get upload directories
-        $path = ROOT . DS . 'public' . DS . 'uploads/';
         $directory_list = Dir::scan($path);
         $directories = array(DS => DS);
         if (!empty($directory_list)) {
