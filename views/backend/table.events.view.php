@@ -95,7 +95,7 @@
                                         </button>
                                         <ul class="dropdown-menu" role="menu">
                                             <li><a href="#" class="new-event" title="<?php echo __('New Event', 'events'); ?>"><?php echo __('Add', 'events'); ?></a></li>
-                                            <!--<li><a href="#" class="clone-event" title="<?php echo __('Clone Event', 'events'); ?>"><?php echo __('Clone', 'events'); ?></a></li>-->
+                                            <li><a href="#" class="clone-event" title="<?php echo __('Clone Event', 'events'); ?>" data="<?php echo $event['id'] ?>"><?php echo __('Clone', 'events'); ?></a></li>
                                             <li class="divider"></li>
                                             <li class="dropdown-header"><?php echo __('Status', 'events'); ?></li>
                                             <li>

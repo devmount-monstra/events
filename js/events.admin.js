@@ -36,11 +36,15 @@ $.monstra.events = {
 
         // modal: new event
         $('.new-event').click(function() {
-            $.monstra.events.showEventDialog();
+            $.monstra.events.showEventDialog(null, false);
         });
         // modal: edit event
         $('.edit-event').click(function() {
-            $.monstra.events.showEventDialog($(this).val());
+            $.monstra.events.showEventDialog($(this).val(), false);
+        });
+        // modal: clone event
+        $('.clone-event').click(function() {
+            $.monstra.events.showEventDialog($(this).attr('data'), true);
         });
 
         // modal: readme greybox script
@@ -142,7 +146,7 @@ $.monstra.events = {
     /* modal: handle new / edit event
      * @param: id int  event to handle; no given id will clear the formula
      */
-    showEventDialog: function(id) {
+    showEventDialog: function(id, clone) {
         var dialog = $('#modal-event');
         if (id !== null && id !== undefined && id >= 0) {
             $.ajax({
@@ -152,7 +156,7 @@ $.monstra.events = {
                 // on success: modify formula to edit
                 success: function(event){
                     console.log(event);
-                    dialog.find('.modal-title').text($('#output_editevent').val() + (event.title ? ' »' + event.title + '«' : ''));
+                    clone ? dialog.find('.modal-title').text($('#output_addevent').val()) : dialog.find('.modal-title').text($('#output_editevent').val() + (event.title ? ' »' + event.title + '«' : ''));
                     dialog.find('input[name="event_title"]').val(event.title);
                     dialog.find('select[name="event_status"]').val(event.status);
                     dialog.find('input[name="event_timestamp_date"]').val(event.timestamp ? event.timestamp.slice(0,10) : '');
@@ -178,8 +182,7 @@ $.monstra.events = {
                     dialog.find('input[name="event_color"]').val(event.color);
                     dialog.find('input[name="event_number_staff"]').val(event.number_staff);
                     dialog.find('input[name="event_number_visitors"]').val(event.number_visitors);
-
-                    dialog.find('#add-edit-submit-event').val(event.id).attr('name', 'edit_event').text($('#output_update').val());
+                    clone ? dialog.find('#add-edit-submit-event').val(1).attr('name', 'add_event').text($('#output_add').val()) : dialog.find('#add-edit-submit-event').val(event.id).attr('name', 'edit_event').text($('#output_update').val());
                     $.monstra.events.setColor('event', false);
                 }
             });
