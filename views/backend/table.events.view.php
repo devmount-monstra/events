@@ -15,7 +15,8 @@
                 foreach ($events as $event) { ?>
                     <tr>
                         <td>
-                            <?php if ($event['image'])
+                            <?php if ($event['image']) {
+                                $imageurl = File::exists('..' . DS . $imagepath . 'resized' . DS . $event['image']) ? $imagepath . 'resized' . DS . $event['image'] : $imagepath . $event['image'];
                                 echo Html::anchor(
                                     '',
                                     $imagepath . $event['image'],
@@ -23,10 +24,10 @@
                                         'rel' => $imagepath . $event['image'],
                                         'class' => 'chocolat pull-left event-image section-' . $event['imagesection'],
                                         'data-toggle' => 'lightbox',
-                                        'style' => 'background-image: url(' . $imagepath . $event['image'] . ');'
+                                        'style' => 'background-image: url(' . $imageurl . ');'
                                     )
                                 );
-                            ?>
+                            } ?>
                         </td>
                         <td>
                             <?php echo Html::heading($event['title'], 4); ?>

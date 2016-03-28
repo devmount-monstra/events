@@ -422,7 +422,7 @@ class EventsAdmin extends Backend
             ->assign('events_past', EventsRepository::getPast())
             ->assign('events_draft', EventsRepository::getDraft())
             ->assign('events_deleted', EventsRepository::getDeleted())
-            ->assign('imagepath', Site::url() . '/public/uploads/' . Option::get('events_image_directory') . '/')
+            ->assign('imagepath', DS . 'public' . DS . 'uploads' . DS . Option::get('events_image_directory') . DS)
             ->assign('directories', $directories)
             ->assign('files', $files)
             ->display();

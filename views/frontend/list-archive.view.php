@@ -8,7 +8,7 @@
                         <div class="event-content" style="background: #<?php echo $event['color'] ? $event['color'] : $categories[$event['category']]['color']; ?>;">
                             <div
                                 class="event-image section-<?php echo $event['imagesection']; ?>"
-                                style="background-image: url(<?php echo $imagepath . $event['image']; ?>);"
+                                style="background-image: url(<?php echo File::exists($imagepath . 'resized/' . $event['image']) ? $imagepath . 'resized/' . $event['image'] : $imagepath . $event['image']; ?>);"
                             >
                             </div>
                             <div class="description">
