@@ -22,18 +22,24 @@
             <?php echo Html::heading(__('Events', 'events'), 2); ?>
         </div>
         <div class="text-right row-phone">
-            <a href="#" class="btn btn-primary new-event" title="<?php echo __('New Event', 'events'); ?>">
-                <span class="hidden-sm hidden-xs"><?php echo __('New Event', 'events'); ?></span>
-                <span class="visible-sm visible-xs">+ <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span></span>
-            </a>
-            <a href="#" class="btn btn-primary new-category" title="<?php echo __('New Category', 'events'); ?>">
-                <span class="hidden-sm hidden-xs"><?php echo __('New Category', 'events'); ?></span>
-                <span class="visible-sm visible-xs">+ <span class="glyphicon glyphicon-tag" aria-hidden="true"></span></span>
-            </a>
-            <a href="#" class="btn btn-primary new-location" title="<?php echo __('New Location', 'events'); ?>">
-                <span class="hidden-sm hidden-xs"><?php echo __('New Location', 'events'); ?></span>
-                <span class="visible-sm visible-xs">+ <span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span></span>
-            </a>
+            <div class="btn-group text-left">
+                <button
+                    class="btn btn-primary new-event"
+                    title="<?php echo __('New', 'events'); ?>"
+                >
+                    <span class="hidden-sm hidden-xs"><?php echo __('Add', 'events'); ?></span>
+                    <span class="glyphicon glyphicon-plus visible-sm visible-xs" aria-hidden="true"></span>
+                </button>
+                <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+                    <span class="caret"></span>
+                    <span class="sr-only">Toggle Dropdown</span>
+                </button>
+                <ul class="dropdown-menu" role="menu">
+                    <li><a href="#" class="new-event" title="<?php echo __('New Event', 'events'); ?>"><?php echo __('Add event', 'events'); ?></a></li>
+                    <li><a href="#" class="new-category" title="<?php echo __('New Category', 'events'); ?>"><?php echo __('Add Category', 'events'); ?></a></li>
+                    <li><a href="#" class="new-location" title="<?php echo __('New Location', 'events'); ?>"><?php echo __('Add Location', 'events'); ?></a></li>
+                </ul>
+            </div>
             <a href="#" class="btn btn-default readme-plugin" title="<?php echo __('Documentation', 'events'); ?>" data-toggle="modal" data-target="#modal-documentation" readme-plugin="events">
                 <span class="hidden-sm hidden-xs"><?php echo __('Documentation', 'events'); ?></span>
                 <span class="visible-sm visible-xs"><span class="glyphicon glyphicon-file" aria-hidden="true"></span></span>
@@ -67,7 +73,7 @@
                 <span class="visible-sm visible-xs"><span class="glyphicon glyphicon-wrench" aria-hidden="true"></span></span>
             </a>
         </li>
-        <li>
+        <li class="pull-right">
             <a href="#trash" data-toggle="tab">
                 <span class="hidden-sm hidden-xs"><?php echo __('Trash', 'events'); ?></span>
                 <span class="visible-sm visible-xs"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></span>

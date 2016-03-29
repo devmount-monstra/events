@@ -3,6 +3,7 @@
     display: block;
     overflow-x: auto;
     overflow-y: hidden;
+    margin: 0 0 2em 0;
 }
 
 .events-plugin .heading-archive {
