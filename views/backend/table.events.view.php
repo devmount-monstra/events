@@ -99,13 +99,13 @@
                                             <li class="divider"></li>
                                             <li class="dropdown-header"><?php echo __('Status', 'events'); ?></li>
                                             <li>
-                                                <a href="index.php?id=events&action=update_status&event_id=<?php echo $event['id']; ?>&status=published&token=<?php echo Security::token(); ?>">
+                                                <a href="index.php?id=events&eventaction=update_status&event_id=<?php echo $event['id']; ?>&status=published&token=<?php echo Security::token(); ?>">
                                                     <?php echo __('Published', 'events'); ?>
                                                     <?php if ($event['status'] == 'published') { ?><i class="glyphicon glyphicon-ok"></i><?php } ?>
                                                 </a>
                                             </li>
                                             <li>
-                                                <a href="index.php?id=events&action=update_status&event_id=<?php echo $event['id']; ?>&status=draft&token=<?php echo Security::token(); ?>">
+                                                <a href="index.php?id=events&eventaction=update_status&event_id=<?php echo $event['id']; ?>&status=draft&token=<?php echo Security::token(); ?>">
                                                     <?php echo __('Draft', 'events'); ?>
                                                     <?php if ($event['status'] == 'draft') { ?><i class="glyphicon glyphicon-ok"></i><?php } ?>
                                                 </a>

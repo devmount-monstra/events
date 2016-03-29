@@ -150,7 +150,7 @@ class EventsAdmin extends Backend
             }
         }
         // Request: update event status ['published','draft']
-        if (Request::get('action') and Request::get('action') == 'update_status') {
+        if (Request::get('eventaction') and Request::get('eventaction') == 'update_status') {
             if (Security::check(Request::get('token'))) {
                 $id = (int) Request::get('event_id');
                 if (EventsRepository::update($id, array('status' => Request::get('status')))) {
@@ -334,58 +334,6 @@ class EventsAdmin extends Backend
             }
         }
         
-        // Request: options
-        if (Request::post('events_options')) {
-            if (Security::check(Request::post('csrf'))) {
-                Option::update('events_image_directory', (string) Request::post('events_image_directory'));
-                Option::update('events_placeholder_archive', (string) Request::post('events_placeholder_archive'));
-                Notification::set('success', __('Configuration has been saved with success!', 'events'));
-                Request::redirect('index.php?id=events#configuration');
-            }
-            else {
-                Notification::set('error', __('Request was denied. Invalid security token. Please refresh the page and try again.', 'events'));
-                die();
-            }
-        }
-        
-        // Request: action: resize images
-        if (Request::post('events_action_resize_images')) {
-            if (Security::check(Request::post('csrf'))) {
-                $n = 0;
-                $size = (int) Request::post('events_action_resize_size');
-                $image_dir = $path . Option::get('events_image_directory');
-                $image_dir_res = $path . Option::get('events_image_directory') . DS . 'resized';
-                $images = File::scan($image_dir);
-                if (!empty($images)) {
-                    // create 'resized' directory if not exists
-                    if (!Dir::exists($image_dir_res)) {
-                        Dir::create($image_dir_res);
-                    }
-                    foreach ($images as $file_name) {
-                        if (File::exists($image_dir_res . DS . $file_name)) {
-                            if (Request::post('events_action_resize_overwrite')) {
-                                File::delete($image_dir_res . DS . $file_name);
-                            } else {
-                                continue;
-                            }
-                        }
-                        list($width, $height) = getimagesize($image_dir . DS . $file_name);
-                        $image_orientation = $width > $height ? Image::HEIGHT : Image::WIDTH;
-                        Image::factory($image_dir . DS . $file_name)->resize($size, $size, $image_orientation)->save($image_dir_res . DS . $file_name);
-                        $n++;
-                    }
-                    Notification::set('success', __($n . ' images have been resized and saved with success!', 'events'));
-                } else {
-                    Notification::set('error', __('There are no images to resize in configured image directory.', 'events'));
-                }
-                Request::redirect('index.php?id=events#configuration');
-            }
-            else {
-                Notification::set('error', __('Request was denied. Invalid security token. Please refresh the page and try again.', 'events'));
-                die();
-            }
-        }
-
         // get upload directories
         $directory_list = Dir::scan($path);
         $directories = array(DS => DS);
@@ -405,27 +353,88 @@ class EventsAdmin extends Backend
             }
             ksort($files);
         }
-
-
-        // Display view
-        View::factory('events/views/backend/index')
-            ->assign('categories', CategoriesRepository::getAll())
-            ->assign('categories_active', CategoriesRepository::getActive())
-            ->assign('categories_select', CategoriesRepository::getActiveForSelect())
-            ->assign('categories_deleted', CategoriesRepository::getDeleted())
-            ->assign('locations', LocationsRepository::getAll())
-            ->assign('locations_active', LocationsRepository::getActive())
-            ->assign('locations_select', LocationsRepository::getActiveForSelect())
-            ->assign('locations_deleted', LocationsRepository::getDeleted())
-            ->assign('events_active', EventsRepository::getActive())
-            ->assign('events_upcoming', EventsRepository::getUpcoming())
-            ->assign('events_past', EventsRepository::getPast())
-            ->assign('events_draft', EventsRepository::getDraft())
-            ->assign('events_deleted', EventsRepository::getDeleted())
-            ->assign('imagepath', DS . 'public' . DS . 'uploads' . DS . Option::get('events_image_directory') . DS)
-            ->assign('directories', $directories)
-            ->assign('files', $files)
-            ->display();
+        
+        if (Request::get('action')) {
+            switch (Request::get('action')) {
+                // Request: configuration
+                case "configuration":
+                    // Request: options
+                    if (Request::post('events_options_update') or Request::post('events_options_update_and_exit')) {
+                        if (Security::check(Request::post('csrf'))) {
+                            Option::update('events_image_directory', (string) Request::post('events_image_directory'));
+                            Option::update('events_placeholder_archive', (string) Request::post('events_placeholder_archive'));
+                            Notification::set('success', __('Configuration has been saved with success!', 'events'));
+                            Request::redirect('index.php?id=events' . (Request::post('events_options_update') ? '&action=configuration' : ''));
+                        }
+                        else {
+                            Notification::set('error', __('Request was denied. Invalid security token. Please refresh the page and try again.', 'events'));
+                            die();
+                        }
+                    }
+                    // Request: action: resize images
+                    if (Request::post('events_action_resize_images') or Request::post('events_action_resize_images_and_exit')) {
+                        if (Security::check(Request::post('csrf'))) {
+                            $n = 0;
+                            $size = (int) Request::post('events_action_resize_size');
+                            $image_dir = $path . Option::get('events_image_directory');
+                            $image_dir_res = $path . Option::get('events_image_directory') . DS . 'resized';
+                            $images = File::scan($image_dir);
+                            if (!empty($images)) {
+                                // create 'resized' directory if not exists
+                                if (!Dir::exists($image_dir_res)) {
+                                    Dir::create($image_dir_res);
+                                }
+                                foreach ($images as $file_name) {
+                                    if (File::exists($image_dir_res . DS . $file_name)) {
+                                        if (Request::post('events_action_resize_overwrite')) {
+                                            File::delete($image_dir_res . DS . $file_name);
+                                        } else {
+                                            continue;
+                                        }
+                                    }
+                                    list($width, $height) = getimagesize($image_dir . DS . $file_name);
+                                    $image_orientation = $width > $height ? Image::HEIGHT : Image::WIDTH;
+                                    Image::factory($image_dir . DS . $file_name)->resize($size, $size, $image_orientation)->save($image_dir_res . DS . $file_name);
+                                    $n++;
+                                }
+                                Notification::set('success', __($n . ' images have been resized and saved with success!', 'events'));
+                            } else {
+                                Notification::set('error', __('There are no images to resize in configured image directory.', 'events'));
+                            }
+                            Request::redirect('index.php?id=events' . (Request::post('events_action_resize_images') ? '&action=configuration' : ''));
+                        }
+                        else {
+                            Notification::set('error', __('Request was denied. Invalid security token. Please refresh the page and try again.', 'events'));
+                            die();
+                        }
+                    }
+                    // Display configuration view
+                    View::factory('events/views/backend/configuration')
+                        ->assign('directories', $directories)
+                        ->display();
+                break;
+            }
+        } else {
+            // Display index view
+            View::factory('events/views/backend/index')
+                ->assign('categories', CategoriesRepository::getAll())
+                ->assign('categories_active', CategoriesRepository::getActive())
+                ->assign('categories_select', CategoriesRepository::getActiveForSelect())
+                ->assign('categories_deleted', CategoriesRepository::getDeleted())
+                ->assign('locations', LocationsRepository::getAll())
+                ->assign('locations_active', LocationsRepository::getActive())
+                ->assign('locations_select', LocationsRepository::getActiveForSelect())
+                ->assign('locations_deleted', LocationsRepository::getDeleted())
+                ->assign('events_active', EventsRepository::getActive())
+                ->assign('events_upcoming', EventsRepository::getUpcoming())
+                ->assign('events_past', EventsRepository::getPast())
+                ->assign('events_draft', EventsRepository::getDraft())
+                ->assign('events_deleted', EventsRepository::getDeleted())
+                ->assign('imagepath', DS . 'public' . DS . 'uploads' . DS . Option::get('events_image_directory') . DS)
+                // ->assign('directories', $directories)
+                ->assign('files', $files)
+                ->display();
+        }
     }
 
 
