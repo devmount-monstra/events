@@ -60,4 +60,6 @@ The trash contains deleted events and categories. Those can be either restored o
 This Plugin is distributed under [MIT-License](http://opensource.org/licenses/mit-license.html).
 
 ## Sources
+Image Picker by Rodrigo Vera, v0.2.4 (https://github.com/rvera/image-picker)
+Chart.js by Nick Downie, v1.0.2 (http://chartjs.org/)
 This plugin is developed by [devmount](http://devmount.de).
