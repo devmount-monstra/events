@@ -223,6 +223,18 @@ class EventsRepository
 
 
     /**
+     * Returns last record id
+     *
+     * @return array year => number of events
+     *
+     */
+    public static function getYearEvents()
+    {
+        return self::getList('all', 'all', 'ASC', 'year', true);
+    }
+
+
+    /**
      * Get configured list of events
      *
      * @param string  $time

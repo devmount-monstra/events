@@ -20,8 +20,10 @@ defined('MONSTRA_ACCESS') or die('No direct script access.');
 Stylesheet::add('plugins/events/css/events.admin.css', 'backend', 11);
 Javascript::add('plugins/events/js/events.admin.js', 'backend', 11);
 // lib: Image Picker http://rvera.github.io/image-picker/
-Stylesheet::add('plugins/events/lib/image-picker/image-picker.css', 'backend', 12);
-Javascript::add('plugins/events/lib/image-picker/image-picker.min.js', 'backend', 12);
+Stylesheet::add('plugins/events/lib/image-picker/image-picker.css', 'backend', 11);
+Javascript::add('plugins/events/lib/image-picker/image-picker.js', 'backend', 11);
+// lib: Chart.js https://github.com/nnnick/Chart.js
+Javascript::add('plugins/events/lib/chartjs/Chart.js', 'backend', 11);
 
 // Admin Navigation: add new item
 Navigation::add(__('Events', 'events'), 'content', 'events', 10);
@@ -412,7 +414,56 @@ class EventsAdmin extends Backend
                     View::factory('events/views/backend/configuration')
                         ->assign('directories', $directories)
                         ->display();
-                break;
+                    break;
+                    
+                // Request: statistics
+                case "stats":
+                    $categories = CategoriesRepository::getAll();
+                    $categories_active = CategoriesRepository::getActive();
+                    // category-events
+                    $categories_data = array();
+                    foreach ($categories_active as $c) {
+                        $categories_data[$c['id']] = array(
+                            'title' => '"' . $c['title'] . '"',
+                            'color' => '"#' . $c['color'] . '"',
+                            'highlight' => '"' . EventsAdmin::_adjustBrightness('#' . $c['color'], 25) . '"',
+                            'count' => $categories[$c['id']]['count']
+                        );
+                    }
+                    // year-events
+                    $years_data = array();
+                    $categories_years_data = array();
+                    $temp = array();
+                    foreach (EventsRepository::getYearEvents() as $year => $events) {
+                        $years_data[$year] = count($events);
+                        foreach ($events as $event) {
+                            $categories_years_data[$event['category']][$year][] = $event;
+                        }
+                    }
+                    foreach ($categories_years_data as $category => $years) {
+                        foreach ($years as $year => $events) {
+                            foreach ($years_data as $total_year => $total_count) {
+                                if ($year == $total_year) {
+                                    $temp[$category][$year] = count($events);
+                                } else {
+                                    if(array_key_exists($total_year, $temp[$category])) {
+                                        $temp[$category][$year] = count($events);
+                                    } else {
+                                        $temp[$category][$total_year] = 0;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    // Display statistics view
+                    View::factory('events/views/backend/statistics')
+                        ->assign('categories', $categories)
+                        ->assign('categories_active', $categories_active)
+                        ->assign('categories_data', $categories_data)
+                        ->assign('years_data', $years_data)
+                        ->assign('categories_years_data', $temp)
+                        ->display();
+                    break;
             }
         } else {
             // Display index view
@@ -431,7 +482,6 @@ class EventsAdmin extends Backend
                 ->assign('events_draft', EventsRepository::getDraft())
                 ->assign('events_deleted', EventsRepository::getDeleted())
                 ->assign('imagepath', DS . 'public' . DS . 'uploads' . DS . Option::get('events_image_directory') . DS)
-                // ->assign('directories', $directories)
                 ->assign('files', $files)
                 ->display();
         }
@@ -506,5 +556,62 @@ class EventsAdmin extends Backend
         );
     }
 
+
+    /**
+     * _adjustBrightness
+     *
+     * @return string  adjusted hex color
+     *
+     * @see http://stackoverflow.com/questions/3512311/how-to-generate-lighter-darker-color-with-php
+     *
+     */
+    private static function _adjustBrightness($hex, $steps) {
+        // Steps should be between -255 and 255. Negative = darker, positive = lighter
+        $steps = max(-255, min(255, $steps));
+
+        // Normalize into a six character long hex string
+        $hex = str_replace('#', '', $hex);
+        if (strlen($hex) == 3) {
+            $hex = str_repeat(substr($hex,0,1), 2).str_repeat(substr($hex,1,1), 2).str_repeat(substr($hex,2,1), 2);
+        }
+
+        // Split into three parts: R, G and B
+        $color_parts = str_split($hex, 2);
+        $return = '#';
+
+        foreach ($color_parts as $color) {
+            $color   = hexdec($color); // Convert to decimal
+            $color   = max(0,min(255,$color + $steps)); // Adjust color
+            $return .= str_pad(dechex($color), 2, '0', STR_PAD_LEFT); // Make two char hex code
+        }
+
+        return $return;
+    }
+    
+    
+    /**
+     * hex2rgb
+     *
+     * @return array  3 RGB values
+     *
+     * @see http://bavotasan.com/2011/convert-hex-color-to-rgb-using-php/
+     *
+     */
+    public static function hex2rgb($hex) {
+        $hex = str_replace("#", "", $hex);
+
+        if(strlen($hex) == 3) {
+            $r = hexdec(substr($hex,0,1).substr($hex,0,1));
+            $g = hexdec(substr($hex,1,1).substr($hex,1,1));
+            $b = hexdec(substr($hex,2,1).substr($hex,2,1));
+        } else {
+            $r = hexdec(substr($hex,0,2));
+            $g = hexdec(substr($hex,2,2));
+            $b = hexdec(substr($hex,4,2));
+        }
+        $rgb = array($r, $g, $b);
+        //return implode(",", $rgb); // returns the rgb values separated by commas
+        return $rgb; // returns an array with the rgb values
+    }
 
 }
