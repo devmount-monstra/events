@@ -1,4 +1,4 @@
-<?php //Debug::dump(); ?>
+<?php //Debug::dump($locations); ?>
 <?php echo Html::heading(__('Statistics', 'events'), 2); ?>
 <div class="row">
     <div class="col-md-6">
@@ -14,6 +14,10 @@
         <?php echo Html::heading(__('Categories', 'events'), 3); ?>
         <?php echo Html::heading(__('Total number of assigned events (drafts included)', 'events'), 4); ?>
         <canvas id="category-events" height="400" width="600"></canvas>
+        <hr />
+        <?php echo Html::heading(__('Locations', 'events'), 3); ?>
+        <?php echo Html::heading(__('Map of all existing locations', 'events'), 4); ?>
+        <div id="mapdiv" style="height: 400px; width: 100%;"></div>
     </div>
 </div>
 <div class="row margin-top-2">
@@ -21,6 +25,7 @@
         <?php echo Html::anchor(__('Back', 'events'), 'index.php?id=events', array('title' => __('Back', 'events'), 'class' => 'btn btn-default')); ?>
     </div>
 </div>
+<!-- Chart.js -->
 <script>
     // global configuration
     Chart.defaults.global.responsive = true;
@@ -39,16 +44,6 @@
     var yearEvents = {
         labels: [<?php echo implode(',', array_keys($years_data)); ?>],
         datasets: [
-            // {
-            //     label: "Total",
-            //     fillColor: "rgba(252,0,86,0.2)",
-            //     strokeColor: "rgba(252,0,86,1)",
-            //     pointColor: "rgba(252,0,86,1)",
-            //     pointStrokeColor: "#fff",
-            //     pointHighlightFill: "#fff",
-            //     pointHighlightStroke: "rgba(252,0,86,1)",
-            //     data: [<?php echo implode(',', $years_data); ?>]
-            // }
             {
                 label: "Total",
                 fillColor: "rgba(220,220,220,0.2)",
@@ -62,12 +57,12 @@
             <?php foreach ($categories_years_data as $cid => $c) { ?>
                 {
                     label: "<?php echo $categories[$cid]['title']; ?>",
-                    fillColor: "rgba(<?php echo implode(',',EventsAdmin::hex2rgb($categories[$cid]['color'])); ?>,0.2)",
-                    strokeColor: "rgba(<?php echo implode(',',EventsAdmin::hex2rgb($categories[$cid]['color'])); ?>,1)",
-                    pointColor: "rgba(<?php echo implode(',',EventsAdmin::hex2rgb($categories[$cid]['color'])); ?>,1)",
+                    fillColor: "rgba(<?php echo implode(',', EventsAdmin::hex2rgb($categories[$cid]['color'])); ?>,0.2)",
+                    strokeColor: "rgba(<?php echo implode(',', EventsAdmin::hex2rgb($categories[$cid]['color'])); ?>,1)",
+                    pointColor: "rgba(<?php echo implode(',', EventsAdmin::hex2rgb($categories[$cid]['color'])); ?>,1)",
                     pointStrokeColor: "#fff",
                     pointHighlightFill: "#fff",
-                    pointHighlightStroke: "rgba(<?php echo implode(',',EventsAdmin::hex2rgb($categories[$cid]['color'])); ?>,1)",
+                    pointHighlightStroke: "rgba(<?php echo implode(',', EventsAdmin::hex2rgb($categories[$cid]['color'])); ?>,1)",
                     data: [<?php echo implode(',', $c); ?>]
                 },
             <?php } ?>
@@ -81,4 +76,36 @@
 		var ctx = $("#year-events").get(0).getContext("2d");
 		new Chart(ctx).Line(yearEvents);
 	}
+</script>
+
+<!-- OSM -->
+<script src="http://www.openlayers.org/api/OpenLayers.js"></script> 
+<script>
+    $(document).ready(function(){
+        map = new OpenLayers.Map("mapdiv");
+        map.addLayer(new OpenLayers.Layer.OSM());
+        epsg4326 =  new OpenLayers.Projection("EPSG:4326"); //WGS 1984 projection
+        projectTo = map.getProjectionObject(); //The map projection (Spherical Mercator)
+        var vectorLayer = new OpenLayers.Layer.Vector("Overlay");
+        // get addresses and loop through them
+        var addresses = [<?php echo implode(',', $locations); ?>];
+        for (var i=0; i<addresses.length; i++) {
+            $.get("http://nominatim.openstreetmap.org/search/" + addresses[i] + "?format=json&addressdetails=1&limit=1&polygon_svg=1", function(data) {
+                if (!$.isEmptyObject(data)) {
+                    var lon = data[0].lon;
+                    var lat = data[0].lat;
+                    var feature = new OpenLayers.Feature.Vector(
+                        new OpenLayers.Geometry.Point(lon, lat).transform(epsg4326, projectTo),
+                        {description: "marker number " + i} ,
+                        {externalGraphic: '/plugins/events/images/map-marker.png', graphicHeight: 25, graphicWidth: 25, graphicXOffset:-12, graphicYOffset:-25  }
+                    );             
+                    vectorLayer.addFeatures(feature);
+                }
+            });
+        }
+        var lonLat = new OpenLayers.LonLat(13.3770476, 52.5087317).transform(epsg4326, projectTo);
+        var zoom=10;
+        map.setCenter (lonLat, zoom);
+        map.addLayer(vectorLayer);
+    });
 </script>

@@ -455,6 +455,13 @@ class EventsAdmin extends Backend
                             }
                         }
                     }
+                    // locations
+                    $locations = array();
+                    foreach (LocationsRepository::getActive() as $location) {
+                        if ($location['address']) {
+                            $locations[] = '"' . $location['address'] . '"';
+                        }
+                    }
                     // Display statistics view
                     View::factory('events/views/backend/statistics')
                         ->assign('categories', $categories)
@@ -462,6 +469,7 @@ class EventsAdmin extends Backend
                         ->assign('categories_data', $categories_data)
                         ->assign('years_data', $years_data)
                         ->assign('categories_years_data', $temp)
+                        ->assign('locations', $locations)
                         ->display();
                     break;
             }
