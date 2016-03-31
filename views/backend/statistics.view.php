@@ -1,4 +1,4 @@
-<?php //Debug::dump($locations); ?>
+<?php Debug::dump($coordinates); ?>
 <?php echo Html::heading(__('Statistics', 'events'), 2); ?>
 <div class="row">
     <div class="col-md-6">
@@ -90,16 +90,22 @@
         // get addresses and loop through them
         var addresses = [<?php echo implode(',', $locations); ?>];
         for (var i=0; i<addresses.length; i++) {
-            $.get("http://nominatim.openstreetmap.org/search/" + addresses[i] + "?format=json&addressdetails=1&limit=1&polygon_svg=1", function(data) {
-                if (!$.isEmptyObject(data)) {
-                    var lon = data[0].lon;
-                    var lat = data[0].lat;
-                    var feature = new OpenLayers.Feature.Vector(
-                        new OpenLayers.Geometry.Point(lon, lat).transform(epsg4326, projectTo),
-                        {description: "marker number " + i} ,
-                        {externalGraphic: '/plugins/events/images/map-marker.png', graphicHeight: 25, graphicWidth: 25, graphicXOffset:-12, graphicYOffset:-25  }
-                    );             
-                    vectorLayer.addFeatures(feature);
+            $.ajax({
+                type:'post',
+                data:'get_coordinates=' + addresses[i],
+                dataType: 'json',
+                success: function(data){
+                    if (!$.isEmptyObject(data)) {
+                        console.log(data[0]);
+                        var lon = data[0];
+                        var lat = data[1];
+                        var feature = new OpenLayers.Feature.Vector(
+                            new OpenLayers.Geometry.Point(lon, lat).transform(epsg4326, projectTo),
+                            {description: "marker number " + i} ,
+                            {externalGraphic: '/plugins/events/images/map-marker.png', graphicHeight: 25, graphicWidth: 25, graphicXOffset:-12, graphicYOffset:-25 }
+                        );             
+                        vectorLayer.addFeatures(feature);
+                    }
                 }
             });
         }

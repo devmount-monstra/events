@@ -62,6 +62,11 @@ class EventsAdmin extends Backend
             echo json_encode(LocationsRepository::getById((int) Request::post('edit_location_id')));
             Request::shutdown();
         }
+        // Ajax Request: get location coordinates
+        if (Request::post('get_coordinates')) {
+            echo json_encode(EventsAdmin::_getCoordinates((string) Request::post('get_coordinates')));
+            Request::shutdown();
+        }
     }
 
     /**
@@ -457,9 +462,11 @@ class EventsAdmin extends Backend
                     }
                     // locations
                     $locations = array();
+                    $coordinates = array();
                     foreach (LocationsRepository::getActive() as $location) {
                         if ($location['address']) {
-                            $locations[] = '"' . $location['address'] . '"';
+                            $locations[] = '"' . str_replace('/',' ', $location['address']) . '"';
+                            // $coordinates[] = implode(',', EventsAdmin::_getCoordinates($location['address']));
                         }
                     }
                     // Display statistics view
@@ -470,6 +477,7 @@ class EventsAdmin extends Backend
                         ->assign('years_data', $years_data)
                         ->assign('categories_years_data', $temp)
                         ->assign('locations', $locations)
+                        ->assign('coordinates', $coordinates)
                         ->display();
                     break;
             }
@@ -573,26 +581,41 @@ class EventsAdmin extends Backend
      * @see http://stackoverflow.com/questions/3512311/how-to-generate-lighter-darker-color-with-php
      *
      */
-    private static function _adjustBrightness($hex, $steps) {
+    private static function _getCoordinates($address)
+    {
+        $address = rawurlencode(str_replace('/', ' ', $address));
+        $url = 'http://nominatim.openstreetmap.org/search/' . $address . '?format=json&addressdetails=1&limit=1&polygon_svg=1';
+        $response = file_get_contents($url);
+        $json = json_decode($response, True); // generate array object from response
+        return array($json[0]['lon'], $json[0]['lat']);
+    }
+
+
+    /**
+     * _adjustBrightness
+     *
+     * @return string  adjusted hex color
+     *
+     * @see http://stackoverflow.com/questions/3512311/how-to-generate-lighter-darker-color-with-php
+     *
+     */
+    private static function _adjustBrightness($hex, $steps)
+    {
         // Steps should be between -255 and 255. Negative = darker, positive = lighter
         $steps = max(-255, min(255, $steps));
-
         // Normalize into a six character long hex string
         $hex = str_replace('#', '', $hex);
         if (strlen($hex) == 3) {
             $hex = str_repeat(substr($hex,0,1), 2).str_repeat(substr($hex,1,1), 2).str_repeat(substr($hex,2,1), 2);
         }
-
         // Split into three parts: R, G and B
         $color_parts = str_split($hex, 2);
         $return = '#';
-
         foreach ($color_parts as $color) {
             $color   = hexdec($color); // Convert to decimal
             $color   = max(0,min(255,$color + $steps)); // Adjust color
             $return .= str_pad(dechex($color), 2, '0', STR_PAD_LEFT); // Make two char hex code
         }
-
         return $return;
     }
     
@@ -605,9 +628,9 @@ class EventsAdmin extends Backend
      * @see http://bavotasan.com/2011/convert-hex-color-to-rgb-using-php/
      *
      */
-    public static function hex2rgb($hex) {
+    public static function hex2rgb($hex)
+    {
         $hex = str_replace("#", "", $hex);
-
         if(strlen($hex) == 3) {
             $r = hexdec(substr($hex,0,1).substr($hex,0,1));
             $g = hexdec(substr($hex,1,1).substr($hex,1,1));
