@@ -1,4 +1,4 @@
-<?php Debug::dump($coordinates); ?>
+<?php //Debug::dump($coordinates); ?>
 <?php echo Html::heading(__('Statistics', 'events'), 2); ?>
 <div class="row">
     <div class="col-md-6">
@@ -84,8 +84,8 @@
     $(document).ready(function(){
         map = new OpenLayers.Map("mapdiv");
         map.addLayer(new OpenLayers.Layer.OSM());
-        epsg4326 =  new OpenLayers.Projection("EPSG:4326"); //WGS 1984 projection
-        projectTo = map.getProjectionObject(); //The map projection (Spherical Mercator)
+        epsg4326 = new OpenLayers.Projection("EPSG:4326"); // WGS 1984 projection
+        projectTo = map.getProjectionObject(); // The map projection (Spherical Mercator)
         var vectorLayer = new OpenLayers.Layer.Vector("Overlay");
         // get coordinates and loop through them
         var data = [[<?php echo implode('],[', $coordinates); ?>]];
@@ -102,8 +102,8 @@
                 vectorLayer.addFeatures(feature);
             }
         }
-        var lonLat = new OpenLayers.LonLat(13.3770476, 52.5087317).transform(epsg4326, projectTo);
-        var zoom=10;
+        var lonLat = new OpenLayers.LonLat(<?php echo $coordinates_average['lon']; ?>, <?php echo $coordinates_average['lat']; ?>).transform(epsg4326, projectTo);
+        var zoom = 10;
         map.setCenter (lonLat, zoom);
         map.addLayer(vectorLayer);
     });

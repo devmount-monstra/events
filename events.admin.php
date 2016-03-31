@@ -458,12 +458,24 @@ class EventsAdmin extends Backend
                     // locations
                     $locations = array();
                     $coordinates = array();
+                    $longitudes = array();
+                    $latitudes = array();
+                    // get location data ready to use with OSM JavaScript
                     foreach (LocationsRepository::getActive() as $location) {
                         if ($location['address']) {
                             $locations[] = '"' . $location['address'] . '"';
                             $coordinates[] = $location['lon'] . ',' . $location['lat'];
+                            $longitudes[] = $location['lon'];
+                            $latitudes[] = $location['lat'];
                         }
                     }
+                    // calculate map center
+                    $longitudes = EventsAdmin::_removeOutliers($longitudes, 0.5);
+                    $latitudes = EventsAdmin::_removeOutliers($latitudes, 0.5);
+                    $coordinates_average = array(
+                        'lon' => array_sum($longitudes) / count($longitudes),
+                        'lat' => array_sum($latitudes) / count($latitudes),
+                    );
                     // Display statistics view
                     View::factory('events/views/backend/statistics')
                         ->assign('categories', $categories)
@@ -473,6 +485,7 @@ class EventsAdmin extends Backend
                         ->assign('categories_years_data', $temp)
                         ->assign('locations', $locations)
                         ->assign('coordinates', $coordinates)
+                        ->assign('coordinates_average', $coordinates_average)
                         ->display();
                     break;
             }
@@ -573,12 +586,11 @@ class EventsAdmin extends Backend
 
 
     /**
-     * _adjustBrightness
+     * _getCoordinates
      *
      * @param  string  address
-     * @return array   [lon, lat]
      *
-     * @see http://stackoverflow.com/questions/3512311/how-to-generate-lighter-darker-color-with-php
+     * @return array   [lon, lat]
      *
      */
     private static function _getCoordinates($address)
@@ -595,7 +607,33 @@ class EventsAdmin extends Backend
 
 
     /**
+     * _removeOutliers
+     *
+     * @param  array  dataset
+     * @param  int    magnitude
+     *
+     * @see http://stackoverflow.com/questions/15174952/finding-and-removing-outliers-in-php
+     *
+     */
+    private static function _removeOutliers($dataset, $magnitude = 1)
+    {
+        $count = count($dataset);
+        $mean = array_sum($dataset) / $count; // Calculate the mean
+        $deviation = sqrt(array_sum(array_map(array('EventsAdmin', '_sd_square'), $dataset, array_fill(0, $count, $mean))) / $count) * $magnitude; // Calculate standard deviation and times by magnitude
+        return array_filter($dataset, function($x) use ($mean, $deviation) { return ($x <= $mean + $deviation && $x >= $mean - $deviation); }); // Return filtered array of values that lie within $mean +- $deviation.
+    }
+
+    private static function _sd_square($x, $mean)
+    {
+        return pow($x - $mean, 2);
+    }
+
+
+    /**
      * _adjustBrightness
+     *
+     * @param  string  hex color
+     * @param  int     steps
      *
      * @return string  adjusted hex color
      *
