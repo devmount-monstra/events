@@ -161,4 +161,19 @@ class CategoriesRepository
         return sizeof($events->select('[category=' . $id . ' and deleted=0]', 'all'))>0;
     }
 
+
+    /**
+     * Returns true if category has flag 'hidden in archive'
+     *
+     * @param  int  $id  Category ID to check
+     *
+     * @return bool
+     *
+     */
+    public static function hiddenInArchive($id)
+    {
+        $category = self::getById($id);
+        return $category['hidden_in_archive'];
+    }
+
 }

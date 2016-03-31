@@ -155,6 +155,19 @@ class EventsRepository
 
 
     /**
+     * Get all event objects with statistic data to visitors and staff
+     *
+     * @return array
+     *
+     */
+    public static function getVisitorsAndStaff()
+    {
+        $objects = self::getTable();
+        return $objects->select('[(number_visitors>0 or number_staff>0) and status="published" and deleted=0]', 'all', null, null, 'timestamp', 'ASC');
+    }
+
+
+    /**
      * Get all active event objects ready to use with HTML::select()
      *
      * @return array

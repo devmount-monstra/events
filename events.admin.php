@@ -426,7 +426,7 @@ class EventsAdmin extends Backend
                         $categories_data[$c['id']] = array(
                             'title' => '"' . $c['title'] . '"',
                             'color' => '"#' . $c['color'] . '"',
-                            'highlight' => '"' . EventsAdmin::_adjustBrightness('#' . $c['color'], 25) . '"',
+                            'highlight' => '"' . EventsAdmin::adjustBrightness('#' . $c['color'], 25) . '"',
                             'count' => $categories[$c['id']]['count']
                         );
                     }
@@ -476,6 +476,18 @@ class EventsAdmin extends Backend
                         'lon' => array_sum($longitudes) / count($longitudes),
                         'lat' => array_sum($latitudes) / count($latitudes),
                     );
+                    // event visitors and staff
+                    $participants = array();
+                    $events = EventsRepository::getVisitorsAndStaff();
+                    foreach ($events as $event) {
+                        if (!CategoriesRepository::hiddenInArchive($event['category'])) {
+                            $participants[$event['category']][] = array(
+                                'title' => $event['title'],
+                                'visitors' => (int) $event['number_visitors'],
+                                'staff' => (int) $event['number_staff'],
+                            );
+                        }
+                    }
                     // Display statistics view
                     View::factory('events/views/backend/statistics')
                         ->assign('categories', $categories)
@@ -486,6 +498,7 @@ class EventsAdmin extends Backend
                         ->assign('locations', $locations)
                         ->assign('coordinates', $coordinates)
                         ->assign('coordinates_average', $coordinates_average)
+                        ->assign('participants', $participants)
                         ->display();
                     break;
             }
@@ -630,7 +643,7 @@ class EventsAdmin extends Backend
 
 
     /**
-     * _adjustBrightness
+     * adjustBrightness
      *
      * @param  string  hex color
      * @param  int     steps
@@ -640,7 +653,7 @@ class EventsAdmin extends Backend
      * @see http://stackoverflow.com/questions/3512311/how-to-generate-lighter-darker-color-with-php
      *
      */
-    private static function _adjustBrightness($hex, $steps)
+    public static function adjustBrightness($hex, $steps)
     {
         // Steps should be between -255 and 255. Negative = darker, positive = lighter
         $steps = max(-255, min(255, $steps));

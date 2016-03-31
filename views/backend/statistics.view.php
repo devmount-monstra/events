@@ -1,13 +1,14 @@
-<?php //Debug::dump($coordinates); ?>
+<?php //Debug::dump($participants); ?>
 <?php echo Html::heading(__('Statistics', 'events'), 2); ?>
 <div class="row">
     <div class="col-md-6">
         <?php echo Html::heading(__('Events', 'events'), 3); ?>
         <?php echo Html::heading(__('Number of archived events per year', 'events'), 4); ?>
         <canvas id="year-events" height="400" width="600"></canvas>
-        <hr />
-        <?php echo Html::heading(__('Number of visiors and staff', 'events'), 4); ?>
-        <p>Coming soon...</p>
+        <?php foreach ($participants as $category => $events) { ?>
+            <?php echo Html::heading(__('Participants', 'events') . ' – ' . $categories[$category]['title'], 4, array('class' => 'margin-top-2')); ?>
+            <canvas id="event-visitors-<?php echo $category; ?>" height="400" width="600"></canvas>
+        <?php } ?>
     </div>
     <div class="col-md-6">
         <hr class="visible-sm visible-xs"/>
@@ -67,7 +68,34 @@
                 },
             <?php } ?>
         ]
-    };
+    }
+    <?php foreach ($participants as $category => $events) { ?>
+        var eventVisitors<?php echo $category; ?> = {
+            labels: [<?php echo implode(',', array_map(function ($e) { return '"' . $e['title'] . '"'; }, $events)); ?>],
+            datasets: [
+                {
+                    label: "Visitors",
+                    fillColor: "rgba(<?php echo implode(',', EventsAdmin::hex2rgb($categories[$category]['color'])); ?>,0.2)",
+                    strokeColor: "rgba(<?php echo implode(',', EventsAdmin::hex2rgb($categories[$category]['color'])); ?>,1)",
+                    pointColor: "rgba(<?php echo implode(',', EventsAdmin::hex2rgb($categories[$category]['color'])); ?>,1)",
+                    pointStrokeColor: "#fff",
+                    pointHighlightFill: "#fff",
+                    pointHighlightStroke: "rgba(<?php echo implode(',', EventsAdmin::hex2rgb($categories[$category]['color'])); ?>,1)",
+                    data: [<?php echo implode(',', array_map(function ($e) { return $e['visitors']; }, $events)); ?>]
+                },
+                {
+                    label: "Staff",
+                    fillColor: "rgba(<?php echo implode(',', EventsAdmin::hex2rgb(EventsAdmin::adjustBrightness($categories[$category]['color'], -50))); ?>,0.2)",
+                    strokeColor: "rgba(<?php echo implode(',', EventsAdmin::hex2rgb(EventsAdmin::adjustBrightness($categories[$category]['color'], -50))); ?>,1)",
+                    pointColor: "rgba(<?php echo implode(',', EventsAdmin::hex2rgb(EventsAdmin::adjustBrightness($categories[$category]['color'], -50))); ?>,1)",
+                    pointStrokeColor: "#fff",
+                    pointHighlightFill: "#fff",
+                    pointHighlightStroke: "rgba(<?php echo implode(',', EventsAdmin::hex2rgb(EventsAdmin::adjustBrightness($categories[$category]['color'], -50))); ?>,1)",
+                    data: [<?php echo implode(',', array_map(function ($e) { return $e['staff']; }, $events)); ?>]
+                },
+            ]
+        }
+    <?php } ?>
 	window.onload = function(){
         // category events
 		var ctx = $("#category-events").get(0).getContext("2d");
@@ -75,6 +103,11 @@
         // year events
 		var ctx = $("#year-events").get(0).getContext("2d");
 		new Chart(ctx).Line(yearEvents);
+        // event visitors and staff
+        <?php foreach ($participants as $category => $events) { ?>
+            var ctx = $("#event-visitors-<?php echo $category; ?>").get(0).getContext("2d");
+            new Chart(ctx).Line(eventVisitors<?php echo $category; ?>);
+        <?php } ?>
 	}
 </script>
 
@@ -91,7 +124,6 @@
         var data = [[<?php echo implode('],[', $coordinates); ?>]];
         for (var i=0; i<data.length; i++) {
             if (!$.isEmptyObject(data)) {
-                console.log(data[i][0]);
                 var lon = data[i][0];
                 var lat = data[i][1];
                 var feature = new OpenLayers.Feature.Vector(
