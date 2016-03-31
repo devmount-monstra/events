@@ -350,6 +350,20 @@
                         </div>
                     </div>
                 </div>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <?php echo
+                            Form::label('location_longitude', __('Longitude', 'events'), array('data-toggle' => 'tooltip', 'data-placement' => 'top', 'title' => __('From address calculated longitude', 'events'))) .
+                            Form::input('location_longitude', Null, array('class' => 'form-control clear', 'disabled' => 'disabled'));
+                        ?>
+                    </div>
+                    <div class="col-sm-6">
+                        <?php echo
+                            Form::label('location_latitude', __('Latitude', 'events'), array('data-toggle' => 'tooltip', 'data-placement' => 'top', 'title' => __('From address calculated latitude', 'events'))) .
+                            Form::input('location_latitude', Null, array('class' => 'form-control clear', 'disabled' => 'disabled'));
+                        ?>
+                    </div>
+                </div>
             </div>
             <div class="modal-footer">
                 <button

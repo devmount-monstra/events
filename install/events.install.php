@@ -35,10 +35,12 @@ $c->addField('color');
 $c->addField('hidden_in_archive');
 
 Table::create('locations', array('title'));
-$c = new Table('locations');
-$c->addField('deleted');
-$c->addField('website');
-$c->addField('address');
+$l = new Table('locations');
+$l->addField('deleted');
+$l->addField('website');
+$l->addField('address');
+$l->addField('lon');
+$l->addField('lat');
 
 // Add Options
 Option::add('events_image_directory', '/');

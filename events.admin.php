@@ -62,11 +62,6 @@ class EventsAdmin extends Backend
             echo json_encode(LocationsRepository::getById((int) Request::post('edit_location_id')));
             Request::shutdown();
         }
-        // Ajax Request: get location coordinates
-        if (Request::post('get_coordinates')) {
-            echo json_encode(EventsAdmin::_getCoordinates((string) Request::post('get_coordinates')));
-            Request::shutdown();
-        }
     }
 
     /**
@@ -465,8 +460,8 @@ class EventsAdmin extends Backend
                     $coordinates = array();
                     foreach (LocationsRepository::getActive() as $location) {
                         if ($location['address']) {
-                            $locations[] = '"' . str_replace('/',' ', $location['address']) . '"';
-                            // $coordinates[] = implode(',', EventsAdmin::_getCoordinates($location['address']));
+                            $locations[] = '"' . $location['address'] . '"';
+                            $coordinates[] = $location['lon'] . ',' . $location['lat'];
                         }
                     }
                     // Display statistics view
@@ -564,11 +559,15 @@ class EventsAdmin extends Backend
      */
     private static function _getLocationData()
     {
+        $address = (string) Request::post('location_address');
+        $coordinates = $address ? EventsAdmin::_getCoordinates($address) : Null;
         return array(
             'deleted' => 0,
             'title' => (string) htmlspecialchars(Request::post('location_title')),
             'website' => (string) Request::post('location_website'),
-            'address' => (string) Request::post('location_address'),
+            'address' => $address,
+            'lon' => $coordinates ? $coordinates['lon'] : '',
+            'lat' => $coordinates ? $coordinates['lat'] : '',
         );
     }
 
@@ -576,7 +575,8 @@ class EventsAdmin extends Backend
     /**
      * _adjustBrightness
      *
-     * @return string  adjusted hex color
+     * @param  string  address
+     * @return array   [lon, lat]
      *
      * @see http://stackoverflow.com/questions/3512311/how-to-generate-lighter-darker-color-with-php
      *
@@ -587,7 +587,10 @@ class EventsAdmin extends Backend
         $url = 'http://nominatim.openstreetmap.org/search/' . $address . '?format=json&addressdetails=1&limit=1&polygon_svg=1';
         $response = file_get_contents($url);
         $json = json_decode($response, True); // generate array object from response
-        return array($json[0]['lon'], $json[0]['lat']);
+        return array(
+            'lon' => $json[0]['lon'],
+            'lat' => $json[0]['lat']
+        );
     }
 
 

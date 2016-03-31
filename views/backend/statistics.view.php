@@ -87,27 +87,20 @@
         epsg4326 =  new OpenLayers.Projection("EPSG:4326"); //WGS 1984 projection
         projectTo = map.getProjectionObject(); //The map projection (Spherical Mercator)
         var vectorLayer = new OpenLayers.Layer.Vector("Overlay");
-        // get addresses and loop through them
-        var addresses = [<?php echo implode(',', $locations); ?>];
-        for (var i=0; i<addresses.length; i++) {
-            $.ajax({
-                type:'post',
-                data:'get_coordinates=' + addresses[i],
-                dataType: 'json',
-                success: function(data){
-                    if (!$.isEmptyObject(data)) {
-                        console.log(data[0]);
-                        var lon = data[0];
-                        var lat = data[1];
-                        var feature = new OpenLayers.Feature.Vector(
-                            new OpenLayers.Geometry.Point(lon, lat).transform(epsg4326, projectTo),
-                            {description: "marker number " + i} ,
-                            {externalGraphic: '/plugins/events/images/map-marker.png', graphicHeight: 25, graphicWidth: 25, graphicXOffset:-12, graphicYOffset:-25 }
-                        );             
-                        vectorLayer.addFeatures(feature);
-                    }
-                }
-            });
+        // get coordinates and loop through them
+        var data = [[<?php echo implode('],[', $coordinates); ?>]];
+        for (var i=0; i<data.length; i++) {
+            if (!$.isEmptyObject(data)) {
+                console.log(data[i][0]);
+                var lon = data[i][0];
+                var lat = data[i][1];
+                var feature = new OpenLayers.Feature.Vector(
+                    new OpenLayers.Geometry.Point(lon, lat).transform(epsg4326, projectTo),
+                    {description: "marker number " + i} ,
+                    {externalGraphic: '/plugins/events/images/map-marker.png', graphicHeight: 25, graphicWidth: 25, graphicXOffset:-12, graphicYOffset:-25 }
+                );             
+                vectorLayer.addFeatures(feature);
+            }
         }
         var lonLat = new OpenLayers.LonLat(13.3770476, 52.5087317).transform(epsg4326, projectTo);
         var zoom=10;

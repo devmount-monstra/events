@@ -131,6 +131,8 @@ $.monstra.events = {
                     dialog.find('input[name="location_title"]').val(location.title);
                     dialog.find('input[name="location_website"]').val(location.website);
                     dialog.find('input[name="location_address"]').val(location.address);
+                    dialog.find('input[name="location_longitude"]').val(location.lon);
+                    dialog.find('input[name="location_latitude"]').val(location.lat);
                     dialog.find('#add-edit-submit-location').val(location.id).attr('name', 'edit_location').text($('#output_update').val());
                 }
             });
