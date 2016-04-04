@@ -37,7 +37,7 @@
                                 <?php if($location['address']) { ?>
                                     <a
                                         class="btn btn-info hidden-sm hidden-xs"
-                                        href="http://nominatim.openstreetmap.org/search?q=<?php echo $location['address'] ?>"
+                                        href="http://osm.org/?mlat=<?php echo $location['lat'] ?>&mlon=<?php echo $location['lon'] ?>&zoom=15"
                                         title="<?php echo __('Show map', 'events'); ?>"
                                         target="_blank"
                                     >

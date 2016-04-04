@@ -36,7 +36,7 @@
                                     <?php if ($locations[$event['location']]['address']) {
                                         echo
                                             Html::nbsp() . Html::nbsp() . Html::nbsp() .
-                                            Html::arrow('right') . ' ' . Html::anchor(__('Map', 'events'), 'http://nominatim.openstreetmap.org/search?q=' . $locations[$event['location']]['address'], array('class' => 'map', 'target' => '_blank'));
+                                            Html::arrow('right') . ' ' . Html::anchor(__('Map', 'events'), 'http://osm.org/?mlat=' . $locations[$event['location']]['lat'] . '&mlon=' . $locations[$event['location']]['lon'] . '&zoom=15', array('class' => 'map', 'target' => '_blank'));
                                     } ?>
                                 </div>
                             </div>

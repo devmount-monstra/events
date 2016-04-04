@@ -631,9 +631,11 @@ class EventsAdmin extends Backend
     private static function _removeOutliers($dataset, $magnitude = 1)
     {
         $count = count($dataset);
-        $mean = array_sum($dataset) / $count; // Calculate the mean
-        $deviation = sqrt(array_sum(array_map(array('EventsAdmin', '_sd_square'), $dataset, array_fill(0, $count, $mean))) / $count) * $magnitude; // Calculate standard deviation and times by magnitude
-        return array_filter($dataset, function($x) use ($mean, $deviation) { return ($x <= $mean + $deviation && $x >= $mean - $deviation); }); // Return filtered array of values that lie within $mean +- $deviation.
+        $mean = array_sum($dataset) / $count;
+        // Calculate standard deviation and times by magnitude
+        $deviation = sqrt(array_sum(array_map(array('EventsAdmin', '_sd_square'), $dataset, array_fill(0, $count, $mean))) / $count) * $magnitude;
+        // Return filtered array of values that lie within $mean +- $deviation.
+        return array_filter($dataset, function($x) use ($mean, $deviation) { return ($x <= $mean + $deviation && $x >= $mean - $deviation); });
     }
 
     private static function _sd_square($x, $mean)
@@ -695,8 +697,8 @@ class EventsAdmin extends Backend
             $b = hexdec(substr($hex,4,2));
         }
         $rgb = array($r, $g, $b);
-        //return implode(",", $rgb); // returns the rgb values separated by commas
-        return $rgb; // returns an array with the rgb values
+        // returns an array with the rgb values
+        return $rgb;
     }
 
 }
