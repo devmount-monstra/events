@@ -418,9 +418,9 @@ class EventsAdmin extends Backend
                     
                 // Request: statistics
                 case "stats":
+                    // category-events
                     $categories = CategoriesRepository::getAll();
                     $categories_active = CategoriesRepository::getActive();
-                    // category-events
                     $categories_data = array();
                     foreach ($categories_active as $c) {
                         $categories_data[$c['id']] = array(
@@ -430,6 +430,23 @@ class EventsAdmin extends Backend
                             'count' => $categories[$c['id']]['count']
                         );
                     }
+                    // location-events
+                    $locations = LocationsRepository::getAll();
+                    $locations_active = LocationsRepository::getActive();
+                    $locations_data = array();
+                    foreach ($locations_active as $l) {
+                        $locations_data[$l['id']] = array(
+                            'title' => '"' . $l['title'] . '"',
+                            'count' => $locations[$l['id']]['count']
+                        );
+                    }
+                    $locations_data = EventsAdmin::_sortArrayByFields(
+                        $locations_data,
+                        array(
+                            'count' => SORT_DESC,
+                            'title' => array(SORT_ASC, SORT_STRING)
+                        )
+                    );
                     // year-events
                     $years_data = array();
                     $categories_years_data = array();
@@ -456,14 +473,14 @@ class EventsAdmin extends Backend
                         }
                     }
                     // locations
-                    $locations = array();
+                    $locations_list = array();
                     $coordinates = array();
                     $longitudes = array();
                     $latitudes = array();
                     // get location data ready to use with OSM JavaScript
                     foreach (LocationsRepository::getActive() as $location) {
                         if ($location['address']) {
-                            $locations[] = '"' . $location['address'] . '"';
+                            $locations_list[] = '"' . $location['address'] . '"';
                             $coordinates[] = $location['lon'] . ',' . $location['lat'];
                             $longitudes[] = $location['lon'];
                             $latitudes[] = $location['lat'];
@@ -493,9 +510,12 @@ class EventsAdmin extends Backend
                         ->assign('categories', $categories)
                         ->assign('categories_active', $categories_active)
                         ->assign('categories_data', $categories_data)
+                        ->assign('locations', $locations)
+                        ->assign('locations_active', $locations_active)
+                        ->assign('locations_data', $locations_data)
                         ->assign('years_data', $years_data)
                         ->assign('categories_years_data', $temp)
-                        ->assign('locations', $locations)
+                        // ->assign('locations_list', $locations_list)
                         ->assign('coordinates', $coordinates)
                         ->assign('coordinates_average', $coordinates_average)
                         ->assign('participants', $participants)
@@ -701,4 +721,41 @@ class EventsAdmin extends Backend
         return $rgb;
     }
 
+    /**
+     * _sortArrayByFields
+     *
+     * @return array  sorted
+     *
+     * @see http://www.karlvalentin.de/660/mehrdimensionale-arrays-in-php-bequem-sortieren.html
+     *
+     */
+    private static function _sortArrayByFields($arr, $fields)
+    {
+        $sortFields = array();
+        $args       = array();
+
+        foreach ($arr as $key => $row) {
+            foreach ($fields as $field => $order) {
+                $sortFields[$field][$key] = $row[$field];
+            }
+        }
+
+        foreach ($fields as $field => $order) {
+            $args[] = $sortFields[$field];
+
+            if (is_array($order)) {
+                foreach ($order as $pt) {
+                    $args[$pt];
+                }
+            } else {
+                $args[] = $order;
+            }
+        }
+
+        $args[] = &$arr;
+
+        call_user_func_array('array_multisort', $args);
+
+        return $arr;
+    }
 }

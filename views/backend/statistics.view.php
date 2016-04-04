@@ -1,4 +1,4 @@
-<?php //Debug::dump($participants); ?>
+<?php //Debug::dump($locations_data); ?>
 <?php echo Html::heading(__('Statistics', 'events'), 2); ?>
 <div class="row">
     <div class="col-md-6">
@@ -19,6 +19,8 @@
         <?php echo Html::heading(__('Locations', 'events'), 3); ?>
         <?php echo Html::heading(__('Map of all existing locations', 'events'), 4); ?>
         <div id="mapdiv" style="height: 400px; width: 100%;"></div>
+        <?php echo Html::heading(__('Total number of assigned events (drafts included)', 'events'), 4, array('class' => 'margin-top-2')); ?>
+        <canvas id="location-events" height="400" width="600"></canvas> 
     </div>
 </div>
 <div class="row margin-top-2">
@@ -42,6 +44,21 @@
             },
         <?php } ?>
     ]
+    var locationEvents = {
+        labels: [<?php echo implode(',', array_map(function ($l) { return $l['title']; }, $locations_data)); ?>],
+        datasets: [
+            {
+                label: "Total",
+                fillColor: "rgba(150,150,150,0.2)",
+                strokeColor: "rgba(150,150,150,1)",
+                pointColor: "rgba(150,150,150,1)",
+                pointStrokeColor: "#fff",
+                pointHighlightFill: "#fff",
+                pointHighlightStroke: "rgba(150,150,150,1)",
+                data: [<?php echo implode(',', array_map(function ($l) { return $l['count']; }, $locations_data)); ?>]
+            },
+        ]
+    }
     var yearEvents = {
         labels: [<?php echo implode(',', array_keys($years_data)); ?>],
         datasets: [
@@ -99,7 +116,10 @@
 	window.onload = function(){
         // category events
 		var ctx = $("#category-events").get(0).getContext("2d");
-		new Chart(ctx).Pie(categoryEvents);
+		new Chart(ctx).Doughnut(categoryEvents);
+        // location events
+		var ctx = $("#location-events").get(0).getContext("2d");
+		new Chart(ctx).Bar(locationEvents);
         // year events
 		var ctx = $("#year-events").get(0).getContext("2d");
 		new Chart(ctx).Line(yearEvents);
