@@ -447,26 +447,33 @@ class EventsAdmin extends Backend
                             'title' => array(SORT_ASC, SORT_STRING)
                         )
                     );
-                    // year-events
+                    // year-events and year-visitors
                     $years_data = array();
-                    $categories_years_data = array();
-                    $temp = array();
+                    $categories_years_events = array();
                     foreach (EventsRepository::getYearEvents() as $year => $events) {
-                        $years_data[$year] = count($events);
+                        $years_data[$year] = array(
+                            'number_events' => count($events),
+                            'number_visitors' => array_sum(array_column($events, 'number_visitors')),
+                        );
                         foreach ($events as $event) {
-                            $categories_years_data[$event['category']][$year][] = $event;
+                            $categories_years_events[$event['category']][$year][] = $event;
                         }
                     }
-                    foreach ($categories_years_data as $category => $years) {
+                    $categories_years_data = array();
+                    $categories_years_visitors = array();
+                    foreach ($categories_years_events as $category => $years) {
                         foreach ($years as $year => $events) {
                             foreach ($years_data as $total_year => $total_count) {
                                 if ($year == $total_year) {
-                                    $temp[$category][$year] = count($events);
+                                    $categories_years_data[$category][$year] = count($events);
+                                    $categories_years_visitors[$category][$year] = array_sum(array_column($events, 'number_visitors'));
                                 } else {
-                                    if(array_key_exists($total_year, $temp[$category])) {
-                                        $temp[$category][$year] = count($events);
+                                    if(array_key_exists($total_year, $categories_years_data[$category])) {
+                                        $categories_years_data[$category][$year] = count($events);
+                                        $categories_years_visitors[$category][$year] = array_sum(array_column($events, 'number_visitors'));
                                     } else {
-                                        $temp[$category][$total_year] = 0;
+                                        $categories_years_data[$category][$total_year] = 0;
+                                        $categories_years_visitors[$category][$total_year] = 0;
                                     }
                                 }
                             }
@@ -514,8 +521,8 @@ class EventsAdmin extends Backend
                         ->assign('locations_active', $locations_active)
                         ->assign('locations_data', $locations_data)
                         ->assign('years_data', $years_data)
-                        ->assign('categories_years_data', $temp)
-                        // ->assign('locations_list', $locations_list)
+                        ->assign('categories_years_data', $categories_years_data)
+                        ->assign('categories_years_visitors', $categories_years_visitors)
                         ->assign('coordinates', $coordinates)
                         ->assign('coordinates_average', $coordinates_average)
                         ->assign('participants', $participants)
