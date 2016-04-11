@@ -40,7 +40,11 @@
                     <li><a href="#" class="new-location" title="<?php echo __('New Location', 'events'); ?>"><?php echo __('Add Location', 'events'); ?></a></li>
                 </ul>
             </div>
-            <a href="index.php?id=events&action=configuration" class="btn btn-primary">
+            <a href="index.php?id=events" class="btn btn-default">
+                <span class="hidden-sm hidden-xs"><?php echo __('List', 'events'); ?></span>
+                <span class="visible-sm visible-xs"><span class="glyphicon glyphicon-list" aria-hidden="true"></span></span>
+            </a>
+            <a href="index.php?id=events&action=configuration" class="btn btn-default">
                 <span class="hidden-sm hidden-xs"><?php echo __('Configuration', 'events'); ?></span>
                 <span class="visible-sm visible-xs"><span class="glyphicon glyphicon-wrench" aria-hidden="true"></span></span>
             </a>
