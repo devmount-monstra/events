@@ -335,7 +335,7 @@ class EventsAdmin extends Backend
                 die();
             }
         }
-        
+
         // get upload directories
         $directory_list = Dir::scan($path);
         $directories = array(DS => DS);
@@ -355,7 +355,7 @@ class EventsAdmin extends Backend
             }
             ksort($files);
         }
-        
+
         if (Request::get('action')) {
             switch (Request::get('action')) {
                 // Request: configuration
@@ -415,7 +415,7 @@ class EventsAdmin extends Backend
                         ->assign('directories', $directories)
                         ->display();
                     break;
-                    
+
                 // Request: statistics
                 case "stats":
                     // category-events
@@ -701,8 +701,8 @@ class EventsAdmin extends Backend
         }
         return $return;
     }
-    
-    
+
+
     /**
      * hex2rgb
      *

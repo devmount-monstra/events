@@ -140,3 +140,16 @@
         </div>
     </div>
 </div>
+
+<!-- modal: README markup -->
+<div id="modal-documentation" class="modal fade" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="close" data-dismiss="modal">&times;</div>
+                <h4 class="modal-title" id="myModalLabel">README.md</h4>
+            </div>
+            <div class="modal-body"></div>
+        </div>
+    </div>
+</div>
