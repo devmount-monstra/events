@@ -205,7 +205,7 @@
 </script>
 
 <!-- OSM -->
-<script src="http://www.openlayers.org/api/OpenLayers.js"></script>
+<script src="/plugins/events/lib/OpenLayers/OpenLayers.js"></script>
 <script>
     $(document).ready(function(){
         map = new OpenLayers.Map("mapdiv");
