@@ -207,7 +207,7 @@
 </script>
 
 <!-- OSM -->
-<script src="/plugins/events/lib/OpenLayers/OpenLayers.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/openlayers/2.13.1/OpenLayers.js"></script>
 <script>
     $(document).ready(function(){
         map = new OpenLayers.Map("mapdiv");
