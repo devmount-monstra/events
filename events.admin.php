@@ -22,8 +22,6 @@ Javascript::add('plugins/events/js/events.admin.js', 'backend', 11);
 // lib: Image Picker http://rvera.github.io/image-picker/
 Stylesheet::add('plugins/events/lib/image-picker/image-picker.css', 'backend', 11);
 Javascript::add('plugins/events/lib/image-picker/image-picker.js', 'backend', 11);
-// lib: Chart.js https://github.com/nnnick/Chart.js
-Javascript::add('plugins/events/lib/chartjs/Chart.js', 'backend', 11);
 
 // Admin Navigation: add new item
 Navigation::add(__('Events', 'events'), 'content', 'events', 10);

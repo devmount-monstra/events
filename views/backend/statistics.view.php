@@ -74,6 +74,8 @@
     </div>
 </div>
 <!-- Chart.js -->
+<!-- https://cdnjs.com/libraries/Chart.js/1.1.1 -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/1.1.1/Chart.min.js"></script>
 <script>
     // global configuration
     Chart.defaults.global.responsive = true;
