@@ -75,87 +75,92 @@
 </div>
 <!-- Chart.js -->
 <!-- https://cdnjs.com/libraries/Chart.js/1.1.1 -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/1.1.1/Chart.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.1.6/Chart.min.js"></script>
 <script>
     // global configuration
     Chart.defaults.global.responsive = true;
-    Chart.defaults.global.scaleBeginAtZero = true;
+    Chart.defaults.global.beginAtZero = true;
     // single configuration
-    var categoryEvents = [
-        <?php foreach ($categories_data as $c) { ?>
-            {
-                value: <?php echo $c['count']; ?>,
-                color: <?php echo $c['color']; ?>,
-                highlight: <?php echo $c['highlight']; ?>,
-                label: <?php echo $c['title']; ?>,
-            },
-        <?php } ?>
-    ];
+    var categoryEvents = {
+        labels: [<?php echo implode(',', array_column($categories_data, 'title')); ?>],
+        datasets: [{
+            data: [<?php echo implode(',', array_column($categories_data, 'count')); ?>],
+            backgroundColor: [<?php echo implode(',', array_column($categories_data, 'color')); ?>],
+            hoverBackgroundColor: [<?php echo implode(',', array_column($categories_data, 'highlight')); ?>]
+        }]
+    };
     var locationEvents = {
         labels: [<?php echo implode(',', array_column($locations_data, 'title')); ?>],
-        datasets: [
-            {
-                label: "Total",
-                fillColor: "rgba(160,160,160,0.5)",
-                strokeColor: "rgba(160,160,160,0.8)",
-                highlightFill: "rgba(160,160,160,0.75)",
-                highlightStroke: "rgba(160,160,160,1)",
-                data: [<?php echo implode(',', array_column($locations_data, 'count')); ?>]
-            }
-        ]
+        datasets: [{
+            label: "Total",
+            backgroundColor: "rgba(160,160,160,0.5)",
+            borderColor: "rgba(160,160,160,0.8)",
+            borderWidth: 1,
+            hoverBackgroundColor: "rgba(160,160,160,0.75)",
+            hoverBorderColor: "rgba(160,160,160,1)",
+            data: [<?php echo implode(',', array_column($locations_data, 'count')); ?>]
+        }]
     };
     var yearEvents = {
         labels: [<?php echo implode(',', array_keys($years_data)); ?>],
         datasets: [
-            {
-                label: "Total",
-                fillColor: "rgba(220,220,220,0.2)",
-                strokeColor: "rgba(220,220,220,1)",
-                pointColor: "rgba(220,220,220,1)",
-                pointStrokeColor: "#fff",
-                pointHighlightFill: "#fff",
-                pointHighlightStroke: "rgba(220,220,220,1)",
-                data: [<?php echo implode(',', array_column($years_data, 'number_events')); ?>]
-            },
             <?php foreach ($categories_years_data as $cid => $c) { ?>
                 {
                     label: "<?php echo $categories[$cid]['title']; ?>",
-                    fillColor: "rgba(<?php echo implode(',', EventsAdmin::hex2rgb($categories[$cid]['color'])); ?>,0.2)",
-                    strokeColor: "rgba(<?php echo implode(',', EventsAdmin::hex2rgb($categories[$cid]['color'])); ?>,1)",
-                    pointColor: "rgba(<?php echo implode(',', EventsAdmin::hex2rgb($categories[$cid]['color'])); ?>,1)",
-                    pointStrokeColor: "#fff",
-                    pointHighlightFill: "#fff",
-                    pointHighlightStroke: "rgba(<?php echo implode(',', EventsAdmin::hex2rgb($categories[$cid]['color'])); ?>,1)",
+                    lineTension: 0.3,
+                    borderWidth: 2,
+                    backgroundColor: "rgba(<?php echo implode(',', EventsAdmin::hex2rgb($categories[$cid]['color'])); ?>,0.2)",
+                    borderColor: "rgba(<?php echo implode(',', EventsAdmin::hex2rgb($categories[$cid]['color'])); ?>,1)",
+                    pointBackgroundColor: "rgba(<?php echo implode(',', EventsAdmin::hex2rgb($categories[$cid]['color'])); ?>,1)",
+                    pointBorderColor: "#fff",
+                    pointHoverBackgroundColor: "#fff",
+                    pointHoverBorderColor: "rgba(<?php echo implode(',', EventsAdmin::hex2rgb($categories[$cid]['color'])); ?>,1)",
                     data: [<?php echo implode(',', $c); ?>]
                 },
             <?php } ?>
+            {
+                label: "Total",
+                lineTension: 0.3,
+                borderWidth: 2,
+                backgroundColor: "rgba(220,220,220,0.2)",
+                borderColor: "rgba(220,220,220,1)",
+                pointBackgroundColor: "rgba(220,220,220,1)",
+                pointBorderColor: "#fff",
+                pointHoverBackgroundColor: "#fff",
+                pointHoverBorderColor: "rgba(220,220,220,1)",
+                data: [<?php echo implode(',', array_column($years_data, 'number_events')); ?>]
+            }
         ]
     };
     var yearVisitors = {
         labels: [<?php echo implode(',', array_keys($years_data)); ?>],
         datasets: [
-            {
-                label: "Total",
-                fillColor: "rgba(220,220,220,0.2)",
-                strokeColor: "rgba(220,220,220,1)",
-                pointColor: "rgba(220,220,220,1)",
-                pointStrokeColor: "#fff",
-                pointHighlightFill: "#fff",
-                pointHighlightStroke: "rgba(220,220,220,1)",
-                data: [<?php echo implode(',', array_column($years_data, 'number_visitors')); ?>]
-            },
             <?php foreach ($categories_years_visitors as $cid => $c) { ?>
                 {
                     label: "<?php echo $categories[$cid]['title']; ?>",
-                    fillColor: "rgba(<?php echo implode(',', EventsAdmin::hex2rgb($categories[$cid]['color'])); ?>,0.2)",
-                    strokeColor: "rgba(<?php echo implode(',', EventsAdmin::hex2rgb($categories[$cid]['color'])); ?>,1)",
-                    pointColor: "rgba(<?php echo implode(',', EventsAdmin::hex2rgb($categories[$cid]['color'])); ?>,1)",
-                    pointStrokeColor: "#fff",
-                    pointHighlightFill: "#fff",
-                    pointHighlightStroke: "rgba(<?php echo implode(',', EventsAdmin::hex2rgb($categories[$cid]['color'])); ?>,1)",
+                    lineTension: 0.3,
+                    borderWidth: 2,
+                    backgroundColor: "rgba(<?php echo implode(',', EventsAdmin::hex2rgb($categories[$cid]['color'])); ?>,0.2)",
+                    borderColor: "rgba(<?php echo implode(',', EventsAdmin::hex2rgb($categories[$cid]['color'])); ?>,1)",
+                    pointBackgroundColor: "rgba(<?php echo implode(',', EventsAdmin::hex2rgb($categories[$cid]['color'])); ?>,1)",
+                    pointBorderColor: "#fff",
+                    pointHoverBackgroundColor: "#fff",
+                    pointHoverBorderColor: "rgba(<?php echo implode(',', EventsAdmin::hex2rgb($categories[$cid]['color'])); ?>,1)",
                     data: [<?php echo implode(',', $c); ?>]
                 },
             <?php } ?>
+            {
+                label: "Total",
+                lineTension: 0.3,
+                borderWidth: 2,
+                backgroundColor: "rgba(220,220,220,0.2)",
+                borderColor: "rgba(220,220,220,1)",
+                pointBackgroundColor: "rgba(220,220,220,1)",
+                pointBorderColor: "#fff",
+                pointHoverBackgroundColor: "#fff",
+                pointHoverBorderColor: "rgba(220,220,220,1)",
+                data: [<?php echo implode(',', array_column($years_data, 'number_visitors')); ?>]
+            }
         ]
     };
     <?php foreach ($participants as $category => $events) { ?>
@@ -164,46 +169,43 @@
             datasets: [
                 {
                     label: "Visitors",
-                    fillColor: "rgba(<?php echo implode(',', EventsAdmin::hex2rgb($categories[$category]['color'])); ?>,0.2)",
-                    strokeColor: "rgba(<?php echo implode(',', EventsAdmin::hex2rgb($categories[$category]['color'])); ?>,1)",
-                    pointColor: "rgba(<?php echo implode(',', EventsAdmin::hex2rgb($categories[$category]['color'])); ?>,1)",
-                    pointStrokeColor: "#fff",
-                    pointHighlightFill: "#fff",
-                    pointHighlightStroke: "rgba(<?php echo implode(',', EventsAdmin::hex2rgb($categories[$category]['color'])); ?>,1)",
+                    lineTension: 0.3,
+                    borderWidth: 2,
+                    backgroundColor: "rgba(<?php echo implode(',', EventsAdmin::hex2rgb($categories[$category]['color'])); ?>,0.2)",
+                    borderColor: "rgba(<?php echo implode(',', EventsAdmin::hex2rgb($categories[$category]['color'])); ?>,1)",
+                    pointBackgroundColor: "rgba(<?php echo implode(',', EventsAdmin::hex2rgb($categories[$category]['color'])); ?>,1)",
+                    pointBorderColor: "#fff",
+                    pointHoverBackgroundColor: "#fff",
+                    pointHoverBorderColor: "rgba(<?php echo implode(',', EventsAdmin::hex2rgb($categories[$category]['color'])); ?>,1)",
                     data: [<?php echo implode(',', array_column($events, 'visitors')); ?>]
                 },
                 {
                     label: "Staff",
-                    fillColor: "rgba(<?php echo implode(',', EventsAdmin::hex2rgb(EventsAdmin::adjustBrightness($categories[$category]['color'], -50))); ?>,0.2)",
-                    strokeColor: "rgba(<?php echo implode(',', EventsAdmin::hex2rgb(EventsAdmin::adjustBrightness($categories[$category]['color'], -50))); ?>,1)",
-                    pointColor: "rgba(<?php echo implode(',', EventsAdmin::hex2rgb(EventsAdmin::adjustBrightness($categories[$category]['color'], -50))); ?>,1)",
-                    pointStrokeColor: "#fff",
-                    pointHighlightFill: "#fff",
-                    pointHighlightStroke: "rgba(<?php echo implode(',', EventsAdmin::hex2rgb(EventsAdmin::adjustBrightness($categories[$category]['color'], -50))); ?>,1)",
+                    lineTension: 0.3,
+                    borderWidth: 2,
+                    backgroundColor: "rgba(<?php echo implode(',', EventsAdmin::hex2rgb(EventsAdmin::adjustBrightness($categories[$category]['color'], -50))); ?>,0.2)",
+                    borderColor: "rgba(<?php echo implode(',', EventsAdmin::hex2rgb(EventsAdmin::adjustBrightness($categories[$category]['color'], -50))); ?>,1)",
+                    pointBackgroundColor: "rgba(<?php echo implode(',', EventsAdmin::hex2rgb(EventsAdmin::adjustBrightness($categories[$category]['color'], -50))); ?>,1)",
+                    pointBorderColor: "#fff",
+                    pointHoverBackgroundColor: "#fff",
+                    pointHoverBorderColor: "rgba(<?php echo implode(',', EventsAdmin::hex2rgb(EventsAdmin::adjustBrightness($categories[$category]['color'], -50))); ?>,1)",
                     data: [<?php echo implode(',', array_column($events, 'staff')); ?>]
                 },
             ]
         };
     <?php } ?>
-	window.onload = function(){
-        // category events
-		var ctx = $("#category-events").get(0).getContext("2d");
-		new Chart(ctx).Doughnut(categoryEvents);
-        // location events
-		var ctx = $("#location-events").get(0).getContext("2d");
-		new Chart(ctx).Bar(locationEvents);
-        // year events
-		var ctx = $("#year-events").get(0).getContext("2d");
-		new Chart(ctx).Line(yearEvents);
-        // year visitors
-		var ctx = $("#year-visitors").get(0).getContext("2d");
-		new Chart(ctx).Line(yearVisitors);
-        // event visitors and staff
-        <?php foreach ($participants as $category => $events) { ?>
-            var ctx = $("#event-visitors-<?php echo $category; ?>").get(0).getContext("2d");
-            new Chart(ctx).Line(eventVisitors<?php echo $category; ?>);
-        <?php } ?>
-	}
+    // category events
+    new Chart($("#category-events"), { type: 'doughnut', data: categoryEvents });
+    // location events
+    new Chart($("#location-events"), { type: 'bar', data: locationEvents });
+    // year events
+    new Chart($("#year-events"), { type: 'line', data: yearEvents });
+    // year visitors
+    new Chart($("#year-visitors"), { type: 'line', data: yearVisitors });
+    // event visitors and staff
+    <?php foreach ($participants as $category => $events) { ?>
+        new Chart($("#event-visitors-<?php echo $category; ?>"), { type: 'line', data: eventVisitors<?php echo $category; ?> });
+    <?php } ?>
 </script>
 
 <!-- OSM -->
