@@ -210,8 +210,17 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/openlayers/2.13.1/OpenLayers.js"></script>
 <script>
     $(document).ready(function(){
+        layer = new OpenLayers.Layer.OSM(
+        "OpenStreetMap",
+        // Official OSM tileset as protocol-independent URLs
+        [
+            '//a.tile.openstreetmap.org/${z}/${x}/${y}.png',
+            '//b.tile.openstreetmap.org/${z}/${x}/${y}.png',
+            '//c.tile.openstreetmap.org/${z}/${x}/${y}.png'
+        ],
+        null);
         map = new OpenLayers.Map("mapdiv");
-        map.addLayer(new OpenLayers.Layer.OSM());
+        map.addLayer(layer);
         epsg4326 = new OpenLayers.Projection("EPSG:4326"); // WGS 1984 projection
         projectTo = map.getProjectionObject(); // The map projection (Spherical Mercator)
         var vectorLayer = new OpenLayers.Layer.Vector("Overlay");
