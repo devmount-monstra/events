@@ -2,7 +2,7 @@
 .code {
     font-family: monospace;
 }
-.modal .row, 
+.modal .row,
 .events-admin .row {
     margin-bottom: 10px;
 }
@@ -55,6 +55,9 @@
 }
 .events-admin .btn .glyphicon {
     line-height: inherit;
+}
+.events-admin .color-text-box {
+    height: 1.4em;
 }
 
 /* handle event list images */

@@ -26,8 +26,8 @@
                                         ($event['openat'] ? ', ' . __('Lounge ab ', 'events') . $event['openat'] : '')
                                     ?>
                                 </div>
-                                <div><?php echo ($locations[$event['location']]['address'] ? $locations[$event['location']]['address'] : '') ?></div>
                                 <div><?php echo ($event['short'] ? $event['short'] : '') ?></div>
+                                <div><?php echo ($locations[$event['location']]['address'] ? $locations[$event['location']]['address'] : '') ?></div>
                                 <div>
                                     <?php if ($event['facebook']) {
                                         echo
