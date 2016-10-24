@@ -104,3 +104,11 @@
 .helper {
     cursor: pointer;
 }
+
+/* reset modal width for documentation */
+@media (min-width: 768px) {
+    #modal-documentation .modal-dialog {
+        width: 70%;
+        margin: 30px auto;
+    }
+}
